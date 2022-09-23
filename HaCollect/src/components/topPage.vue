@@ -176,5 +176,19 @@ a {
 .hello {
     padding-top: 80px;
 }
+
+@media(max-width: 800px) {
+    .header-nav {
+        padding-left: 0;
+    }
+
+    .header-navList li {
+        margin: 0 10px
+    }
+
+    .header-navList li a {
+        padding: 0 5px;
+    }
+}
 </style>
     

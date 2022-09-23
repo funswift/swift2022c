@@ -7,16 +7,24 @@
                 </router-link>
             </a>
 
-            <form action="/searchResult" method="get" id="form">
-                <input type="text" name="searchName" class="searchArea" placeholder="知りたい情報は何ですか？">
-            </form>
+            <router-link to="/searchResult">
+                <img class="searchButton" src="./assets/mushimegane.png">
+            </router-link>
+
         </div>
     </header>
     <router-view></router-view>
 </template>
 
 <script>
-
+'use strict'
+export default {
+    data() {
+        return {
+            test: '',
+        }
+    }
+}
 </script>
 
 <style>
@@ -64,7 +72,7 @@ header {
     /* 要素の重なりを指定 */
     width: 100%;
     /* 固定した要素は浮いた状態になるので、横幅100%にする */
-    height: 80px;
+    height: 70px;
 }
 
 .header-inner {
@@ -89,42 +97,39 @@ header {
     margin-top: 10px;
 }
 
-.searchArea {
-    width: 560px;
-    /* inputの幅           */
-    height: 35px;
-    background-image: url("./assets/mushimegane.png");
-    /* 背景画像：虫眼鏡(*1)*/
-    background-repeat: no-repeat;
-    /* 背景は繰り返さない  */
-    background-position: 8px center;
-    /* 背景の位置          */
-    background-size: auto 60%;
-    /* 背景のサイズ        */
+.searchButton {
+    width: 50px;
     background-color: #fff;
-    /* 背景色              */
     margin: 10px auto 0 auto;
-    /* サンプルは中央寄せ  */
-    padding-left: 30px;
-    /* 虫眼鏡分の左余白    */
     border-radius: 6px;
-    /* 角丸                */
-    color: #555;
-    /* 文字色              */
-    font-size: 18px;
-    /* フォントサイズ      */
-    letter-spacing: 0.1em;
-    /* 文字間隔            */
-    font-weight: bold;
-    /* 太字                */
-    outline: 0;
-    /* 入力薄枠を非表示    */
+    border: 2px solid #000;
 }
 
-/*テキスト入力欄にフォーカスか来たとき*/
-.searchArea:focus {
-    background-color: #cfe7ff;
-    /* フォーカス時背景色  */
+.searchButton:hover {
+    opacity: 0.8;
+    /* ホバーしたときに少し薄くなるようにアニメーションを付ける */
+}
+
+@media(max-width: 800px) {
+    h1{
+        font-size: 24px;
+    }
+    .header-inner {
+        padding: 0 20px;
+    }
+
+    .header-logoImg {
+        width: 150px;
+        margin-top: 10px;
+    }
+
+    .searchButton {
+        width: 35px;
+        background-color: #fff;
+        margin: 10px auto 0 auto;
+        border-radius: 6px;
+        border: 2px solid #000;
+    }
 }
 </style>
     
