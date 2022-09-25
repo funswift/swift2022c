@@ -8,72 +8,34 @@
             </ul>
         </nav>
 
-        <input type="text" v-model="test" class="searchArea" placeholder="知りたい情報は何ですか？">
+        <input type="text" v-model.lazy="test" class="searchArea" placeholder="知りたい情報は何ですか？">
     </div>
     <div class="header-inner3">
-        <input type="text" v-model="test" class="searchAreaSmart" placeholder="知りたい情報は何ですか？">
+        <input type="text" v-model.lazy="test" class="searchAreaSmart" placeholder="知りたい情報は何ですか？">
     </div>
 
     <div class="hello">
+        <div class="infomation">
+            <img src="../assets/emptyInfo_Insta.png">
+            <img src="../assets/emptyInfo_Twi.png">
+            <img src="../assets/emptyInfo_Insta.png">
 
-        <img alt="Vue logo" src="../assets/logo.png">
-        <h1>これは{{ test }}の検索結果ページです。</h1>
-        <p>{{ test }}</p>
-        <p>
-            For a guide and recipes on how to configure / customize this project,<br>
-            check out the
-            <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-        </p>
-        <h3>Installed CLI Plugins</h3>
-        <ul>
-            <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank"
-                    rel="noopener">babel</a></li>
-            <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank"
-                    rel="noopener">eslint</a></li>
-        </ul>
-        <h3>Essential Links</h3>
-        <ul>
-            <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-            <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-            <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-            <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-            <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-        </ul>
-        <h3>Ecosystem</h3>
-        <ul>
-            <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-            <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-            <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank"
-                    rel="noopener">vue-devtools</a>
-            </li>
-            <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-            <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-        </ul>
-        <h3>Installed CLI Plugins</h3>
-        <ul>
-            <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank"
-                    rel="noopener">babel</a></li>
-            <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank"
-                    rel="noopener">eslint</a></li>
-        </ul>
-        <h3>Essential Links</h3>
-        <ul>
-            <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-            <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-            <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-            <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-            <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-        </ul>
-        <h3>Ecosystem</h3>
-        <ul>
-            <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-            <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-            <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank"
-                    rel="noopener">vue-devtools</a>
-            </li>
-            <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-            <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-        </ul>
+            <img src="../assets/emptyInfo_Twi.png">
+            <img src="../assets/emptyInfo_Insta.png">
+            <img src="../assets/emptyInfo_Twi.png">
+
+            <img src="../assets/emptyInfo_Insta.png">
+            <img src="../assets/emptyInfo_Twi.png">
+            <img src="../assets/emptyInfo_Insta.png">
+
+            <img src="../assets/emptyInfo_Twi.png">
+            <img src="../assets/emptyInfo_Insta.png">
+            <img src="../assets/emptyInfo_Twi.png">
+
+            <img src="../assets/emptyInfo_Insta.png">
+            <img src="../assets/emptyInfo_Twi.png">
+            <img src="../assets/emptyInfo_Insta.png">
+        </div>
     </div>
 
 </template>
@@ -136,7 +98,7 @@ a {
 .header-navList li a {
     display: block;
     /* 扱いやすいようにblock要素にする */
-    font-size: 20px;
+    font-size: 24px;
     /* 任意のフォントサイズにする */
     font-weight: bold;
     /* 太字にする */
@@ -154,8 +116,6 @@ a {
     width: 350px;
     /* inputの幅           */
     height: 35px;
-    background-image: url("../assets/mushimegane.png");
-    /* 背景画像：虫眼鏡(*1)*/
     background-repeat: no-repeat;
     /* 背景は繰り返さない  */
     background-position: 8px center;
@@ -168,7 +128,7 @@ a {
     /* サンプルは中央寄せ  */
     padding-left: 30px;
     /* 虫眼鏡分の左余白    */
-    border-radius: 6px;
+    border-radius: 9999px;
     /* 角丸                */
     color: #555;
     /* 文字色              */
@@ -190,6 +150,12 @@ a {
 
 .hello {
     padding-top: 80px;
+}
+
+.infomation img {
+    margin: 10px;
+    width: 30%;
+    height: auto;
 }
 
 @media(max-width: 800px) {
@@ -230,8 +196,6 @@ a {
         width: 250px;
         /* inputの幅           */
         height: 20px;
-        background-image: url("../assets/mushimegane.png");
-        /* 背景画像：虫眼鏡(*1)*/
         background-repeat: no-repeat;
         /* 背景は繰り返さない  */
         background-position: 8px center;
@@ -262,6 +226,16 @@ a {
     .searchAreaSmart:focus {
         background-color: #cfe7ff;
         /* フォーカス時背景色  */
+    }
+
+    .infomation img {
+        width: 45%;
+    }
+}
+
+@media(max-width: 450px) {
+    .infomation img {
+        width: 90%;
     }
 }
 </style>
