@@ -2,11 +2,9 @@
     <header>
         <div class="header-inner">
             <!-- ロゴ -->
-            <a>
-                <router-link to="/">
-                    <img class="header-logoImg" src="./assets/HaCollectLogoText.png">
-                </router-link>
-            </a>
+            <router-link to="/">
+                <img class="header-logoImg" src="./assets/HaCollectLogoText.png">
+            </router-link>
 
             <!-- 検索バー -->
             <input type="text" v-model="input" v-on:keydown.enter="doSearch" class="searchArea"
@@ -47,21 +45,10 @@ export default {
 
 <style>
 /* PC用スタイル */
-#app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 80px;
-}
 
-/* ↑このスタイルいるの？ */
 
-body {
-    display: block;
-    margin: 8px 0;
-}
+
+
 
 h3 {
     margin: 40px 0 0;
@@ -77,9 +64,6 @@ li {
     margin: 0 10px;
 }
 
-a {
-    color: #42b983;
-}
 
 header {
     background-color: #ffffff;

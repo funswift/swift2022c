@@ -6,3 +6,8 @@
     margin-top: 70px;
     color: #2c3e62;
 }
+
+body {
+    display: block;
+    margin: 8px 0;
+}
