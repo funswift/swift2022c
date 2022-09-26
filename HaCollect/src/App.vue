@@ -1,55 +1,52 @@
 <template>
     <header>
         <div class="header-inner">
+            <!-- ロゴ -->
             <a>
                 <router-link to="/">
                     <img class="header-logoImg" src="./assets/HaCollectLogoText.png">
                 </router-link>
             </a>
 
-            <input type="text" v-model="input" v-on:keydown.enter="doAction" class="searchArea" placeholder="知りたい情報は何ですか？">
-            <!-- <img class="searchButton" src="./assets/mushimegane.png"> -->
+            <!-- 検索バー -->
+            <input type="text" v-model="input" v-on:keydown.enter="doSearch" class="searchArea"
+                placeholder="知りたい情報は何ですか？">
 
         </div>
     </header>
-    
+
+    <!-- 現在のリンクごとに表示するコンポーネント -->
     <router-view></router-view>
-    
 </template>
 
-<!-- vue.js:1735 Uncaught TypeError: Cannot read properties of undefined (reading 'push')
-    at Proxy.doAction (C:\Users\midmi\OneDrive\ドキュメント\swift2022c\HaCollect\src\App.vue:37:25)
-    at _createElementVNode.onClick._cache.<computed>._cache.<computed> (C:\Users\midmi\OneDrive\ドキュメント\swift2022c\HaCollect\src\App.vue:10:56)
-    at callWithErrorHandling (vue.js:1672:22)
-    at callWithAsyncErrorHandling (vue.js:1681:21)
-    at HTMLInputElement.invoker (vue.js:9761:13) -->
+
+
 
 <script>
-import topPage from "./components/topPage.vue"
 'use strict'
 export default {
-    components: {
-        topPage,
-    },
     data() {
         return {
-            input: '',
-            message: ''
+            input: '',    //検索バーに打ち込んだのをリアルタイムに格納
+            search_text: ''  //実際にsearchResultコンポーネントに渡すもの
         }
     },
     methods: {
-        doAction() {
-            console.log(this.$router)
-            console.log(this.$router)
-            this.message = this.input
-            this.$router.push('/searchResult')
-            console.log(this.$router)
+        doSearch() {
+            this.search_text = this.input
+            // this.$router.push('/searchResult') <-これはただ、リンク変えるだけ
+            this.$router.push({ name: 'searchResult', params: { search: this.input } }) //<- これはリンク先に検索したのを渡すことができる
+            this.input = '' //検索バーに検索した文字を残さないための処理
         }
     }
 }
 </script>
 
+
+
+
 <style>
+/* PC用スタイル */
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -58,6 +55,8 @@ export default {
     color: #2c3e50;
     margin-top: 80px;
 }
+
+/* ↑このスタイルいるの？ */
 
 body {
     display: block;
@@ -162,10 +161,15 @@ header {
     /* 入力薄枠を非表示    */
 }
 
+
+
+
+
 @media(max-width: 800px) {
-    h1{
+    h1 {
         font-size: 24px;
     }
+
     .header-inner {
         padding: 0 20px;
     }

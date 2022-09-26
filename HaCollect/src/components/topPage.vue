@@ -54,22 +54,18 @@
             <img src="../assets/emptyInfo_Insta.png">
         </div>
     </div>
-
 </template>
+
+
 
 <script>
 export default {
     name: "topPage",
-    props: {
-        msg: String,
-    },
-    data() {
-        return {
-            count: 0,
-        };
-    },
 };
 </script>
+
+
+
 
 <style scoped>
 h3 {

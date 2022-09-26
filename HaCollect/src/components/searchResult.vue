@@ -3,15 +3,10 @@
         <nav class="header-nav">
             <ul class="header-navList">
                 <li>
-                    <a><span class="nowPage">{{ test }}</span>の検索結果</a>
+                    <a><span class="nowPage">{{ search }}</span>の検索結果</a>
                 </li>
             </ul>
         </nav>
-
-        <input type="text" v-model.lazy="test" class="searchArea" placeholder="知りたい情報は何ですか？">
-    </div>
-    <div class="header-inner3">
-        <input type="text" v-model.lazy="test" class="searchAreaSmart" placeholder="知りたい情報は何ですか？">
     </div>
 
     <div class="hello">
@@ -37,19 +32,22 @@
             <img src="../assets/emptyInfo_Insta.png">
         </div>
     </div>
-
 </template>
+
+
 
 <script>
 'use strict'
 export default {
-    data() {
-        return {
-            test: '',
-        }
-    }
+    props: {
+        search: String
+    },
 }
 </script>
+
+
+
+
 
 <style scoped>
 h3 {
@@ -158,6 +156,11 @@ a {
     height: auto;
 }
 
+
+
+
+
+
 @media(max-width: 800px) {
     .header-inner2 {
         height: 30px;
@@ -232,6 +235,10 @@ a {
         width: 45%;
     }
 }
+
+
+
+
 
 @media(max-width: 450px) {
     .infomation img {
