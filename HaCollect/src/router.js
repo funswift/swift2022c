@@ -35,9 +35,10 @@ export const router = createRouter({
             component: newsPage,
         },
         {
-            path: '/searchResult',
+            path: '/searchResult/:search',
             name: 'searchResult',
             component: searchResult,
+            props: true
         },
     ],
 })
