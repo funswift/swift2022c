@@ -23,25 +23,29 @@
     </div>
     <div class="hello">
         <div class="infomation">
-            <img src="../assets/emptyInfo_Insta.png">
-            <img src="../assets/emptyInfo_Twi.png">
-            <img src="../assets/emptyInfo_Insta.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
 
-            <img src="../assets/emptyInfo_Twi.png">
-            <img src="../assets/emptyInfo_Insta.png">
-            <img src="../assets/emptyInfo_Twi.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
 
-            <img src="../assets/emptyInfo_Insta.png">
-            <img src="../assets/emptyInfo_Twi.png">
-            <img src="../assets/emptyInfo_Insta.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
 
-            <img src="../assets/emptyInfo_Twi.png">
-            <img src="../assets/emptyInfo_Insta.png">
-            <img src="../assets/emptyInfo_Twi.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
 
-            <img src="../assets/emptyInfo_Insta.png">
-            <img src="../assets/emptyInfo_Twi.png">
-            <img src="../assets/emptyInfo_Insta.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
+
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_1.png">
         </div>
     </div>
 </template>
@@ -56,22 +60,7 @@ export default {
 
 
 
-
 <style scoped>
-h3 {
-    margin: 40px 0 0;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    display: inline-block;
-    margin: 0 10px;
-}
-
 
 .header-inner2 {
     background-color: #f5af5a;
@@ -131,7 +120,7 @@ hr {
 
 .infomation img {
     margin: 10px;
-    width: 30%;
+    width: 25%;
     height: auto;
 }
 
@@ -165,13 +154,13 @@ hr {
     }
 
     .infomation img {
-        width: 45%;
+        width: 40%;
     }
 }
 
 @media(max-width: 450px) {
     .infomation img {
-        width: 90%;
+        width: 80%;
     }
 }
 </style>

@@ -3,92 +3,64 @@
         <nav class="header-nav">
             <ul class="header-navList">
                 <li>
-                    <a>
-                        <router-link to="/">ホーム</router-link>
-                    </a>
+                    <router-link to="/">ホーム</router-link>
                 </li>
                 <li>
-                    <a>
-                        <router-link to="/eat">ごはん</router-link>
-                    </a>
+                    <router-link to="/eat">ごはん</router-link>
                 </li>
                 <li>
-                    <a>
-                        <router-link to="/event">イベント</router-link>
-                    </a>
+                    <router-link to="/event">イベント</router-link>
                 </li>
                 <li>
-                    <a>
-                        <router-link class="nowPage" to="/tour">観光</router-link>
-                    </a>
+                    <router-link class="nowPage" to="/tour">観光</router-link>
                     <hr color="#4c9eeb" size="5px">
                 </li>
                 <li>
-                    <a>
-                        <router-link to="/news">災害</router-link>
-                    </a>
+                    <router-link to="/news">災害</router-link>
                 </li>
             </ul>
         </nav>
     </div>
-
     <div class="hello">
         <div class="infomation">
-            <img src="../assets/emptyInfo_Insta.png">
-            <img src="../assets/emptyInfo_Twi.png">
-            <img src="../assets/emptyInfo_Insta.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
 
-            <img src="../assets/emptyInfo_Twi.png">
-            <img src="../assets/emptyInfo_Insta.png">
-            <img src="../assets/emptyInfo_Twi.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
 
-            <img src="../assets/emptyInfo_Insta.png">
-            <img src="../assets/emptyInfo_Twi.png">
-            <img src="../assets/emptyInfo_Insta.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
 
-            <img src="../assets/emptyInfo_Twi.png">
-            <img src="../assets/emptyInfo_Insta.png">
-            <img src="../assets/emptyInfo_Twi.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
 
-            <img src="../assets/emptyInfo_Insta.png">
-            <img src="../assets/emptyInfo_Twi.png">
-            <img src="../assets/emptyInfo_Insta.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
+
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
+            <img src="../assets/emptyInfo/emptyInfo_4.png">
         </div>
     </div>
 </template>
-    
 
 
 
 <script>
 export default {
-    name: 'HelloWorld',
-}
+    name: "tourPage",
+};
 </script>
-    
-
-
 
 
 
 <style scoped>
-h3 {
-    margin: 40px 0 0;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    display: inline-block;
-    margin: 0 10px;
-}
-
-a {
-    color: #42b983;
-}
 
 .header-inner2 {
     background-color: #f5af5a;
@@ -117,6 +89,7 @@ a {
         /* ナビゲーションに左右のスペースを付ける */
 }
 
+/* 下のaは実際はrouter-link要素に機能している */
 .header-navList li a {
     display: block;
     /* 扱いやすいようにblock要素にする */
@@ -126,7 +99,7 @@ a {
     /* 太字にする */
     color: #fff;
     text-decoration-line: none;
-    padding: 0 15px;
+    padding: 0 30px;
 }
 
 .header-navList .nowPage {
@@ -139,6 +112,7 @@ hr {
     margin-bottom: 22px;
 }
 
+/* 下のaは実際はrouter-link要素に機能している */
 .header-navList li a:hover {
     opacity: 0.8;
     /* ホバーしたときに少し薄くなるようにアニメーションを付ける */
@@ -146,7 +120,7 @@ hr {
 
 .infomation img {
     margin: 10px;
-    width: 30%;
+    width: 25%;
     height: auto;
 }
 
@@ -163,9 +137,10 @@ hr {
         margin: 0 10px
     }
 
+    /* 下のaは実際はrouter-link要素に機能している */
     .header-navList li a {
         font-size: 20px;
-        padding: 0 5px;
+        padding: 0 10px;
     }
 
     .header-navList .nowPage {
@@ -179,13 +154,13 @@ hr {
     }
 
     .infomation img {
-        width: 45%;
+        width: 40%;
     }
 }
 
 @media(max-width: 450px) {
     .infomation img {
-        width: 90%;
+        width: 80%;
     }
 }
 </style>

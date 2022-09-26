@@ -19,7 +19,6 @@
 
 
 
-
 <script>
 'use strict'
 export default {
@@ -42,28 +41,8 @@ export default {
 
 
 
-
 <style>
 /* PC用スタイル */
-
-
-
-
-
-h3 {
-    margin: 40px 0 0;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    display: inline-block;
-    margin: 0 10px;
-}
-
 
 header {
     background-color: #ffffff;
@@ -145,9 +124,11 @@ header {
     /* 入力薄枠を非表示    */
 }
 
-
-
-
+/*テキスト入力欄にフォーカスか来たとき*/
+.searchArea:focus {
+    background-color: #e6f2ff;
+    /* フォーカス時背景色  */
+}
 
 @media(max-width: 800px) {
     h1 {
