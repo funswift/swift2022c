@@ -61,7 +61,6 @@ export default {
 
 
 <style scoped>
-
 .header-inner2 {
     background-color: #f5af5a;
     display: flex;
@@ -93,7 +92,7 @@ export default {
 .header-navList li a {
     display: block;
     /* 扱いやすいようにblock要素にする */
-    font-size: 32px;
+    font-size: 20px;
     /* 任意のフォントサイズにする */
     font-weight: bold;
     /* 太字にする */
@@ -104,12 +103,13 @@ export default {
 
 .header-navList .nowPage {
     color: #4c9eeb;
-    margin-top: 29px;
+    margin-top: 15px;
 }
 
 hr {
-    margin-top: 0;
-    margin-bottom: 22px;
+
+    margin-top: 10px;
+    margin-bottom: 0;
 }
 
 /* 下のaは実際はrouter-link要素に機能している */
@@ -139,18 +139,11 @@ hr {
 
     /* 下のaは実際はrouter-link要素に機能している */
     .header-navList li a {
-        font-size: 20px;
         padding: 0 10px;
     }
 
     .header-navList .nowPage {
         color: #4c9eeb;
-        margin-top: 15px;
-    }
-
-    hr {
-        margin-top: 10px;
-        margin-bottom: 0;
     }
 
     .infomation img {

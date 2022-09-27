@@ -25,3 +25,9 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
+
+@media(max-width: 800px) {
+  h1 {
+      font-size: 24px;
+  }
+}
