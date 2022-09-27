@@ -52,87 +52,85 @@ export default {
 
 
 <style scoped>
+.header-inner2 {
+    background-color: #f5af5a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    position: fixed;
+    height: 60px;
+}
 
-    .header-inner2 {
-        background-color: #f5af5a;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        margin: 0 auto;
-        position: fixed;
-        height: 60px;
-    }
-    
+.header-nav {
+    padding-left: 36px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.header-navList {
+    display: flex;
+    align-items: center;
+}
+
+.header-navList li {
+    margin: 0 20px
+        /* ナビゲーションに左右のスペースを付ける */
+}
+
+.header-navList li a {
+    display: block;
+    /* 扱いやすいようにblock要素にする */
+    font-size: 20px;
+    /* 任意のフォントサイズにする */
+    font-weight: bold;
+    /* 太字にする */
+    color: #fff;
+    text-decoration-line: none;
+    padding: 0 30px;
+}
+
+.header-navList li a:hover {
+    opacity: 0.8;
+    /* ホバーしたときに少し薄くなるようにアニメーションを付ける */
+}
+
+.infomation img {
+    margin: 10px;
+    width: 25%;
+    height: auto;
+}
+
+.hello {
+    padding-top: 80px;
+}
+
+@media(max-width: 800px) {
     .header-nav {
-        padding-left: 36px;
-        overflow-x: auto;
-        white-space: nowrap;
+        padding-left: 0;
     }
-    
-    .header-navList {
-        display: flex;
-        align-items: center;
-    }
-    
+
     .header-navList li {
-        margin: 0 20px
-            /* ナビゲーションに左右のスペースを付ける */
+        margin: 0 10px
     }
 
     .header-navList li a {
-        display: block;
-        /* 扱いやすいようにblock要素にする */
-        font-size: 32px;
-        /* 任意のフォントサイズにする */
-        font-weight: bold;
-        /* 太字にする */
-        color: #fff;
-        text-decoration-line: none;
-        padding: 0 30px;
+        padding: 0 10px;
     }
 
-    .header-navList li a:hover {
-        opacity: 0.8;
-        /* ホバーしたときに少し薄くなるようにアニメーションを付ける */
-    }
-    
     .infomation img {
-        margin: 10px;
-        width: 25%;
-        height: auto;
+        width: 40%;
     }
-    
-    .hello {
-        padding-top: 80px;
-    }
-    
-    @media(max-width: 800px) {
-        .header-nav {
-            padding-left: 0;
-        }
-    
-        .header-navList li {
-            margin: 0 10px
-        }
+}
 
-        .header-navList li a {
-            font-size: 20px;
-            padding: 0 10px;
-        }
-    
-        .infomation img {
-            width: 40%;
-        }
+@media(max-width: 450px) {
+    .infomation img {
+        width: 80%;
     }
-    
-    @media(max-width: 450px) {
-        .infomation img {
-            width: 80%;
-        }
 
-        .header-navList li a {
-            font-size: 14px;
-        }
+    .header-navList li a {
+        font-size: 16px;
     }
-    </style>
+}
+</style>
