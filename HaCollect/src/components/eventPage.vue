@@ -16,8 +16,9 @@
                     <router-link to="/tour">観光</router-link>
                 </li>
                 <li>
-                    <router-link to="/news">災害</router-link>
+                    <router-link to="/news">ニュース</router-link>
                 </li>
+                
             </ul>
         </nav>
     </div>
