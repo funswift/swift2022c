@@ -15,7 +15,7 @@
                     <router-link to="/tour">観光</router-link>
                 </li>
                 <li>
-                    <router-link class="nowPage" to="/news">災害</router-link>
+                    <router-link class="nowPage" to="/news">ニュース</router-link>
                     <hr color="#4c9eeb" size="5px">
                 </li>
             </ul>
