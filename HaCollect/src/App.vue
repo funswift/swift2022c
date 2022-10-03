@@ -18,10 +18,18 @@
                 placeholder="キーワード検索">
 
         </div>
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.4/css/all.css">
+
+
     </header>
 
     <!-- 現在のリンクごとに表示するコンポーネント -->
     <router-view></router-view>
+
+    <!-- スクロールボタンのテンプレ読み込みとトップに戻る処理 -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.4/css/all.css">
+    <div id="page_top"><a href="#"></a></div>
 </template>
 
 
@@ -48,6 +56,7 @@ export default {
         }
     }
 }
+
 </script>
 
 
@@ -201,6 +210,41 @@ header {
         background-color: #e6f2ff;
         /* フォーカス時背景色  */
     }
+}
+
+/*スクロールボタンのCSS*/
+#page_top{
+  width: 50px;
+  height: 50px;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  background: #dbe924;
+  opacity: 0.6;
+  border-radius: 50%;
+}
+#page_top a{
+  position: relative;
+  display: block;
+  width: 50px;
+  height: 50px;
+  text-decoration: none;
+}
+#page_top a::before{
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  content: '\f102';
+  font-size: 25px;
+  color: #fff;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  top: -5px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+  text-align: center;
 }
 </style>
     
