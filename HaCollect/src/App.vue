@@ -8,7 +8,6 @@
 
             <!-- 検索バー -->
             <input type="text" v-model="input" v-on:keydown.enter="doSearch" class="searchArea" placeholder="キーワード検索">
-
         </div>
         <div class="header-inner-smart">
             <!-- スマホキーボード用キャンセルボタン -->
@@ -16,20 +15,18 @@
             <!-- スマホサイズ用検索バー -->
             <input type="text" v-model="input" v-on:keydown.enter="doSearch" class="searchAreaSmart"
                 placeholder="キーワード検索">
-
         </div>
-
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.4/css/all.css">
-
-
     </header>
 
     <!-- 現在のリンクごとに表示するコンポーネント -->
     <router-view></router-view>
 
-    <!-- スクロールボタンのテンプレ読み込みとトップに戻る処理 -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.4/css/all.css">
-    <div id="page_top"><a href="#"></a></div>
+    <!-- スクロールボタンのトップに戻る処理 -->
+    <div>
+        <transition name="button">
+            <button v-show="buttonActive" class="button" @click="scrollTop"></button>
+        </transition>
+    </div>
 </template>
 
 
@@ -40,8 +37,13 @@ export default {
     data() {
         return {
             input: '',    //検索バーに打ち込んだのをリアルタイムに格納
-            search_text: ''  //実際にsearchResultコンポーネントに渡すもの
+            search_text: '',  //実際にsearchResultコンポーネントに渡すもの
+            buttonActive: false,//ボタンを非表示にしておく
+            scroll: 0
         }
+    },
+    mounted() {
+        window.addEventListener('scroll', this.scrollWindow)   //スクロールすると関数が察知してくれる
     },
     methods: {
         doSearch() {
@@ -53,10 +55,26 @@ export default {
         deleteText() {
             this.search_text = this.input
             this.input = '' //検索バーに検索した文字を残さないための処理
+        }, 
+        // ページのトップに移動する関数
+        scrollTop() {
+            window.scrollTo({
+                top: 0,  //どこに移動するか
+                behavior: 'smooth'  //ここでどのように移動するか決める smoothでゆっくり移動する
+            });
+        },
+        // ボタンが現れる関数
+        scrollWindow() {
+            const top = 100 //topから100pxスクロールしたらボタン登場
+            this.scroll = window.scrollY //垂直方向
+            if (top <= this.scroll) {
+                this.buttonActive = true   //ボタン見えるようになる
+            } else {
+                this.buttonActive = false  //ボタン見えない
+            }
         }
-    }
+    },
 }
-
 </script>
 
 
@@ -135,6 +153,51 @@ header {
     display: none;
 }
 
+/* ページトップへ自動スクロールするボタンのスタイル */
+.button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: orange;
+    border-radius: 50%;
+    background-image: url('data:image/svg+xml, <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23ffffff" d="M0 16.67l2.829 2.83 9.175-9.339 9.167 9.339 2.829-2.83-11.996-12.17z"/></svg>');
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: center;
+    cursor: pointer;
+    opacity: 0.7;
+    /* ボタンにカーソルを合わせるとポインターになる */
+}
+
+/* アニメーション中のスタイル */
+.button-enter-active,
+.button-leave-active {
+    transition: opacity 0.5s;
+    /* 何秒かけて変わるのか */
+}
+
+/* 表示するアニメーション */
+.button-enter-from {
+    opacity: 0;
+}
+
+.button-enter-to {
+    opacity: 0.7;
+}
+
+/* 非表示にするアニメーション */
+.button-leave-from {
+    opacity: 0.7;
+}
+
+.button-leave-to {
+    opacity: 0;
+}
+
+
+/* タブレット・スマートフォン用スタイル */
 @media(max-width: 800px) {
     .header-inner {
         padding: 0 20px;
@@ -144,9 +207,10 @@ header {
         width: 150px;
         margin-top: 10px;
     }
-
 }
 
+
+/* スマートフォン用スタイル */
 @media(max-width: 450px) {
     .header-inner {
         display: block;
@@ -211,40 +275,4 @@ header {
         /* フォーカス時背景色  */
     }
 }
-
-/*スクロールボタンのCSS*/
-#page_top{
-  width: 50px;
-  height: 50px;
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  background: #dbe924;
-  opacity: 0.6;
-  border-radius: 50%;
-}
-#page_top a{
-  position: relative;
-  display: block;
-  width: 50px;
-  height: 50px;
-  text-decoration: none;
-}
-#page_top a::before{
-  font-family: 'Font Awesome 5 Free';
-  font-weight: 900;
-  content: '\f102';
-  font-size: 25px;
-  color: #fff;
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  top: -5px;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  margin: auto;
-  text-align: center;
-}
 </style>
-    
