@@ -7,12 +7,15 @@
             </router-link>
 
             <!-- 検索バー -->
-            <input type="text" v-model="input" v-on:keydown.enter="doSearch" class="searchArea"
-                placeholder="知りたい情報は何ですか？">
+            <input type="text" v-model="input" v-on:keydown.enter="doSearch" class="searchArea" placeholder="キーワード検索">
         </div>
-
-
-
+        <div class="header-inner-smart">
+            <!-- スマホキーボード用キャンセルボタン -->
+            <div class="cancel" v-on:click="deleteText">×</div>
+            <!-- スマホサイズ用検索バー -->
+            <input type="text" v-model="input" v-on:keydown.enter="doSearch" class="searchAreaSmart"
+                placeholder="キーワード検索">
+        </div>
     </header>
 
     <!-- 現在のリンクごとに表示するコンポーネント -->
@@ -24,7 +27,6 @@
             <button v-show="buttonActive" class="button" @click="scrollTop"></button>
         </transition>
     </div>
-
 </template>
 
 
@@ -50,6 +52,10 @@ export default {
             this.$router.push({ name: 'searchResult', params: { search: this.input } }) //<- これはリンク先に検索したのを渡すことができる
             this.input = '' //検索バーに検索した文字を残さないための処理
         },
+        deleteText() {
+            this.search_text = this.input
+            this.input = '' //検索バーに検索した文字を残さないための処理
+        }, 
         // ページのトップに移動する関数
         scrollTop() {
             window.scrollTo({
@@ -69,14 +75,12 @@ export default {
         }
     },
 }
-
 </script>
 
 
 
 <style>
 /* PC用スタイル */
-
 header {
     background-color: #ffffff;
     position: fixed;
@@ -94,16 +98,11 @@ header {
 
 .header-inner {
     display: flex;
+    height: 70px;
     justify-content: space-between;
     align-items: center;
     padding: 0 36px;
     margin: 0 auto;
-}
-
-.header-logo {
-    display: flex;
-    align-items: center;
-    text-decoration-line: none;
 }
 
 .header-logoImg {
@@ -112,19 +111,6 @@ header {
     width: 250px;
     /* 横幅を任意の大きさに調整 */
     margin-top: 10px;
-}
-
-.searchButton {
-    width: 50px;
-    background-color: #fff;
-    margin: 10px auto 0 auto;
-    border-radius: 6px;
-    border: 2px solid #000;
-}
-
-.searchButton:hover {
-    opacity: 0.8;
-    /* ホバーしたときに少し薄くなるようにアニメーションを付ける */
 }
 
 .searchArea {
@@ -139,9 +125,9 @@ header {
     /* 背景のサイズ        */
     background-color: #fff;
     /* 背景色              */
-    margin: 10px 30px 0 auto;
+    margin: 10px auto 0 auto;
     /* サンプルは中央寄せ  */
-    padding-left: 30px;
+    padding-left: 10px;
     /* 虫眼鏡分の左余白    */
     border-radius: 9999px;
     /* 角丸                */
@@ -163,27 +149,8 @@ header {
     /* フォーカス時背景色  */
 }
 
-@media(max-width: 800px) {
-    h1 {
-        font-size: 24px;
-    }
-
-    .header-inner {
-        padding: 0 20px;
-    }
-
-    .header-logoImg {
-        width: 150px;
-        margin-top: 10px;
-    }
-
-    .searchButton {
-        width: 35px;
-        background-color: #fff;
-        margin: 10px auto 0 auto;
-        border-radius: 6px;
-        border: 2px solid #000;
-    }
+.header-inner-smart {
+    display: none;
 }
 
 /* ページトップへ自動スクロールするボタンのスタイル */
@@ -220,7 +187,6 @@ header {
     opacity: 0.7;
 }
 
-
 /* 非表示にするアニメーション */
 .button-leave-from {
     opacity: 0.7;
@@ -229,5 +195,84 @@ header {
 .button-leave-to {
     opacity: 0;
 }
+
+
+/* タブレット・スマートフォン用スタイル */
+@media(max-width: 800px) {
+    .header-inner {
+        padding: 0 20px;
+    }
+
+    .header-logoImg {
+        width: 150px;
+        margin-top: 10px;
+    }
+}
+
+
+/* スマートフォン用スタイル */
+@media(max-width: 450px) {
+    .header-inner {
+        display: block;
+        height: 35px;
+    }
+
+    .header-logoImg {
+        margin: 0 auto;
+    }
+
+    .searchArea {
+        display: none;
+    }
+
+    .header-inner-smart {
+        display: flex;
+        height: 35px;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        margin: 0 auto;
+    }
+
+    .cancel {
+        font-size: 250%;
+        font-weight: bold;
+    }
+
+    .searchAreaSmart {
+        width: 350px;
+        /* inputの幅           */
+        height: 25px;
+        background-repeat: no-repeat;
+        /* 背景は繰り返さない  */
+        background-position: 8px center;
+        /* 背景の位置          */
+        background-size: auto 60%;
+        /* 背景のサイズ        */
+        background-color: #fff;
+        /* 背景色              */
+        margin: 0 auto;
+        /* サンプルは中央寄せ  */
+        padding-left: 30px;
+        /* 虫眼鏡分の左余白    */
+        border-radius: 9999px;
+        /* 角丸                */
+        color: #555;
+        /* 文字色              */
+        font-size: 16px;
+        /* フォントサイズ      */
+        letter-spacing: 0.1em;
+        /* 文字間隔            */
+        font-weight: bold;
+        /* 太字                */
+        outline: 0;
+        /* 入力薄枠を非表示    */
+    }
+
+    /*テキスト入力欄にフォーカスか来たとき*/
+    .searchAreaSmart:focus {
+        background-color: #e6f2ff;
+        /* フォーカス時背景色  */
+    }
+}
 </style>
-    
