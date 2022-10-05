@@ -125,7 +125,7 @@ header {
     /* 背景のサイズ        */
     background-color: #fff;
     /* 背景色              */
-    margin: 10px auto 0 auto;
+    margin-top: 10px;
     /* サンプルは中央寄せ  */
     padding-left: 10px;
     /* 虫眼鏡分の左余白    */
@@ -206,6 +206,11 @@ header {
     .header-logoImg {
         width: 150px;
         margin-top: 10px;
+    }
+
+    .searchArea {
+    width: 250px;
+    height: 30px;
     }
 }
 
