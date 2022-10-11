@@ -22,14 +22,15 @@
         </nav>
     </div>
     <div class="hello">
-        
-            <div class="tweet">
-            <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">【撮影】北海道函館市の夜空に8本の「光の柱」突如出現、その正体は？<a href="https://t.co/H9sugD0or7">https://t.co/H9sugD0or7</a><br><br>「光の護封剣」「多分エヴァ」との反応も寄せられた。気象学者によると、漁船の漁火が夜間に上空の氷でできた雲にあたることで発生する「漁火光柱(いさりびこうちゅう)」の可能性が高いという。 <a href="https://t.co/nKYkWLYJ87">pic.twitter.com/nKYkWLYJ87</a></p>&mdash; ライブドアニュース (@livedoornews) <a href="https://twitter.com/livedoornews/status/1577641000062681089?ref_src=twsrc%5Etfw">October 5, 2022</a></blockquote>
-            <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">残らない贈り物が、心に残る。<a href="https://twitter.com/hashtag/%E5%A4%95%E7%84%BC%E3%81%91%E7%A9%BA?src=hash&amp;ref_src=twsrc%5Etfw">#夕焼け空</a>　<a href="https://twitter.com/hashtag/%E5%87%BD%E9%A4%A8?src=hash&amp;ref_src=twsrc%5Etfw">#函館</a>　<a href="https://twitter.com/hashtag/%E3%82%AB%E3%83%A1%E3%83%A9?src=hash&amp;ref_src=twsrc%5Etfw">#カメラ</a> <a href="https://t.co/Rl7hbSH3Nc">pic.twitter.com/Rl7hbSH3Nc</a></p>&mdash; hanamaru (@hanamar79700561) <a href="https://twitter.com/hanamar79700561/status/1577974089888587779?ref_src=twsrc%5Etfw">October 6, 2022</a></blockquote>
-            <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">新函館北斗駅の乗換改札がすごい<a href="https://twitter.com/hashtag/%E3%82%AD%E3%83%8F281%E7%B3%BB?src=hash&amp;ref_src=twsrc%5Etfw">#キハ281系</a> <a href="https://twitter.com/hashtag/%E3%81%82%E3%82%8A%E3%81%8C%E3%81%A8%E3%81%86%E3%82%AD%E3%83%8F281?src=hash&amp;ref_src=twsrc%5Etfw">#ありがとうキハ281</a> <a href="https://twitter.com/hashtag/%E3%83%A9%E3%82%B9%E3%83%88%E3%83%A9%E3%83%B3?src=hash&amp;ref_src=twsrc%5Etfw">#ラストラン</a> <a href="https://t.co/YIDv08Oxgv">pic.twitter.com/YIDv08Oxgv</a></p>&mdash; Ahira activity (@ActivityAhira) <a href="https://twitter.com/ActivityAhira/status/1575637406325215232?ref_src=twsrc%5Etfw">September 30, 2022</a></blockquote>
-
-            </div>
-            <div class="infomation">
+        <div class="tweet">
+            <li><Tweet tweet-id="1577943063426584576"></Tweet></li>
+            <li><Tweet tweet-id="1577940505517752320"></Tweet></li>
+            <li><Tweet tweet-id="1577940243730206720"></Tweet></li>
+            <li><Tweet tweet-id="1577939849935351808"></Tweet></li>
+            <li><Tweet tweet-id="1577936590512750594"></Tweet></li>
+            <li><Tweet tweet-id="1577935163375456259"></Tweet></li>
+        </div>
+        <div class="infomation">
             <img src="../assets/emptyInfo/emptyInfo_1.png">
             <img src="../assets/emptyInfo/emptyInfo_1.png">
             <img src="../assets/emptyInfo/emptyInfo_1.png">
@@ -57,12 +58,17 @@
     </div>
 </template>
 
+<script setup>
+import Tweet from 'vue-tweet';
+
+</script>
 
 
 <script>
-export default {
+ export default {
     name: "topPage",
 };
+
 </script>
 
 
@@ -164,9 +170,13 @@ hr {
 }
 
 .tweet {
-    display:flex;
-    margin-right: 30px;
-    margin-left: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    
+    margin-left: 55px;
+}
+.tweet li {
+    width: 30%;
 }
 </style>
     
