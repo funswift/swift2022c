@@ -67,10 +67,6 @@ export default {
     grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
 }
 
-iframe {
-    max-width: 450px;
-}
-
 .header-inner2 {
     background-color: #f5af5a;
     display: flex;
