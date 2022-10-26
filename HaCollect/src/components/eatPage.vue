@@ -52,11 +52,11 @@
 
 
 
-<sc>
+<script>
 export default {
     name: "eatPage",
 };
-</sc>
+</script>
 
 
 
@@ -117,16 +117,21 @@ hr {
     opacity: 0.8;
     /* ホバーしたときに少し薄くなるようにアニメーションを付ける */
 }
+
+/* 投稿3列表示用CSS */
 .infomation {
     margin-left: 30px;
     margin-right: 100px;
 
 }
-
 .infomation li {
     display: grid;
     grid-gap: 80px;
     grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
+}
+
+iframe {
+    max-width: 450px;
 }
 
 .hello {
