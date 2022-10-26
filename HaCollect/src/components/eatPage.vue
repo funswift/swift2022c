@@ -10,10 +10,16 @@
                     <hr color="#4c9eeb" size="5px">
                 </li>
                 <li>
+                    <router-link to="/tour">観光</router-link>
+                </li>
+                <li>
                     <router-link to="/event">イベント</router-link>
                 </li>
                 <li>
-                    <router-link to="/tour">観光</router-link>
+                    <router-link to="/life">くらし</router-link>
+                </li>
+                <li>
+                    <router-link to="/spa">温泉</router-link>
                 </li>
                 <li>
                     <router-link to="/news">ニュース</router-link>

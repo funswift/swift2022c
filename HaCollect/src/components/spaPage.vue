@@ -3,8 +3,7 @@
         <nav class="header-nav">
             <ul class="header-navList">
                 <li>
-                    <router-link class="nowPage" to="/">ホーム</router-link>
-                    <hr color="#4c9eeb" size="5px">
+                    <router-link to="/">ホーム</router-link>
                 </li>
                 <li>
                     <router-link to="/eat">ごはん</router-link>
@@ -14,67 +13,55 @@
                 </li>
                 <li>
                     <router-link to="/event">イベント</router-link>
-                </li>
+                </li> 
                 <li>
                     <router-link to="/life">くらし</router-link>
                 </li>
                 <li>
-                    <router-link to="/spa">温泉</router-link>
+                    <router-link class="nowPage" to="/spa">温泉</router-link>
+                    <hr color="#4c9eeb" size="5px">
                 </li>
                 <li>
                     <router-link to="/news">ニュース</router-link>
-                </li>
+                </li>               
             </ul>
         </nav>
     </div>
     <div class="hello">
-        <div class="tweet">
-            <li><Tweet tweet-id="1577943063426584576"></Tweet></li>
-            <li><Tweet tweet-id="1577940505517752320"></Tweet></li>
-            <li><Tweet tweet-id="1577940243730206720"></Tweet></li>
-            <li><Tweet tweet-id="1577939849935351808"></Tweet></li>
-            <li><Tweet tweet-id="1577936590512750594"></Tweet></li>
-            <li><Tweet tweet-id="1577935163375456259"></Tweet></li>
-        </div>
         <div class="infomation">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
 
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
 
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
 
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
 
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
 
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
+            <img src="../assets/emptyInfo/emptyInfo_3.png">
         </div>
     </div>
 </template>
 
-<script setup>
-import Tweet from 'vue-tweet';
-
-</script>
 
 
 <script>
- export default {
-    name: "topPage",
+export default {
+    name: "lifePage",
 };
-
 </script>
 
 
@@ -126,6 +113,7 @@ import Tweet from 'vue-tweet';
 }
 
 hr {
+
     margin-top: 10px;
     margin-bottom: 0;
 }
@@ -174,15 +162,4 @@ hr {
         width: 80%;
     }
 }
-
-.tweet {
-    display: flex;
-    flex-wrap: wrap;
-    
-    margin-left: 55px;
-}
-.tweet li {
-    width: 30%;
-}
 </style>
-    
