@@ -22,39 +22,76 @@
         </nav>
     </div>
     <div class="hello">
-        <div class="infomation">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
-            <img src="../assets/emptyInfo/emptyInfo_1.png">
+        <div class="infomation" v-for="(item, key) in fire_data">
+            <div class="item">
+                <template v-if="item.media_type == 'VIDEO'">
+                    <iframe v-bind:src=item.link></iframe>
+                    <!-- <video controls src="https://www.instagram.com/reel/CkKioTbDKKq/"></video> -->
+                </template>
+                <template v-else>
+                    <img class="picture" v-bind:src=item.media_url>
+                </template>
+                <p>{{ item.text }}</p>
+                <!-- <p>{{key}}</p> -->
+            </div>
         </div>
+
     </div>
 </template>
 
 
 
+
 <script>
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, get, child } from "firebase/database";
+// ↑ realtime databaseが必要だったためインポートした {}の中に欲しい機能をかく
+//このコードではgetDatabase(realtime Database) と ref, get, childの機能をインポートしている
+
+
+// Firebaseの設定  (.envファイル作ってそこに自分のFIrebaseのAPI key貼ってください)
+const firebaseConfig = {
+    apiKey: import.meta.env.VITE_APP_FIREBASE_APIKEY,
+    authDomain: import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_APP_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_APP_FIREBASE_APP_ID,
+    //デフォルトはここまで
+    databaseURL: import.meta.env.VITE_APP_FIREBASE__DATABASE_URL //DBのURLを追加
+};
+
+// Firebaseの初期化appの変数に自分のfirebaseのデータ？を入れてる
+const app = initializeApp(firebaseConfig);
+
+// Realtime databaseの初期化　自分のデータベースの中身をdbRefに参照させてる
+const dbRef = ref(getDatabase(app));
+
+
 export default {
     name: "topPage",
+    data() {
+        return {
+            fire_data: null,  //firebaseのデータベースの中身を入れる変数
+        }
+    },
+    methods: {
+        getData() {  //firebaseのデータを持ってくる関数
+            get(child(dbRef, 'Instagram')).then((snapshot) => {
+                if (snapshot.exists()) {  //firebaseのデータを取ってこれたら....
+                    this.fire_data = snapshot.val()   //firebaseのDBの中身をfire_dataに代入
+                    console.log(snapshot.val());
+                } else {  //firebaseのデータが無ければ....
+                    console.log("No data available");
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+    },
+    mounted() {
+        this.getData()
+    }
 };
 </script>
 
@@ -117,10 +154,19 @@ hr {
     /* ホバーしたときに少し薄くなるようにアニメーションを付ける */
 }
 
-.infomation img {
-    margin: 10px;
-    width: 25%;
-    height: auto;
+.infomation {
+    outline: 1px solid #FF0000;
+    display: inline-block;
+    width: 30%;
+}
+
+.item {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.picture {
+    width: 50%;
 }
 
 .hello {
@@ -145,15 +191,17 @@ hr {
         color: #4c9eeb;
     }
 
-    .infomation img {
-        width: 40%;
-    }
+    /* .item {
+        謎
+        
+    } */
+
 }
 
 @media(max-width: 450px) {
-    .infomation img {
-        width: 80%;
-    }
+    /* .item {
+        謎
+    } */
 }
 </style>
     
