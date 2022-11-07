@@ -24,15 +24,25 @@
     <div class="hello">
         <div class="infomation" v-for="(item, key) in fire_data">
             <div class="item">
-                <template v-if="item.media_type == 'VIDEO'">
-                    <iframe v-bind:src=item.link></iframe>
-                    <!-- <video controls src="https://www.instagram.com/reel/CkKioTbDKKq/"></video> -->
+                <!-- ツイッターの投稿の表示 -->
+                <template v-if="item.SNS_type == 'Twitter'">
+                    <template v-if="item.media != NULL">
+                        <template v-for="(url) in item.media">
+                            <img class="picture" v-bind:src=url.media_url>
+                        </template>
+                    </template>
+                    <p>{{ item.text }}</p>
                 </template>
-                <template v-else>
-                    <img class="picture" v-bind:src=item.media_url>
+                <!-- インスタグラムの投稿の表示 -->
+                <template v-if="item.SNS_type == 'Instagram'">
+                    <template v-if="item.media_type == 'VIDEO'">
+                        <iframe v-bind:src=item.media_url></iframe>
+                    </template>
+                    <template v-else>
+                        <img class="picture" v-bind:src=item.media_url>
+                    </template>
+                    <p>{{ item.text }}</p>
                 </template>
-                <p>{{ item.text }}</p>
-                <!-- <p>{{key}}</p> -->
             </div>
         </div>
 
@@ -44,7 +54,7 @@
 
 <script>
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, get, child } from "firebase/database";
+import { getDatabase, ref, get, child, query, orderByChild, onValue, equalTo } from "firebase/database";
 // ↑ realtime databaseが必要だったためインポートした {}の中に欲しい機能をかく
 //このコードではgetDatabase(realtime Database) と ref, get, childの機能をインポートしている
 
@@ -63,10 +73,16 @@ const firebaseConfig = {
 
 // Firebaseの初期化appの変数に自分のfirebaseのデータ？を入れてる
 const app = initializeApp(firebaseConfig);
+const database = getDatabase(app)
 
 // Realtime databaseの初期化　自分のデータベースの中身をdbRefに参照させてる
-const dbRef = ref(getDatabase(app));
+// const rootRef = ref(database);
 
+// SNSデータの参照
+// const SNSRef = child(rootRef, "tweet")
+
+// SNSデータを登校日で並び替えしたやつ
+// const SNS_date_Ref = query(SNSRef, orderByChild("date"));
 
 export default {
     name: "topPage",
@@ -77,16 +93,21 @@ export default {
     },
     methods: {
         getData() {  //firebaseのデータを持ってくる関数
-            get(child(dbRef, 'Instagram')).then((snapshot) => {
-                if (snapshot.exists()) {  //firebaseのデータを取ってこれたら....
-                    this.fire_data = snapshot.val()   //firebaseのDBの中身をfire_dataに代入
-                    console.log(snapshot.val());
-                } else {  //firebaseのデータが無ければ....
-                    console.log("No data available");
-                }
-            }).catch((error) => {
-                console.error(error);
-            });
+            // get(child(dbRef, 'Instagram')).then((snapshot) => {
+            //     if (snapshot.exists()) {  //firebaseのデータを取ってこれたら....
+            //         this.fire_data = snapshot.val()   //firebaseのDBの中身をfire_dataに代入
+            //         console.log(snapshot.val());
+            //     } else {  //firebaseのデータが無ければ....
+            //         console.log("No data available");
+            //     }
+            // }).catch((error) => {
+            //     console.error(error);
+            // });
+            onValue(query(ref(database, "SNS_data"), orderByChild("date")), (snapshot) => {
+                this.fire_data = snapshot.val();   //firebaseのDBの中身をfire_dataに代入
+                console.log(snapshot.val());
+                }    
+            );
         }
     },
     mounted() {
