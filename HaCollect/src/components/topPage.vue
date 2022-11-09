@@ -22,26 +22,28 @@
         </nav>
     </div>
     <div class="hello">
-        <div class="infomation" v-for="(item, key) in fire_data">
+        <div class="infomation" v-for="(item) in fire_data">
             <div class="item">
                 <!-- ツイッターの投稿の表示 -->
                 <template v-if="item.SNS_type == 'Twitter'">
-                    <template v-if="item.media != NULL">
-                        <template v-for="(url) in item.media">
-                            <img class="picture" v-bind:src=url.media_url>
+                    <template v-if="item.media != NULL">   <!-- メディア情報がある場合 -->
+                        <template v-for="(url) in item.media">  <!-- メディアキーの中にあるurlを取り出す -->
+                            <img class="picture" v-bind:src=url.media_url>  <!-- 画像のurl -->
                         </template>
                     </template>
-                    <p>{{ item.text }}</p>
+                    <a v-bind:href=item.link target="_blank" rel="noopener noreferrer">Twitterによる投稿</a>  <!-- リンク -->
+                    <p>{{ item.text }}</p>  <!-- テキスト -->
                 </template>
                 <!-- インスタグラムの投稿の表示 -->
                 <template v-if="item.SNS_type == 'Instagram'">
-                    <template v-if="item.media_type == 'VIDEO'">
-                        <iframe v-bind:src=item.media_url></iframe>
+                    <template v-if="item.media_type == 'VIDEO'">  <!-- メディアの種類が動画だったら... -->
+                        <iframe v-bind:src=item.media_url></iframe>  <!-- 動画のurl -->
                     </template>
-                    <template v-else>
-                        <img class="picture" v-bind:src=item.media_url>
+                    <template v-else>  <!-- メディアの種類が動画以外だったら... -->
+                        <img class="picture" v-bind:src=item.media_url>   <!-- 画像のurl -->
                     </template>
-                    <p>{{ item.text }}</p>
+                    <a v-bind:href=item.link target="_blank" rel="noopener noreferrer">Instagramによる投稿</a>  <!-- リンク -->
+                    <p>{{ item.text }}</p>  <!-- テキスト -->
                 </template>
             </div>
         </div>
@@ -54,9 +56,9 @@
 
 <script>
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, get, child, query, orderByChild, onValue, equalTo } from "firebase/database";
+import { getDatabase, ref, get, query, orderByChild, equalTo } from "firebase/database";
 // ↑ realtime databaseが必要だったためインポートした {}の中に欲しい機能をかく
-//このコードではgetDatabase(realtime Database) と ref, get, childの機能をインポートしている
+//このコードではgetDatabase(realtime Database) と ref, getなどの機能をインポートしている
 
 
 // Firebaseの設定  (.envファイル作ってそこに自分のFIrebaseのAPI key貼ってください)
@@ -67,22 +69,12 @@ const firebaseConfig = {
     storageBucket: import.meta.env.VITE_APP_FIREBASE_STORAGE_BUCKET,
     messagingSenderId: import.meta.env.VITE_APP_FIREBASE_MESSAGING_SENDER_ID,
     appId: import.meta.env.VITE_APP_FIREBASE_APP_ID,
-    //デフォルトはここまで
     databaseURL: import.meta.env.VITE_APP_FIREBASE__DATABASE_URL //DBのURLを追加
 };
 
-// Firebaseの初期化appの変数に自分のfirebaseのデータ？を入れてる
+// Firebaseの初期化（initializeAppで自分のfirebaseに接続してる？）
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app)
-
-// Realtime databaseの初期化　自分のデータベースの中身をdbRefに参照させてる
-// const rootRef = ref(database);
-
-// SNSデータの参照
-// const SNSRef = child(rootRef, "tweet")
-
-// SNSデータを登校日で並び替えしたやつ
-// const SNS_date_Ref = query(SNSRef, orderByChild("date"));
 
 export default {
     name: "topPage",
@@ -93,21 +85,29 @@ export default {
     },
     methods: {
         getData() {  //firebaseのデータを持ってくる関数
-            // get(child(dbRef, 'Instagram')).then((snapshot) => {
-            //     if (snapshot.exists()) {  //firebaseのデータを取ってこれたら....
-            //         this.fire_data = snapshot.val()   //firebaseのDBの中身をfire_dataに代入
-            //         console.log(snapshot.val());
-            //     } else {  //firebaseのデータが無ければ....
-            //         console.log("No data available");
-            //     }
-            // }).catch((error) => {
-            //     console.error(error);
-            // });
-            onValue(query(ref(database, "SNS_data"), orderByChild("date")), (snapshot) => {
-                this.fire_data = snapshot.val();   //firebaseのDBの中身をfire_dataに代入
-                console.log(snapshot.val());
-                }    
-            );
+            const que = query(ref(database, 'SNS_data/'), orderByChild('date'));  //SNS_dataを投稿日順に昇順でソートしたものを格納
+
+            get(que).then( (snapshot) => {   //snapshot->データ全体  childSnapshot->データ一つ
+
+                var data = [];
+                snapshot.forEach(childSnapshot => {
+                    // ↓あるテキストが含まれていたら格納する処理
+                    // let text = childSnapshot.val().text;
+                    // let result = text.indexOf('大三坂');
+                    // if(result == -1) {
+                    //     data.push(childSnapshot.val());
+                    // }
+
+                    // ↓変数dataにデータベースのデータ一つを格納する処理
+                    data.push(childSnapshot.val());
+                    
+                });
+                // console.log(data);  //確認用
+
+                this.fire_data = data;
+                console.log(this.fire_data);  //確認用
+                
+            });
         }
     },
     mounted() {
