@@ -9,13 +9,13 @@
                     <router-link to="/eat">ごはん</router-link>
                 </li>
                 <li>
-                    <router-link class="nowPage" to="/tour">観光</router-link>
+                    <router-link to="/tour">観光</router-link>
                 </li>
                 <li>
                     <router-link to="/event">イベント</router-link>
                 </li>
                 <li>
-                    <router-link to="/life">くらし</router-link>
+                    <router-link class="nowPage" to="/life">くらし</router-link>
                 </li>
                 <li>
                     <router-link to="/spa">温泉</router-link>
@@ -85,6 +85,7 @@
 
 
 
+
 <script>
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, get, query, orderByChild, equalTo } from "firebase/database";
@@ -108,7 +109,7 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app)
 
 export default {
-    name: "tourPage",
+    name: "lifePage",
     data() {
         return {
             fire_data: null,  //firebaseのデータベースの中身を入れる変数
@@ -387,3 +388,4 @@ export default {
     } */
 }
 </style>
+    

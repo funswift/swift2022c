@@ -3,19 +3,19 @@
         <div class="header-inner">
             <!-- ロゴ -->
             <router-link to="/">
-                <img class="header-logoImg" src="./assets/HaCollectLogoText.png">
+                <img class="header-logoImg" src="./assets/HaCollectLogo.png">
             </router-link>
 
             <!-- 検索バー -->
             <input type="text" v-model="input" v-on:keydown.enter="doSearch" class="searchArea" placeholder="キーワード検索">
         </div>
-        <div class="header-inner-smart">
+        <!-- <div class="header-inner-smart"> -->
             <!-- スマホキーボード用キャンセルボタン -->
-            <div class="cancel" v-on:click="deleteText">×</div>
+            <!-- <div class="cancel" v-on:click="deleteText">×</div> -->
             <!-- スマホサイズ用検索バー -->
-            <input type="text" v-model="input" v-on:keydown.enter="doSearch" class="searchAreaSmart"
-                placeholder="キーワード検索">
-        </div>
+            <!-- <input type="text" v-model="input" v-on:keydown.enter="doSearch" class="searchAreaSmart" -->
+                <!-- placeholder="キーワード検索"> -->
+        <!-- </div> -->
     </header>
 
     <!-- 現在のリンクごとに表示するコンポーネント -->
@@ -108,7 +108,7 @@ header {
 .header-logoImg {
     display: block;
     /* 扱いやすいようにblock要素にする */
-    width: 250px;
+    width: 60px;
     /* 横幅を任意の大きさに調整 */
     margin-top: 10px;
 }
@@ -123,15 +123,15 @@ header {
     /* 背景の位置          */
     background-size: auto 60%;
     /* 背景のサイズ        */
-    background-color: #fff;
+    background-color: #eeeeee;
     /* 背景色              */
     margin-top: 10px;
     /* サンプルは中央寄せ  */
-    padding-left: 10px;
-    /* 虫眼鏡分の左余白    */
+    margin-left: 10px;
+    /* アイコン間の左余白    */
     border-radius: 9999px;
     /* 角丸                */
-    color: #555;
+    color: #687684;
     /* 文字色              */
     font-size: 18px;
     /* フォントサイズ      */
@@ -141,6 +141,10 @@ header {
     /* 太字                */
     outline: 0;
     /* 入力薄枠を非表示    */
+    border: 1px solid #CCCCCC;
+    font-family: 'ABeeZee';
+    font-style: normal;
+    text-align: center;
 }
 
 /*テキスト入力欄にフォーカスか来たとき*/
@@ -198,26 +202,31 @@ header {
 
 
 /* タブレット・スマートフォン用スタイル */
-@media(max-width: 800px) {
-    .header-inner {
-        padding: 0 20px;
-    }
-
-    .header-logoImg {
+@media(max-width: 971px) {
+    /* .header-logoImg {
         width: 150px;
         margin-top: 10px;
-    }
+    } */
 
-    .searchArea {
-    width: 250px;
+    /* .searchArea {
+    width: 225px;
     height: 30px;
-    }
+    } */
 }
 
 
 /* スマートフォン用スタイル */
-@media(max-width: 450px) {
+@media(max-width: 647px) {
     .header-inner {
+        padding: 0 5px;
+    }
+
+    .searchArea {
+    width: 225px;
+    height: 30px;
+    }
+
+    /* .header-inner {
         display: block;
         height: 35px;
     }
@@ -228,7 +237,7 @@ header {
 
     .searchArea {
         display: none;
-    }
+    } */
 
     .header-inner-smart {
         display: flex;
