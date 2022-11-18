@@ -9,16 +9,10 @@
                     <router-link to="/eat">ごはん</router-link>
                 </li>
                 <li>
-                    <router-link to="/tour">観光</router-link>
-                </li>
-                <li>
-                    <router-link to="/event">イベント</router-link>
-                </li>
-                <li>
-                    <router-link to="/life">くらし</router-link>
-                </li>
-                <li>
                     <router-link to="/spa">温泉</router-link>
+                </li>
+                <li>
+                    <router-link to="/tour">観光</router-link>
                 </li>
                 <li>
                     <router-link to="/news">ニュース</router-link>
@@ -206,10 +200,6 @@ export default {
 .header-navList li a:hover {
     opacity: 0.8;
     /* ホバーしたときに少し薄くなるようにアニメーションを付ける */
-}
-
-.hello {
-    padding-top: 100px;
 }
 
 .infomation {
