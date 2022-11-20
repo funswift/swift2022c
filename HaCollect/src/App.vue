@@ -73,7 +73,7 @@ export default {
                 this.search_text = this.input
                 // this.$router.push('/searchResult') <-これはただ、リンク変えるだけ
                 this.$router.push({ name: 'searchResult', params: { search: this.input } }) //<- これはリンク先に検索したのを渡すことができる
-                this.$store.dispatch('searchData', this.input)
+                this.$store.dispatch('getSearchData', this.input)
                 console.log('app.vue')
                 this.input = '' //検索バーに検索した文字を残さないための処理
             } catch(e) {

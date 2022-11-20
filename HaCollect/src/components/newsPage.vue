@@ -132,13 +132,13 @@ export default {
     // },
     computed: {
         fire_data: function () {
-            return this.$store.state.fire_data
+            return this.$store.state.news_fire_data
         },
     },
     mounted() {
         // this.getData()     
         // this.setData()   
-        this.$store.dispatch('getData')  //トップページで使うデータをstoreから参照
+        this.$store.dispatch('getNewsData')  //トップページで使うデータをstoreから参照
     }
 };
 </script>
