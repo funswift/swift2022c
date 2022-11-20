@@ -1,5 +1,5 @@
 <template>
-    <div class="header-inner2">
+    <!-- <div class="header-inner2">
         <nav class="header-nav">
             <ul class="header-navList">
                 <li>
@@ -19,7 +19,7 @@
                 </li>
             </ul>
         </nav>
-    </div>
+    </div> -->
     <div class="hello">
         <div class="infomation" v-for="(item, index) in fire_data">
             <div class="item">
@@ -75,63 +75,70 @@
 
 
 <script>
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, get, query, orderByChild, equalTo } from "firebase/database";
-// ↑ realtime databaseが必要だったためインポートした {}の中に欲しい機能をかく
-//このコードではgetDatabase(realtime Database) と ref, getなどの機能をインポートしている
+// import { initializeApp } from "firebase/app";
+// import { getDatabase, ref, get, query, orderByChild, equalTo } from "firebase/database";
+// // ↑ realtime databaseが必要だったためインポートした {}の中に欲しい機能をかく
+// //このコードではgetDatabase(realtime Database) と ref, getなどの機能をインポートしている
 
 
-// Firebaseの設定  (.envファイル作ってそこに自分のFIrebaseのAPI key貼ってください)
-const firebaseConfig = {
-    apiKey: import.meta.env.VITE_APP_FIREBASE_APIKEY,
-    authDomain: import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_APP_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_APP_FIREBASE_APP_ID,
-    databaseURL: import.meta.env.VITE_APP_FIREBASE__DATABASE_URL //DBのURLを追加
-};
+// // Firebaseの設定  (.envファイル作ってそこに自分のFIrebaseのAPI key貼ってください)
+// const firebaseConfig = {
+//     apiKey: import.meta.env.VITE_APP_FIREBASE_APIKEY,
+//     authDomain: import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN,
+//     projectId: import.meta.env.VITE_APP_FIREBASE_PROJECT_ID,
+//     storageBucket: import.meta.env.VITE_APP_FIREBASE_STORAGE_BUCKET,
+//     messagingSenderId: import.meta.env.VITE_APP_FIREBASE_MESSAGING_SENDER_ID,
+//     appId: import.meta.env.VITE_APP_FIREBASE_APP_ID,
+//     databaseURL: import.meta.env.VITE_APP_FIREBASE__DATABASE_URL //DBのURLを追加
+// };
 
-// Firebaseの初期化（initializeAppで自分のfirebaseに接続してる？）
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app)
+// // Firebaseの初期化（initializeAppで自分のfirebaseに接続してる？）
+// const app = initializeApp(firebaseConfig);
+// const database = getDatabase(app)
 
 export default {
     name: "newsPage",
-    data() {
-        return {
-            fire_data: null,  //firebaseのデータベースの中身を入れる変数
-        }
-    },
-    methods: {
-        getData() {  //firebaseのデータを持ってくる関数
-            const que = query(ref(database, 'SNS_data/'), orderByChild('date'));  //SNS_dataを投稿日順に昇順でソートしたものを格納
+    // data() {
+    //     return {
+    //         fire_data: null,  //firebaseのデータベースの中身を入れる変数
+    //     }
+    // },
+    // methods: {
+    //     getData() {  //firebaseのデータを持ってくる関数
+    //         const que = query(ref(database, 'SNS_data/'), orderByChild('date'));  //SNS_dataを投稿日順に昇順でソートしたものを格納
 
-            get(que).then((snapshot) => {   //snapshot->データ全体  childSnapshot->データ一つ
+    //         get(que).then((snapshot) => {   //snapshot->データ全体  childSnapshot->データ一つ
 
-                var data = [];
-                snapshot.forEach(childSnapshot => {
-                    // ↓あるテキストが含まれていたら格納する処理
-                    // let text = childSnapshot.val().text;
-                    // let result = text.indexOf('大三坂');
-                    // if(result == -1) {
-                    //     data.push(childSnapshot.val());
-                    // }
+    //             var data = [];
+    //             snapshot.forEach(childSnapshot => {
+    //                 // ↓あるテキストが含まれていたら格納する処理
+    //                 // let text = childSnapshot.val().text;
+    //                 // let result = text.indexOf('大三坂');
+    //                 // if(result == -1) {
+    //                 //     data.push(childSnapshot.val());
+    //                 // }
 
-                    // ↓変数dataにデータベースのデータ一つを格納する処理
-                    data.push(childSnapshot.val());
+    //                 // ↓変数dataにデータベースのデータ一つを格納する処理
+    //                 data.push(childSnapshot.val());
 
-                });
-                // console.log(data);  //確認用
+    //             });
+    //             // console.log(data);  //確認用
 
-                this.fire_data = data;
-                console.log(this.fire_data);  //確認用
+    //             this.fire_data = data;
+    //             console.log(this.fire_data);  //確認用
 
-            });
-        }
+    //         });
+    //     }
+    // },
+    computed: {
+        fire_data: function () {
+            return this.$store.state.fire_data
+        },
     },
     mounted() {
-        this.getData()
+        // this.getData()     
+        // this.setData()   
+        this.$store.dispatch('getData')  //トップページで使うデータをstoreから参照
     }
 };
 </script>
@@ -139,69 +146,6 @@ export default {
 
 
 <style scoped>
-.header-inner2 {
-    background-color: #ffffee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin: 0 auto;
-    position: fixed;
-    height: 60px;
-    z-index: 1;
-}
-
-.header-nav {
-    padding-left: 36px;
-    overflow-x: auto;
-    white-space: nowrap;
-}
-
-.header-navList {
-    display: flex;
-    align-items: center;
-    margin: 0 17px;
-}
-
-.header-navList li {
-    margin: 0 3px
-        /* ナビゲーションに左右のスペースを付ける */
-}
-
-.header-navList li a {
-    display: block;
-    /* 扱いやすいようにblock要素にする */
-    font-size: 20px;
-    /* 任意のフォントサイズにする */
-    font-weight: bold;
-    /* 太字にする */
-    color: #000;
-    text-decoration-line: none;
-    padding: 5px 15px;
-    background: #FFFFFF;
-    border: 1px solid #CCCCCC;
-    border-radius: 5px;
-    font-family: 'Inter';
-    font-style: normal;
-    width: 82px;
-}
-
-.header-navList .nowPage {
-    color: #4C79EB;
-    background: rgba(76, 197, 235, 0.25);
-    border: 1px solid rgba(76, 197, 235, 0.25);
-}
-
-.header-navList li .searchWord {
-    background: none;
-    border: none;
-}
-
-.header-navList li a:hover {
-    opacity: 0.8;
-    /* ホバーしたときに少し薄くなるようにアニメーションを付ける */
-}
-
 .infomation {
     display: inline-block;
     /* width: 30%; */
@@ -330,9 +274,6 @@ export default {
 }
 
 @media(max-width: 971px) {
-    .header-nav {
-        padding-left: 0;
-    }
 
     /* .item {
         謎

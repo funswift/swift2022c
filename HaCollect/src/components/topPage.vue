@@ -1,5 +1,5 @@
 <template>
-    <div class="header-inner2">
+    <!-- <div class="header-inner2">
         <nav class="header-nav">
             <ul class="header-navList">
                 <li>
@@ -19,7 +19,7 @@
                 </li>
             </ul>
         </nav>
-    </div>
+    </div> -->
     <div class="hello">
         <div class="infomation" v-for="(item, index) in fire_data">
             <div class="item">
@@ -152,69 +152,6 @@ export default {
 
 
 <style scoped>
-.header-inner2 {
-    background-color: #ffffee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin: 0 auto;
-    position: fixed;
-    height: 60px;
-    z-index: 1;
-}
-
-.header-nav {
-    padding-left: 36px;
-    overflow-x: auto;
-    white-space: nowrap;
-}
-
-.header-navList {
-    display: flex;
-    align-items: center;
-    margin: 0 17px;
-}
-
-.header-navList li {
-    margin: 0 3px
-        /* ナビゲーションに左右のスペースを付ける */
-}
-
-.header-navList li a {
-    display: block;
-    /* 扱いやすいようにblock要素にする */
-    font-size: 20px;
-    /* 任意のフォントサイズにする */
-    font-weight: bold;
-    /* 太字にする */
-    color: #000;
-    text-decoration-line: none;
-    padding: 5px 15px;
-    background: #FFFFFF;
-    border: 1px solid #CCCCCC;
-    border-radius: 5px;
-    font-family: 'Inter';
-    font-style: normal;
-    width: 82px;
-}
-
-.header-navList .nowPage {
-    color: #4C79EB;
-    background: rgba(76, 197, 235, 0.25);
-    border: 1px solid rgba(76, 197, 235, 0.25);
-}
-
-.header-navList li .searchWord {
-    background: none;
-    border: none;
-}
-
-.header-navList li a:hover {
-    opacity: 0.8;
-    /* ホバーしたときに少し薄くなるようにアニメーションを付ける */
-}
-
 .infomation {
     display: inline-block;
     /* width: 30%; */
@@ -343,9 +280,6 @@ export default {
 }
 
 @media(max-width: 971px) {
-    .header-nav {
-        padding-left: 0;
-    }
 
     /* .item {
         謎

@@ -16,6 +16,28 @@
             <!-- <input type="text" v-model="input" v-on:keydown.enter="doSearch" class="searchAreaSmart" -->
                 <!-- placeholder="キーワード検索"> -->
         <!-- </div> -->
+
+        <div class="header-inner2">
+            <nav class="header-nav">
+                <ul class="header-navList">
+                    <li>
+                        <router-link class="nowPage" to="/">ホーム</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/eat">ごはん</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/spa">温泉</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/tour">観光</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/news">ニュース</router-link>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <!-- 現在のリンクごとに表示するコンポーネント -->
@@ -47,22 +69,17 @@ export default {
     },
     methods: {
         doSearch() {
-            // try{
-            //     this.search_text = this.input
-            //     // this.$router.push('/searchResult') <-これはただ、リンク変えるだけ
-            //     this.$router.push({ name: 'searchResult', params: { search: this.input } }) //<- これはリンク先に検索したのを渡すことができる
-            //     this.$store.dispatch('searchData', this.input)
-            //     console.log('aaa')
-            //     this.input = '' //検索バーに検索した文字を残さないための処理
-            // } catch(e) {
-            //     //エラーは無視（inputに何も入力してない時怒られるから書いた）
-            // }
-            this.search_text = this.input
-            // this.$router.push('/searchResult') <-これはただ、リンク変えるだけ
-            this.$router.push({ name: 'searchResult', params: { search: this.input } }) //<- これはリンク先に検索したのを渡すことができる
-            this.$store.dispatch('searchData', this.input)
-            console.log('app.vue')
-            this.input = '' //検索バーに検索した文字を残さないための処理
+            try{
+                this.search_text = this.input
+                // this.$router.push('/searchResult') <-これはただ、リンク変えるだけ
+                this.$router.push({ name: 'searchResult', params: { search: this.input } }) //<- これはリンク先に検索したのを渡すことができる
+                this.$store.dispatch('searchData', this.input)
+                console.log('app.vue')
+                this.input = '' //検索バーに検索した文字を残さないための処理
+            } catch(e) {
+                //エラーは無視（inputに何も入力してない時怒られるから書いた）
+            }
+
         },
         deleteText() {
             this.search_text = this.input
@@ -212,9 +229,76 @@ header {
     opacity: 0;
 }
 
+.header-inner2 {
+    background-color: #ffffee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    position: fixed;
+    height: 60px;
+    z-index: 1;
+}
+
+.header-nav {
+    padding-left: 36px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.header-navList {
+    display: flex;
+    align-items: center;
+    margin: 0 17px;
+}
+
+.header-navList li {
+    margin: 0 3px
+        /* ナビゲーションに左右のスペースを付ける */
+}
+
+.header-navList li a {
+    display: block;
+    /* 扱いやすいようにblock要素にする */
+    font-size: 20px;
+    /* 任意のフォントサイズにする */
+    font-weight: bold;
+    /* 太字にする */
+    color: #000;
+    text-decoration-line: none;
+    padding: 5px 15px;
+    background: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    font-family: 'Inter';
+    font-style: normal;
+    width: 82px;
+}
+
+.header-navList .nowPage {
+    color: #4C79EB;
+    background: rgba(76, 197, 235, 0.25);
+    border: 1px solid rgba(76, 197, 235, 0.25);
+}
+
+.header-navList li .searchWord {
+    background: none;
+    border: none;
+}
+
+.header-navList li a:hover {
+    opacity: 0.8;
+    /* ホバーしたときに少し薄くなるようにアニメーションを付ける */
+}
+
 
 /* タブレット・スマートフォン用スタイル */
 @media(max-width: 971px) {
+    .header-nav {
+        padding-left: 0;
+    }
+
     /* .header-logoImg {
         width: 150px;
         margin-top: 10px;
