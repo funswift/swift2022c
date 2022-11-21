@@ -91,51 +91,11 @@ export default {
     props: {
         search: String
     },
-    // data() {
-    //     return {
-    //         fire_data: null,  //firebaseのデータベースの中身を入れる変数
-    //     }
-    // },
-    // methods: {
-    //     getData() {  //firebaseのデータを持ってくる関数
-    //         const que = query(ref(database, 'SNS_data/'), orderByChild('date'));  //SNS_dataを投稿日順に昇順でソートしたものを格納
-
-    //         get(que).then((snapshot) => {   //snapshot->データ全体  childSnapshot->データ一つ
-
-    //             var data = [];
-    //             snapshot.forEach(childSnapshot => {
-    //                 // ↓あるテキストが含まれていたら格納する処理
-    //                 // let text = childSnapshot.val().text;
-    //                 // let result = text.indexOf('大三坂');
-    //                 // if(result == -1) {
-    //                 //     data.push(childSnapshot.val());
-    //                 // }
-
-    //                 // ↓変数dataにデータベースのデータ一つを格納する処理
-    //                 data.push(childSnapshot.val());
-
-    //             });
-    //             // console.log(data);  //確認用
-
-    //             this.fire_data = data;
-    //             console.log(this.fire_data);  //確認用
-
-    //         });
-    //     }
-    // },
     computed: {
         fire_data: function () {
             return this.$store.state.search_fire_data
         },
     },
-    // mounted() {
-    //     // this.getData()     
-    //     // this.setData()   
-    //     this.$store.dispatch('getData')  //トップページで使うデータをstoreから参照
-    // },
-    // updated() {
-    //     this.$store.dispatch('searchData', this.search)  //トップページで使うデータをstoreから参照
-    // }
 };
 </script>
 

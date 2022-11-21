@@ -73,10 +73,10 @@ export default {
                 this.search_text = this.input
                 // this.$router.push('/searchResult') <-これはただ、リンク変えるだけ
                 this.$router.push({ name: 'searchResult', params: { search: this.input } }) //<- これはリンク先に検索したのを渡すことができる
-                this.$store.dispatch('getSearchData', this.input)
-                console.log('app.vue')
+                this.$store.dispatch('getSearchData', this.input)    //検索結果ページで使うデータ(search_fire_data)をstoreから参照 -> searchResult.vueのcomputedのfire_dataに反映
                 this.input = '' //検索バーに検索した文字を残さないための処理
             } catch(e) {
+                console.log('error')
                 //エラーは無視（inputに何も入力してない時怒られるから書いた）
             }
 
