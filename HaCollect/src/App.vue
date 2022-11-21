@@ -7,13 +7,13 @@
             </router-link>
 
             <!-- 検索バー -->
-            <input type="text" v-model="input" v-on:keydown.enter="doSearch" class="searchArea" placeholder="キーワード検索">
+            <input type="text" v-model="search_text" v-on:keydown.enter="doSearch" class="searchArea" placeholder="キーワード検索">
         </div>
         <!-- <div class="header-inner-smart"> -->
             <!-- スマホキーボード用キャンセルボタン -->
             <!-- <div class="cancel" v-on:click="deleteText">×</div> -->
             <!-- スマホサイズ用検索バー -->
-            <!-- <input type="text" v-model="input" v-on:keydown.enter="doSearch" class="searchAreaSmart" -->
+            <!-- <input type="text" v-model="search_text" v-on:keydown.enter="doSearch" class="searchAreaSmart" -->
                 <!-- placeholder="キーワード検索"> -->
         <!-- </div> -->
 
@@ -58,8 +58,7 @@
 export default {
     data() {
         return {
-            input: '',    //検索バーに打ち込んだのをリアルタイムに格納
-            search_text: '',  //実際にsearchResultコンポーネントに渡すもの
+            search_text: '',    //検索バーに打ち込んだのをリアルタイムに格納
             buttonActive: false,//ボタンを非表示にしておく
             scroll: 0
         }
@@ -70,20 +69,18 @@ export default {
     methods: {
         doSearch() {
             try{
-                this.search_text = this.input
                 // this.$router.push('/searchResult') <-これはただ、リンク変えるだけ
-                this.$router.push({ name: 'searchResult', params: { search: this.input } }) //<- これはリンク先に検索したのを渡すことができる
-                this.$store.dispatch('getSearchData', this.input)    //検索結果ページで使うデータ(search_fire_data)をstoreから参照 -> searchResult.vueのcomputedのfire_dataに反映
-                this.input = '' //検索バーに検索した文字を残さないための処理
+                this.$router.push({ name: 'searchResult', params: { search: this.search_text } }) //<- これはリンク先に検索したのを渡すことができる
+                this.$store.dispatch('getSearchData', this.search_text)    //検索結果ページで使うデータ(search_fire_data)をstoreから参照 -> searchResult.vueのcomputedのfire_dataに反映
+                this.search_text = '' //検索バーに検索した文字を残さないための処理
             } catch(e) {
                 console.log('error')
-                //エラーは無視（inputに何も入力してない時怒られるから書いた）
+                //エラーは無視（search_textに何も入力してない時怒られるから書いた）
             }
 
         },
         deleteText() {
-            this.search_text = this.input
-            this.input = '' //検索バーに検索した文字を残さないための処理
+            this.search_text = '' //検索バーに検索した文字を残さないための処理
         }, 
         // ページのトップに移動する関数
         scrollTop() {

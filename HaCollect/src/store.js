@@ -79,9 +79,10 @@ export const store = createStore({
             // console.log(context.state.top_fire_data) // 確認用
             // fdataにstateに書かれてあるtop_fire_dataを参照する
             //(参照する時点でtop_fire_dataにrealtime databaseのデータが入ってないといけない →getTopDataが前に実行されるべき -> topPage.vueで実行してます）
-            var fdata = context.state.top_fire_data            
+            var fdata = context.state.top_fire_data       
+            // console.log(fdata);  //確認用
         
-            for (let i = 1; fdata[i] != null; i++) {
+            for (let i = 0; fdata[i] != null; i++) {
                 let text = fdata[i].text;
                 //includes関数によって、resultには大文字と小文字は区別し、値が見つからない場合はfalseを返します。
                 let result = text.includes(search);   //投稿テキストにsearch変数の値が含まれているかどうかをチェック
@@ -99,7 +100,7 @@ export const store = createStore({
             const category_word_list = /ラーメン|ごはん|飯/;       //カテゴリページに表示する際に、変数の内容が含まれているかどうかで判断する
             var data = [];
             var fdata = context.state.top_fire_data
-            for (let i = 1; fdata[i] != null; i++) {
+            for (let i = 0; fdata[i] != null; i++) {
                 let text = fdata[i].text;
                 //testもincludesと役割はほぼ同じ（正規表現が使えるかどうかの違い）
                 let result = category_word_list.test(text);   //投稿テキストにcategory_word_listの値が一つでも含まれているかどうかをチェック
@@ -117,7 +118,7 @@ export const store = createStore({
             const category_word_list = /ニュース|事件/;
             var data = [];
             var fdata = context.state.top_fire_data
-            for (let i = 1; fdata[i] != null; i++) {
+            for (let i = 0; fdata[i] != null; i++) {
                 let text = fdata[i].text;
                 let result = category_word_list.test(text);
                 // console.log(result)  //確認用
@@ -134,7 +135,7 @@ export const store = createStore({
             const category_word_list = /温泉|風呂/;
             var data = [];
             var fdata = context.state.top_fire_data
-            for (let i = 1; fdata[i] != null; i++) {
+            for (let i = 0; fdata[i] != null; i++) {
                 let text = fdata[i].text;
                 let result = category_word_list.test(text);
                 // console.log(result)  //確認用
@@ -151,7 +152,7 @@ export const store = createStore({
             const category_word_list = /スポット|観光|祭/;
             var data = [];
             var fdata = context.state.top_fire_data
-            for (let i = 1; fdata[i] != null; i++) {
+            for (let i = 0; fdata[i] != null; i++) {
                 let text = fdata[i].text;
                 let result = category_word_list.test(text);
                 // console.log(result)  //確認用

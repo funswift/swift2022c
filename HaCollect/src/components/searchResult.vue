@@ -1,25 +1,4 @@
 <template>
-    <!-- <div class="header-inner2">
-        <nav class="header-nav">
-            <ul class="header-navList">
-                <li>
-                    <router-link to="/">ホーム</router-link>
-                </li>
-                <li>
-                    <router-link to="/eat">ごはん</router-link>
-                </li>
-                <li>
-                    <router-link to="/spa">温泉</router-link>
-                </li>
-                <li>
-                    <router-link to="/tour">観光</router-link>
-                </li>
-                <li>
-                    <router-link to="/news">ニュース</router-link>
-                </li>
-            </ul>
-        </nav>
-    </div> -->
     <div class="header-inner3">
         <nav class="header-nav">
             <ul class="header-navList">

@@ -1,25 +1,4 @@
 <template>
-    <!-- <div class="header-inner2">
-        <nav class="header-nav">
-            <ul class="header-navList">
-                <li>
-                    <router-link to="/">ホーム</router-link>
-                </li>
-                <li>
-                    <router-link to="/eat">ごはん</router-link>
-                </li>
-                <li>
-                    <router-link class="nowPage" to="/spa">温泉</router-link>
-                </li>
-                <li>
-                    <router-link to="/tour">観光</router-link>
-                </li>
-                <li>
-                    <router-link to="/news">ニュース</router-link>
-                </li>
-            </ul>
-        </nav>
-    </div> -->
     <div class="hello">
         <div class="infomation" v-for="(item, index) in fire_data">
             <div class="item">
