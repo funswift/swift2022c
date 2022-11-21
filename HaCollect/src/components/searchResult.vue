@@ -1,33 +1,6 @@
 <template>
-    <div class="header-inner2">
-        <nav class="header-nav">
-            <ul class="header-navList">
-                <li>
-                    <router-link to="/">ホーム</router-link>
-                </li>
-                <li>
-                    <router-link to="/eat">ごはん</router-link>
-                </li>
-                <li>
-                    <router-link to="/spa">温泉</router-link>
-                </li>
-                <li>
-                    <router-link to="/tour">観光</router-link>
-                </li>
-                <li>
-                    <router-link to="/news">ニュース</router-link>
-                </li>
-            </ul>
-        </nav>
-    </div>
     <div class="header-inner3">
-        <nav class="header-nav">
-            <ul class="header-navList">
-                <li>
-                    <a class="searchWord"><span style="color: #4c9eeb;">{{ search }}</span>の検索結果</a>
-                </li>
-            </ul>
-        </nav>
+        <p class="searchWord">{{ search }}の検索結果</p>
     </div>
 
     <div class="hello">
@@ -107,7 +80,10 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app)
 
 export default {
-    name: "topPage",
+    name: "searchResult",
+    props: {
+        search: String
+    },
     data() {
         return {
             fire_data: null,  //firebaseのデータベースの中身を入れる変数
@@ -144,23 +120,12 @@ export default {
         this.getData()
     }
 };
+
 </script>
 
 
 
 <style scoped>
-.header-inner2 {
-    background-color: #ffffee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin: 0 auto;
-    position: fixed;
-    height: 60px;
-    z-index: 1;
-}
-
 .header-inner3 {
     background-color: #eeeeee;
     display: flex;
@@ -171,58 +136,20 @@ export default {
     position: fixed;
     height: 30px;
     margin-top: 60px;
+    z-index: 1;
 }
 
-.header-nav {
-    padding-left: 36px;
-    overflow-x: auto;
-    white-space: nowrap;
-}
-
-.header-navList {
-    display: flex;
-    align-items: center;
-    margin: 0 17px;
-}
-
-.header-navList li {
-    margin: 0 3px
-        /* ナビゲーションに左右のスペースを付ける */
-}
-
-.header-navList li a {
-    display: block;
-    /* 扱いやすいようにblock要素にする */
+.header-inner3 p {
     font-size: 20px;
     /* 任意のフォントサイズにする */
     font-weight: bold;
     /* 太字にする */
     color: #000;
-    text-decoration-line: none;
-    padding: 5px 15px;
-    background: #FFFFFF;
-    border: 1px solid #CCCCCC;
-    border-radius: 5px;
-    font-family: 'Inter';
-    font-style: normal;
-    width: 82px;
+    padding: 0 36px;
 }
 
-.header-navList .nowPage {
-    color: #4C79EB;
-    background: rgba(76, 197, 235, 0.25);
-    border: 1px solid rgba(76, 197, 235, 0.25);
-}
-
-.header-navList li .searchWord {
-    background: none;
-    border: none;
-    width: auto;
-}
-
-.header-navList li a:hover {
-    opacity: 0.8;
-    /* ホバーしたときに少し薄くなるようにアニメーションを付ける */
+.hello {
+    padding-top: 110px;
 }
 
 .infomation {
@@ -234,11 +161,6 @@ export default {
     display: flex;
     flex-wrap: wrap;
 }
-
-.hello {
-    padding-top: 80px;
-}
-
 
 .card_All {
     position: relative;
@@ -356,27 +278,12 @@ export default {
     .header-nav {
         padding-left: 0;
     }
-
-    /* .item {
-        謎
-        
-    } */
-
-}
-
-@media(max-width: 647px) {
-    /* .item {
-        謎
-    } */
 }
 
 @media(min-width: 750px) {
-    .card_All{
+    .card_All {
         border-left: 1px solid #aaaaaa;
         border-right: 1px solid #aaaaaa;
     }
-    /* .item {
-        謎
-    } */
 }
 </style>
