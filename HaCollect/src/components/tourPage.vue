@@ -6,7 +6,7 @@
                 <template v-if="item.SNS_type == 'Twitter'">
                     <div class="card_All">
                         <img class="card_Head" src="../assets/SNScolor_Twitter.png" />
-                        <template v-if="item.media != NULL">
+                        <template v-if="item.media != null">
                             <!-- メディア情報がある場合 -->
                             <template v-for="(url) in item.media">
                                 <!-- メディアキーの中にあるurlを取り出す -->
@@ -61,9 +61,6 @@ export default {
             return this.$store.state.tour_fire_data
         },
     },
-    mounted() {
-        this.$store.dispatch('getTourData')  //観光カテゴリのページで使うデータ(tour_fire_data)をstoreから参照 -> computedのfire_dataに反映
-    }
 };
 </script>
 

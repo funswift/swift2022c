@@ -63,10 +63,17 @@ export default {
             scroll: 0
         }
     },
-    mounted() {
-        window.addEventListener('scroll', this.scrollWindow)   //スクロールすると関数が察知してくれる
-    },
     methods: {
+        InitializeData() {
+            this.$store.dispatch('InitializeFireData').then( () => {
+                // this.$store.dispatch('getCategoryData')  
+                this.$store.dispatch('getTopData')
+                this.$store.dispatch('getFoodData')
+                this.$store.dispatch('getNewsData')
+                this.$store.dispatch('getSpaData')
+                this.$store.dispatch('getTourData')
+            }) 
+        },
         doSearch() {
             try{
                 // this.$router.push('/searchResult') <-これはただ、リンク変えるだけ
@@ -99,6 +106,10 @@ export default {
                 this.buttonActive = false  //ボタン見えない
             }
         }
+    },
+    mounted() {
+        window.addEventListener('scroll', this.scrollWindow)   //スクロールすると関数が察知してくれる
+        this.InitializeData();
     },
 }
 </script>

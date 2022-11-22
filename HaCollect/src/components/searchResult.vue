@@ -16,7 +16,7 @@
                 <template v-if="item.SNS_type == 'Twitter'">
                     <div class="card_All">
                         <img class="card_Head" src="../assets/SNScolor_Twitter.png" />
-                        <template v-if="item.media != NULL">
+                        <template v-if="item.media != null">
                             <!-- メディア情報がある場合 -->
                             <template v-for="(url) in item.media">
                                 <!-- メディアキーの中にあるurlを取り出す -->
