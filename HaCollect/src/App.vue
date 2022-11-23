@@ -7,15 +7,37 @@
             </router-link>
 
             <!-- 検索バー -->
-            <input type="text" v-model="input" v-on:keydown.enter="doSearch" class="searchArea" placeholder="キーワード検索">
+            <input type="text" v-model="search_text" v-on:keydown.enter="doSearch" class="searchArea" placeholder="キーワード検索">
         </div>
         <!-- <div class="header-inner-smart"> -->
             <!-- スマホキーボード用キャンセルボタン -->
             <!-- <div class="cancel" v-on:click="deleteText">×</div> -->
             <!-- スマホサイズ用検索バー -->
-            <!-- <input type="text" v-model="input" v-on:keydown.enter="doSearch" class="searchAreaSmart" -->
+            <!-- <input type="text" v-model="search_text" v-on:keydown.enter="doSearch" class="searchAreaSmart" -->
                 <!-- placeholder="キーワード検索"> -->
         <!-- </div> -->
+
+        <div class="header-inner2">
+            <nav class="header-nav">
+                <ul class="header-navList">
+                    <li>
+                        <router-link class="nowPage" to="/">ホーム</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/eat">ごはん</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/spa">温泉</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/tour">観光</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/news">ニュース</router-link>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <!-- 現在のリンクごとに表示するコンポーネント -->
@@ -36,25 +58,36 @@
 export default {
     data() {
         return {
-            input: '',    //検索バーに打ち込んだのをリアルタイムに格納
-            search_text: '',  //実際にsearchResultコンポーネントに渡すもの
+            search_text: '',    //検索バーに打ち込んだのをリアルタイムに格納
             buttonActive: false,//ボタンを非表示にしておく
             scroll: 0
         }
     },
-    mounted() {
-        window.addEventListener('scroll', this.scrollWindow)   //スクロールすると関数が察知してくれる
-    },
     methods: {
+        InitializeData() {
+            this.$store.dispatch('InitializeFireData').then( () => {
+                // this.$store.dispatch('getCategoryData')  
+                this.$store.dispatch('getTopData')
+                this.$store.dispatch('getFoodData')
+                this.$store.dispatch('getNewsData')
+                this.$store.dispatch('getSpaData')
+                this.$store.dispatch('getTourData')
+            }) 
+        },
         doSearch() {
-            this.search_text = this.input
-            // this.$router.push('/searchResult') <-これはただ、リンク変えるだけ
-            this.$router.push({ name: 'searchResult', params: { search: this.input } }) //<- これはリンク先に検索したのを渡すことができる
-            this.input = '' //検索バーに検索した文字を残さないための処理
+            try{
+                // this.$router.push('/searchResult') <-これはただ、リンク変えるだけ
+                this.$router.push({ name: 'searchResult', params: { search: this.search_text } }) //<- これはリンク先に検索したのを渡すことができる
+                this.$store.dispatch('getSearchData', this.search_text)    //検索結果ページで使うデータ(search_fire_data)をstoreから参照 -> searchResult.vueのcomputedのfire_dataに反映
+                this.search_text = '' //検索バーに検索した文字を残さないための処理
+            } catch(e) {
+                console.log('error')
+                //エラーは無視（search_textに何も入力してない時怒られるから書いた）
+            }
+
         },
         deleteText() {
-            this.search_text = this.input
-            this.input = '' //検索バーに検索した文字を残さないための処理
+            this.search_text = '' //検索バーに検索した文字を残さないための処理
         }, 
         // ページのトップに移動する関数
         scrollTop() {
@@ -73,6 +106,10 @@ export default {
                 this.buttonActive = false  //ボタン見えない
             }
         }
+    },
+    mounted() {
+        window.addEventListener('scroll', this.scrollWindow)   //スクロールすると関数が察知してくれる
+        this.InitializeData();
     },
 }
 </script>
@@ -200,9 +237,76 @@ header {
     opacity: 0;
 }
 
+.header-inner2 {
+    background-color: #ffffee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    position: fixed;
+    height: 60px;
+    z-index: 1;
+}
+
+.header-nav {
+    padding-left: 36px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.header-navList {
+    display: flex;
+    align-items: center;
+    margin: 0 17px;
+}
+
+.header-navList li {
+    margin: 0 3px
+        /* ナビゲーションに左右のスペースを付ける */
+}
+
+.header-navList li a {
+    display: block;
+    /* 扱いやすいようにblock要素にする */
+    font-size: 20px;
+    /* 任意のフォントサイズにする */
+    font-weight: bold;
+    /* 太字にする */
+    color: #000;
+    text-decoration-line: none;
+    padding: 5px 15px;
+    background: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    font-family: 'Inter';
+    font-style: normal;
+    width: 82px;
+}
+
+.header-navList .nowPage {
+    color: #4C79EB;
+    background: rgba(76, 197, 235, 0.25);
+    border: 1px solid rgba(76, 197, 235, 0.25);
+}
+
+.header-navList li .searchWord {
+    background: none;
+    border: none;
+}
+
+.header-navList li a:hover {
+    opacity: 0.8;
+    /* ホバーしたときに少し薄くなるようにアニメーションを付ける */
+}
+
 
 /* タブレット・スマートフォン用スタイル */
 @media(max-width: 971px) {
+    .header-nav {
+        padding-left: 0;
+    }
+
     /* .header-logoImg {
         width: 150px;
         margin-top: 10px;
