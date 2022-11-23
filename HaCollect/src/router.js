@@ -11,7 +11,12 @@ export const router = createRouter({
     routes: [
         {
             path: '/',
-            name: 'top',
+            name: 'root',
+            redirect: '/top'
+        },
+        {
+            path:'/top',
+            name:'top',
             component: topPage,
         },
         {

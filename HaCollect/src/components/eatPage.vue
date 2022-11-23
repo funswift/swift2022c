@@ -6,7 +6,7 @@
                 <template v-if="item.SNS_type == 'Twitter'">
                     <div class="card_All">
                         <img class="card_Head" src="../assets/SNScolor_Twitter.png" />
-                        <template v-if="item.media != NULL">
+                        <template v-if="item.media != null">
                             <!-- メディア情報がある場合 -->
                             <template v-for="(url) in item.media">
                                 <!-- メディアキーの中にあるurlを取り出す -->
@@ -54,64 +54,13 @@
 
 
 <script>
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, get, query, orderByChild, equalTo } from "firebase/database";
-// ↑ realtime databaseが必要だったためインポートした {}の中に欲しい機能をかく
-//このコードではgetDatabase(realtime Database) と ref, getなどの機能をインポートしている
-
-
-// Firebaseの設定  (.envファイル作ってそこに自分のFIrebaseのAPI key貼ってください)
-const firebaseConfig = {
-    apiKey: import.meta.env.VITE_APP_FIREBASE_APIKEY,
-    authDomain: import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_APP_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_APP_FIREBASE_APP_ID,
-    databaseURL: import.meta.env.VITE_APP_FIREBASE__DATABASE_URL //DBのURLを追加
-};
-
-// Firebaseの初期化（initializeAppで自分のfirebaseに接続してる？）
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app)
-
 export default {
     name: "eatPage",
-    data() {
-        return {
-            fire_data: null,  //firebaseのデータベースの中身を入れる変数
-        }
+    computed: {
+        fire_data: function () {
+            return this.$store.state.food_fire_data
+        },
     },
-    methods: {
-        getData() {  //firebaseのデータを持ってくる関数
-            const que = query(ref(database, 'SNS_data/'), orderByChild('date'));  //SNS_dataを投稿日順に昇順でソートしたものを格納
-
-            get(que).then((snapshot) => {   //snapshot->データ全体  childSnapshot->データ一つ
-
-                var data = [];
-                snapshot.forEach(childSnapshot => {
-                    // ↓あるテキストが含まれていたら格納する処理
-                    // let text = childSnapshot.val().text;
-                    // let result = text.indexOf('大三坂');
-                    // if(result == -1) {
-                    //     data.push(childSnapshot.val());
-                    // }
-
-                    // ↓変数dataにデータベースのデータ一つを格納する処理
-                    data.push(childSnapshot.val());
-
-                });
-                // console.log(data);  //確認用
-
-                this.fire_data = data;
-                console.log(this.fire_data);  //確認用
-
-            });
-        }
-    },
-    mounted() {
-        this.getData()
-    }
 };
 </script>
 
@@ -242,12 +191,6 @@ export default {
     height: 50px;
     margin-right: 25px;
     opacity: 1;
-}
-
-@media(max-width: 971px) {
-    .header-nav {
-        padding-left: 0;
-    }
 }
 
 @media(min-width: 750px) {
