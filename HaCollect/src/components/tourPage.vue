@@ -1,52 +1,61 @@
 <template>
     <div class="hello">
         <div class="infomation" v-for="(item, index) in fire_data">
-            <div class="item">
-                <!-- ツイッターの投稿の表示 -->
-                <template v-if="item.SNS_type == 'Twitter'">
-                    <div class="card_All">
-                        <img class="card_Head" src="../assets/SNScolor_Twitter.png" />
-                        <template v-if="item.media != null">
-                            <!-- メディア情報がある場合 -->
-                            <template v-for="(url) in item.media">
-                                <!-- メディアキーの中にあるurlを取り出す -->
-                                <img class="card_Image" v-bind:src=url.media_url> <!-- 画像のurl -->
+            <template v-if="index < max">
+                <!-- <p>{{index}}</p>   確認用 -->
+                <div class="item">
+                    <!-- ツイッターの投稿の表示 -->
+                    <template v-if="item.SNS_type == 'Twitter'">
+                        <div class="card_All">
+                            <img class="card_Head" src="../assets/SNScolor_Twitter.png" />
+                            <template v-if="item.media != null">
+                                <!-- メディア情報がある場合 -->
+                                <template v-for="(url) in item.media">
+                                    <!-- メディアキーの中にあるurlを取り出す -->
+                                    <img class="card_Image" v-bind:src=url.media_url> <!-- 画像のurl -->
+                                </template>
                             </template>
-                        </template>
-                        <div class="ac-box">
-                            <input :id="[index]" name="accordion-1" type="checkbox" />
-                            <p class="card_Text">{{ item.text }}</p> <!-- テキスト(最初の文のみプレビュー) -->
-                            <a v-bind:href=item.link target="_blank" class="card_Link" rel="noopener noreferrer"><img
-                                    src="../assets/TwitterIcon.png" /></a>
-                            <!-- リンク -->
-                            <label :for="[index]"></label>
+                            <div class="ac-box">
+                                <p>{{ item.date2 }}</p>
+                                <input :id="[index]" name="accordion-1" type="checkbox" />
+                                <p class="card_Text">{{ item.text }}</p> <!-- テキスト(最初の文のみプレビュー) -->
+                                <a v-bind:href=item.link target="_blank" class="card_Link" rel="noopener noreferrer"><img
+                                        src="../assets/TwitterIcon.png" /></a>
+                                <!-- リンク -->
+                                <label :for="[index]"></label>
+                            </div>
                         </div>
-                    </div>
-                </template>
-                <!-- インスタグラムの投稿の表示 -->
-                <template v-if="item.SNS_type == 'Instagram'">
-                    <div class="card_All">
-                        <img class="card_Head" src="../assets/SNScolor_Instagram.png" />
-                        <template v-if="item.media_type == 'VIDEO'">
-                            <!-- メディアの種類が動画だったら... -->
-                            <iframe class="card_Movie" v-bind:src=item.media_url></iframe> <!-- 動画のurl -->
-                        </template>
-                        <template v-else>
-                            <!-- メディアの種類が動画以外だったら... -->
-                            <img class="card_Image" v-bind:src=item.media_url> <!-- 画像のurl -->
-                        </template>
-                        <div class="ac-box">
-                            <input :id="[index]" name="accordion-1" type="checkbox" />
-                            <p class="card_Text">{{ item.text }}</p> <!-- テキスト(最初の文のみプレビュー) -->
-                            <a v-bind:href=item.link target="_blank" class="card_Link" rel="noopener noreferrer"><img
-                                    src="../assets/InstagramIcon.png" /></a>
-                            <!-- リンク -->
-                            <label :for="[index]"></label>
+                    </template>
+                    <!-- インスタグラムの投稿の表示 -->
+                    <template v-if="item.SNS_type == 'Instagram'">
+                        <div class="card_All">
+                            <img class="card_Head" src="../assets/SNScolor_Instagram.png" />
+                            <template v-if="item.media_type == 'VIDEO'">
+                                <!-- メディアの種類が動画だったら... -->
+                                <iframe class="card_Movie" v-bind:src=item.media_url></iframe> <!-- 動画のurl -->
+                            </template>
+                            <template v-else>
+                                <!-- メディアの種類が動画以外だったら... -->
+                                <img class="card_Image" v-bind:src=item.media_url> <!-- 画像のurl -->
+                            </template>
+                            <div class="ac-box">
+                                <p>{{ item.date2 }}</p>
+                                <input :id="[index]" name="accordion-1" type="checkbox" />
+                                <p class="card_Text">{{ item.text }}</p> <!-- テキスト(最初の文のみプレビュー) -->
+                                <a v-bind:href=item.link target="_blank" class="card_Link" rel="noopener noreferrer"><img
+                                        src="../assets/InstagramIcon.png" /></a>
+                                <!-- リンク -->
+                                <label :for="[index]"></label>
+                            </div>
                         </div>
-                    </div>
-                </template>
-            </div>
+                    </template>
+                </div>
+            </template>
         </div>
+    </div>
+
+    <div>
+        <p  v-on:click="displayMore">more</p>
     </div>
 </template>
 
@@ -56,6 +65,16 @@
 <script>
 export default {
     name: "tourPage",
+    data() {
+        return {
+            max: 100
+        }
+    },
+    methods: {
+        displayMore() {
+            this.max += 100
+        }
+    },        
     computed: {
         fire_data: function () {
             return this.$store.state.tour_fire_data

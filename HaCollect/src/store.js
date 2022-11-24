@@ -65,7 +65,7 @@ export const store = createStore({
             
             return new Promise(function(resolve, reject) {
                 try {
-                    const que = query(ref(database, 'SNS_data/'), orderByChild('date'));  //SNS_dataを投稿日順に昇順でソートしたものをqueに格納する
+                    const que = query(ref(database, 'SNS_data/'), orderByChild('date'));  //SNS_dataを投稿日を秒数にしてマイナスをつけ、昇順でソートしたものをqueに格納する
 
                     get(que).then((snapshot) => {   //snapshot->データ全体  childSnapshot->データ一つ
         
