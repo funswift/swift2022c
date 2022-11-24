@@ -2,7 +2,7 @@
     <div class="hello">
         <div class="infomation" v-for="(item, index) in fire_data">
             <template v-if="index < max">
-                <p>{{index}}</p>
+                <!-- <p>{{index}}</p>   確認用 -->
                 <div class="item">
                     <!-- ツイッターの投稿の表示 -->
                     <template v-if="item.SNS_type == 'Twitter'">
@@ -16,6 +16,7 @@
                                 </template>
                             </template>
                             <div class="ac-box">
+                                <p>{{ item.date2 }}</p>
                                 <input :id="[index]" name="accordion-1" type="checkbox" />
                                 <p class="card_Text">{{ item.text }}</p> <!-- テキスト(最初の文のみプレビュー) -->
                                 <a v-bind:href=item.link target="_blank" class="card_Link" rel="noopener noreferrer"><img
@@ -38,6 +39,7 @@
                                 <img class="card_Image" v-bind:src=item.media_url> <!-- 画像のurl -->
                             </template>
                             <div class="ac-box">
+                                <p>{{ item.date2 }}</p>
                                 <input :id="[index]" name="accordion-1" type="checkbox" />
                                 <p class="card_Text">{{ item.text }}</p> <!-- テキスト(最初の文のみプレビュー) -->
                                 <a v-bind:href=item.link target="_blank" class="card_Link" rel="noopener noreferrer"><img
