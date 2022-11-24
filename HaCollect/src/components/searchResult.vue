@@ -1,12 +1,6 @@
 <template>
     <div class="header-inner3">
-        <nav class="header-nav">
-            <ul class="header-navList">
-                <li>
-                    <a class="searchWord"><span style="color: #4c9eeb;">{{ search }}</span>の検索結果</a>
-                </li>
-            </ul>
-        </nav>
+        <p class="searchWord">{{ search }}の検索結果</p>
     </div>
 
     <div class="hello">
@@ -66,7 +60,7 @@
 <script>
 
 export default {
-    name: "topPage",
+    name: "searchResult",
     props: {
         search: String
     },
@@ -76,6 +70,7 @@ export default {
         },
     },
 };
+
 </script>
 
 
@@ -91,8 +86,21 @@ export default {
     position: fixed;
     height: 30px;
     margin-top: 60px;
+    z-index: 1;
 }
 
+.header-inner3 p {
+    font-size: 20px;
+    /* 任意のフォントサイズにする */
+    font-weight: bold;
+    /* 太字にする */
+    color: #000;
+    padding: 0 36px;
+}
+
+.hello {
+    padding-top: 110px;
+}
 .infomation {
     display: inline-block;
     /* width: 30%; */
@@ -102,11 +110,6 @@ export default {
     display: flex;
     flex-wrap: wrap;
 }
-
-.hello {
-    padding-top: 80px;
-}
-
 
 .card_All {
     position: relative;
@@ -220,28 +223,10 @@ export default {
     opacity: 1;
 }
 
-@media(max-width: 971px) {
-
-    /* .item {
-        謎
-        
-    } */
-
-}
-
-@media(max-width: 647px) {
-    /* .item {
-        謎
-    } */
-}
-
 @media(min-width: 750px) {
-    .card_All{
+    .card_All {
         border-left: 1px solid #aaaaaa;
         border-right: 1px solid #aaaaaa;
     }
-    /* .item {
-        謎
-    } */
 }
 </style>

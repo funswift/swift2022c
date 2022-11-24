@@ -67,6 +67,10 @@ export default {
 
 
 <style scoped>
+.hello {
+    padding-top: 80px;
+}
+
 .infomation {
     display: inline-block;
     /* width: 30%; */
@@ -76,11 +80,6 @@ export default {
     display: flex;
     flex-wrap: wrap;
 }
-
-.hello {
-    padding-top: 80px;
-}
-
 
 .card_All {
     position: relative;
@@ -194,29 +193,11 @@ export default {
     opacity: 1;
 }
 
-@media(max-width: 971px) {
-
-    /* .item {
-        謎
-        
-    } */
-
-}
-
-@media(max-width: 647px) {
-    /* .item {
-        謎
-    } */
-}
-
 @media(min-width: 750px) {
-    .card_All{
+    .card_All {
         border-left: 1px solid #aaaaaa;
         border-right: 1px solid #aaaaaa;
     }
-    /* .item {
-        謎
-    } */
 }
 </style>
     

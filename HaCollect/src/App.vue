@@ -9,34 +9,29 @@
             <!-- 検索バー -->
             <input type="text" v-model="search_text" v-on:keydown.enter="doSearch" class="searchArea" placeholder="キーワード検索">
         </div>
-        <!-- <div class="header-inner-smart"> -->
-            <!-- スマホキーボード用キャンセルボタン -->
-            <!-- <div class="cancel" v-on:click="deleteText">×</div> -->
-            <!-- スマホサイズ用検索バー -->
-            <!-- <input type="text" v-model="search_text" v-on:keydown.enter="doSearch" class="searchAreaSmart" -->
-                <!-- placeholder="キーワード検索"> -->
-        <!-- </div> -->
-
         <div class="header-inner2">
-            <nav class="header-nav">
-                <ul class="header-navList">
-                    <li>
-                        <router-link class="nowPage" to="/">ホーム</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/eat">ごはん</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/spa">温泉</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/tour">観光</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/news">ニュース</router-link>
-                    </li>
-                </ul>
-            </nav>
+            <div class="header-nav">
+                <input type="radio" checked id="change1" name="header-navlist">
+                <label for="change1" id="button11">
+                    <router-link class="pageChange" id="button12" to="/">ホーム</router-link>
+                </label>
+                <input type="radio" id="change2" name="header-navlist">
+                <label for="change2" id="button21">
+                    <router-link class="pageChange" id="button22" to="/eat">ごはん</router-link>
+                </label>
+                <input type="radio" id="change3" name="header-navlist">
+                <label for="change3" id="button31">
+                    <router-link class="pageChange" id="button32" to="/spa">温泉</router-link>
+                </label>
+                <input type="radio" id="change4" name="header-navlist">
+                <label for="change4" id="button41">
+                    <router-link class="pageChange" id="button42" to="/tour">観光</router-link>
+                </label>
+                <input type="radio" id="change5" name="header-navlist">
+                <label for="change5" id="button51">
+                    <router-link class="pageChange" id="button52" to="/news">ニュース</router-link>
+                </label>
+            </div>
         </div>
     </header>
 
@@ -58,7 +53,7 @@
 export default {
     data() {
         return {
-            search_text: '',    //検索バーに打ち込んだのをリアルタイムに格納
+            search_text: '',  //実際にsearchResultコンポーネントに渡すもの
             buttonActive: false,//ボタンを非表示にしておく
             scroll: 0
         }
@@ -84,11 +79,10 @@ export default {
                 console.log('error')
                 //エラーは無視（search_textに何も入力してない時怒られるから書いた）
             }
-
         },
         deleteText() {
             this.search_text = '' //検索バーに検索した文字を残さないための処理
-        }, 
+        },
         // ページのトップに移動する関数
         scrollTop() {
             window.scrollTo({
@@ -110,6 +104,36 @@ export default {
     mounted() {
         window.addEventListener('scroll', this.scrollWindow)   //スクロールすると関数が察知してくれる
         this.InitializeData();
+        document.getElementById('button11').addEventListener("click", function (event) {
+            document.getElementById('button12').click();
+        });
+        document.getElementById('button12').addEventListener("click", function (event) {
+            document.getElementById('button11').click();
+        });
+        document.getElementById('button21').addEventListener("click", function (event) {
+            document.getElementById('button22').click();
+        });
+        document.getElementById('button22').addEventListener("click", function (event) {
+            document.getElementById('button21').click();
+        });
+        document.getElementById('button31').addEventListener("click", function (event) {
+            document.getElementById('button32').click();
+        });
+        document.getElementById('button32').addEventListener("click", function (event) {
+            document.getElementById('button31').click();
+        });
+        document.getElementById('button41').addEventListener("click", function (event) {
+            document.getElementById('button42').click();
+        });
+        document.getElementById('button42').addEventListener("click", function (event) {
+            document.getElementById('button41').click();
+        });
+        document.getElementById('button51').addEventListener("click", function (event) {
+            document.getElementById('button52').click();
+        });
+        document.getElementById('button52').addEventListener("click", function (event) {
+            document.getElementById('button51').click();
+        });
     },
 }
 </script>
@@ -132,7 +156,6 @@ header {
     /* 固定した要素は浮いた状態になるので、横幅100%にする */
     height: 70px;
 }
-
 .header-inner {
     display: flex;
     height: 70px;
@@ -141,7 +164,6 @@ header {
     padding: 0 36px;
     margin: 0 auto;
 }
-
 .header-logoImg {
     display: block;
     /* 扱いやすいようにblock要素にする */
@@ -149,7 +171,6 @@ header {
     /* 横幅を任意の大きさに調整 */
     margin-top: 10px;
 }
-
 .searchArea {
     width: 350px;
     /* inputの幅           */
@@ -183,17 +204,59 @@ header {
     font-style: normal;
     text-align: center;
 }
-
 /*テキスト入力欄にフォーカスか来たとき*/
 .searchArea:focus {
     background-color: #e6f2ff;
     /* フォーカス時背景色  */
 }
-
-.header-inner-smart {
+.header-inner2 {
+    background-color: #ffffee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    position: fixed;
+    height: 60px;
+    z-index: 1;
+}
+.header-nav {
+    display: flex;
+    padding: 0 36px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+.header-nav label {
+    background: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    font-family: 'Inter';
+    font-style: normal;
+    width: 114px;
+    margin: 0 3px;
+    /* ナビゲーションに左右のスペースを付ける */
+}
+.pageChange {
+    display: block;
+    /* 扱いやすいようにblock要素にする */
+    font-size: 20px;
+    /* 任意のフォントサイズにする */
+    font-weight: bold;
+    /* 太字にする */
+    color: #000;
+    text-decoration-line: none;
+    padding: 5px 15px;
+}
+.header-nav input:checked+ label {
+    background: rgba(76, 197, 235, 0.25);
+    border: 1px solid rgba(76, 197, 235, 0.25);
+}
+.header-nav input:checked+ label .pageChange {
+    color: #4C79EB;
+}
+.header-nav input {
     display: none;
 }
-
 /* ページトップへ自動スクロールするボタンのスタイル */
 .button {
     position: fixed;
@@ -211,138 +274,56 @@ header {
     opacity: 0.7;
     /* ボタンにカーソルを合わせるとポインターになる */
 }
-
 /* アニメーション中のスタイル */
 .button-enter-active,
 .button-leave-active {
     transition: opacity 0.5s;
     /* 何秒かけて変わるのか */
 }
-
 /* 表示するアニメーション */
 .button-enter-from {
     opacity: 0;
 }
-
 .button-enter-to {
     opacity: 0.7;
 }
-
 /* 非表示にするアニメーション */
 .button-leave-from {
     opacity: 0.7;
 }
-
 .button-leave-to {
     opacity: 0;
 }
-
-.header-inner2 {
-    background-color: #ffffee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin: 0 auto;
-    position: fixed;
-    height: 60px;
-    z-index: 1;
-}
-
-.header-nav {
-    padding-left: 36px;
-    overflow-x: auto;
-    white-space: nowrap;
-}
-
-.header-navList {
-    display: flex;
-    align-items: center;
-    margin: 0 17px;
-}
-
-.header-navList li {
-    margin: 0 3px
-        /* ナビゲーションに左右のスペースを付ける */
-}
-
-.header-navList li a {
-    display: block;
-    /* 扱いやすいようにblock要素にする */
-    font-size: 20px;
-    /* 任意のフォントサイズにする */
-    font-weight: bold;
-    /* 太字にする */
-    color: #000;
-    text-decoration-line: none;
-    padding: 5px 15px;
-    background: #FFFFFF;
-    border: 1px solid #CCCCCC;
-    border-radius: 5px;
-    font-family: 'Inter';
-    font-style: normal;
-    width: 82px;
-}
-
-.header-navList .nowPage {
-    color: #4C79EB;
-    background: rgba(76, 197, 235, 0.25);
-    border: 1px solid rgba(76, 197, 235, 0.25);
-}
-
-.header-navList li .searchWord {
-    background: none;
-    border: none;
-}
-
-.header-navList li a:hover {
-    opacity: 0.8;
-    /* ホバーしたときに少し薄くなるようにアニメーションを付ける */
-}
-
-
 /* タブレット・スマートフォン用スタイル */
 @media(max-width: 971px) {
-    .header-nav {
-        padding-left: 0;
-    }
-
     /* .header-logoImg {
         width: 150px;
         margin-top: 10px;
     } */
-
     /* .searchArea {
     width: 225px;
     height: 30px;
     } */
 }
-
-
 /* スマートフォン用スタイル */
 @media(max-width: 647px) {
     .header-inner {
         padding: 0 5px;
     }
-
     .searchArea {
-    width: 225px;
-    height: 30px;
+        width: 225px;
+        height: 30px;
     }
-
     /* .header-inner {
         display: block;
         height: 35px;
     }
-
     .header-logoImg {
         margin: 0 auto;
     }
-
     .searchArea {
         display: none;
     } */
-
     .header-inner-smart {
         display: flex;
         height: 35px;
@@ -351,12 +332,10 @@ header {
         padding: 0 20px;
         margin: 0 auto;
     }
-
     .cancel {
         font-size: 250%;
         font-weight: bold;
     }
-
     .searchAreaSmart {
         width: 350px;
         /* inputの幅           */
@@ -386,7 +365,6 @@ header {
         outline: 0;
         /* 入力薄枠を非表示    */
     }
-
     /*テキスト入力欄にフォーカスか来たとき*/
     .searchAreaSmart:focus {
         background-color: #e6f2ff;
