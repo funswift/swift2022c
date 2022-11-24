@@ -1,15 +1,15 @@
 #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    margin-top: 70px;
-    color: #2c3e62;
+  font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  margin-top: 70px;
+  color: #2c3e62;
 }
 
 body {
-    display: block;
-    margin: 8px 0;
+  display: block;
+  margin: 8px 0;
 }
 
 h3 {
@@ -28,6 +28,6 @@ li {
 
 @media(max-width: 800px) {
   h1 {
-      font-size: 24px;
+    font-size: 24px;
   }
 }
