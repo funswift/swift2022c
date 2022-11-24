@@ -2,9 +2,7 @@
     <header>
         <div class="header-inner">
             <!-- ロゴ -->
-            <router-link to="/">
-                <img class="header-logoImg" src="./assets/HaCollectLogo.png">
-            </router-link>
+            <img class="header-logoImg" src="./assets/HaCollectLogo.png">
 
             <!-- 検索バー -->
             <input type="text" v-model="search_text" v-on:keydown.enter="doSearch" class="searchArea" placeholder="キーワード検索">
