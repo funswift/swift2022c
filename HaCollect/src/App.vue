@@ -200,7 +200,6 @@ header {
     outline: 0;
     /* 入力薄枠を非表示    */
     border: 1px solid #CCCCCC;
-    font-family: 'ABeeZee';
     font-style: normal;
     text-align: center;
 }
@@ -230,7 +229,6 @@ header {
     background: #FFFFFF;
     border: 1px solid #CCCCCC;
     border-radius: 5px;
-    font-family: 'Inter';
     font-style: normal;
     width: 114px;
     margin: 0 3px;
