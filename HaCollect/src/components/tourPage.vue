@@ -1,35 +1,36 @@
 <template>
     <div class="hello">
         <div class="infomation" v-for="(item, index) in fire_data">
-            <template v-if="index < max">
-                <!-- <p>{{index}}</p>   確認用 -->
-                <div class="item">
-                    <!-- ツイッターの投稿の表示 -->
-                    <template v-if="item.SNS_type == 'Twitter'">
-                        <div class="card_All">
-                            <img class="card_Head" src="../assets/SNScolor_Twitter.png" />
-                            <template v-if="item.media != null">
-                                <!-- メディア情報がある場合 -->
-                                <template v-for="(url) in item.media">
-                                    <!-- メディアキーの中にあるurlを取り出す -->
+            <div class="item">
+                <!-- ツイッターの投稿の表示 -->
+                <template v-if="item.SNS_type == 'Twitter'">
+                    <div class="card_All">
+                        <img class="card_Head" src="../assets/SNScolor_Twitter.png" />
+                        <template v-if="item.media != null">  <!-- メディア情報がある場合 -->
+                            <template v-for="(url) in item.media">  <!-- メディアキーの中にあるurlを取り出す -->
+                                <template v-if="url.media_type == 'video'">
+                                    <iframe class="card_Movie" v-bind:src=url.media_url></iframe> <!-- 動画のurl -->
+                                </template>
+                                <template v-else>
                                     <img class="card_Image" v-bind:src=url.media_url> <!-- 画像のurl -->
                                 </template>
                             </template>
-                            <div class="ac-box">
-                                <p>{{ item.date2 }}</p>
-                                <input :id="[index]" name="accordion-1" type="checkbox" />
-                                <p class="card_Text">{{ item.text }}</p> <!-- テキスト(最初の文のみプレビュー) -->
-                                <a v-bind:href=item.link target="_blank" class="card_Link" rel="noopener noreferrer"><img
-                                        src="../assets/TwitterIcon.png" /></a>
-                                <!-- リンク -->
-                                <label :for="[index]"></label>
-                            </div>
+                        </template>
+                        <div class="ac-box">
+                            <input :id="[index]" name="accordion-1" type="checkbox" />
+                            <p class="card_Text">{{ item.text }}</p> <!-- テキスト(最初の文のみプレビュー) -->
+                            <a v-bind:href=item.link target="_blank" class="card_Link" rel="noopener noreferrer"><img
+                                    src="../assets/TwitterIcon.png" /></a>
+                            <!-- リンク -->
+                            <label :for="[index]"></label>
                         </div>
-                    </template>
-                    <!-- インスタグラムの投稿の表示 -->
-                    <template v-if="item.SNS_type == 'Instagram'">
-                        <div class="card_All">
-                            <img class="card_Head" src="../assets/SNScolor_Instagram.png" />
+                    </div>
+                </template>
+                <!-- インスタグラムの投稿の表示 -->
+                <template v-if="item.SNS_type == 'Instagram'">
+                    <div class="card_All">
+                        <img class="card_Head" src="../assets/SNScolor_Instagram.png" />
+                        <template v-if="item.media_type != 'CAROUSEL_ALBUM'">
                             <template v-if="item.media_type == 'VIDEO'">
                                 <!-- メディアの種類が動画だったら... -->
                                 <iframe class="card_Movie" v-bind:src=item.media_url></iframe> <!-- 動画のurl -->
@@ -38,19 +39,28 @@
                                 <!-- メディアの種類が動画以外だったら... -->
                                 <img class="card_Image" v-bind:src=item.media_url> <!-- 画像のurl -->
                             </template>
-                            <div class="ac-box">
-                                <p>{{ item.date2 }}</p>
-                                <input :id="[index]" name="accordion-1" type="checkbox" />
-                                <p class="card_Text">{{ item.text }}</p> <!-- テキスト(最初の文のみプレビュー) -->
-                                <a v-bind:href=item.link target="_blank" class="card_Link" rel="noopener noreferrer"><img
-                                        src="../assets/InstagramIcon.png" /></a>
-                                <!-- リンク -->
-                                <label :for="[index]"></label>
-                            </div>
+                        </template>
+                        <template v-else>
+                            <template v-for="(url) in item.media">
+                                <template v-if="url.media_type == 'VIDEO'">
+                                    <iframe class="card_Movie" v-bind:src=url.media_url></iframe> <!-- 動画のurl -->
+                                </template>
+                                <template v-else>
+                                    <img class="card_Image" v-bind:src=url.media_url> <!-- 画像のurl -->
+                                </template>
+                            </template>
+                        </template>
+                        <div class="ac-box">
+                            <input :id="[index]" name="accordion-1" type="checkbox" />
+                            <p class="card_Text">{{ item.text }}</p> <!-- テキスト(最初の文のみプレビュー) -->
+                            <a v-bind:href=item.link target="_blank" class="card_Link" rel="noopener noreferrer"><img
+                                    src="../assets/InstagramIcon.png" /></a>
+                            <!-- リンク -->
+                            <label :for="[index]"></label>
                         </div>
-                    </template>
-                </div>
-            </template>
+                    </div>
+                </template>
+            </div>
         </div>
     </div>
 
