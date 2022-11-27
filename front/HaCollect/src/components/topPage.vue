@@ -2,7 +2,7 @@
     <div class="hello">
         <div class="infomation" v-for="(item, index) in fire_data">
             <template v-if="index < max">
-                <!-- <p>{{index}}</p>   確認用 -->
+                <!-- <p>{{index}}</p> -->
                 <div class="item">
                     <!-- ツイッターの投稿の表示 -->
                     <template v-if="item.SNS_type == 'Twitter'">
@@ -25,9 +25,30 @@
                             <template v-if="page[index] > 0">
                                 <div class="left-btn" @click="prevPage(index)"><p>前へ</p></div>
                             </template>
-                            <!-- <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div> -->
-                            <template v-if="page[index] < 3">
-                                <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div>
+                            
+                            <template v-if="item.media.url3">
+                                <!-- <p>url3まである</p> -->
+                                <template v-if="page[index] != 3">
+                                    <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div>
+                                </template>
+                            </template>
+                            <template v-else-if="item.media.url3">
+                                <!-- <p>url2まである</p> -->
+                                <template v-if="page[index] != 2">
+                                    <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div>
+                                </template>
+                            </template>
+                            <template v-else-if="item.media.url1">
+                                <!-- <p>url1まである</p> -->
+                                <template v-if="page[index] != 1">
+                                    <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div>
+                                </template>
+                            </template>
+                            <template v-else-if="item.media.url0">
+                                <!-- <p>url0しかない</p> -->
+                                <template v-if="page[index] != 0">
+                                    <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div>
+                                </template>
                             </template>
 
                             <div class="ac-box">
@@ -58,6 +79,7 @@
                             <template v-else>
 
                                 <template v-for="(url, url_num) in item.media">
+                                    <!-- <p>確認用</p> -->
                                     <template v-if="url_num == 'url' + page[index]">
                                         <template v-if="url.media_type == 'VIDEO'">
                                             <iframe class="card_Movie" v-bind:src=url.media_url></iframe> <!-- 動画のurl -->
@@ -71,8 +93,65 @@
                                     <div class="left-btn" @click="prevPage(index)"><p>前へ</p></div>
                                 </template>
 
-                                <template v-if="page[index] < 9">
-                                    <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div>
+                                <template v-if="item.media.url9">
+                                    <!-- <p>url9まである</p> -->
+                                    <template v-if="page[index] != 9">
+                                        <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div>
+                                    </template>                                    
+                                </template>
+                                <template v-else-if="item.media.url8">
+                                    <!-- <p>url8まである</p> -->
+                                    <template v-if="page[index] != 8">
+                                        <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div>
+                                    </template>
+                                </template>      
+                                <template v-else-if="item.media.url7">
+                                    <!-- <p>url7まである</p> -->
+                                    <template v-if="page[index] != 7">
+                                        <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div>
+                                    </template>
+                                </template>     
+                                <template v-else-if="item.media.url6">
+                                    <!-- <p>url6まである</p> -->
+                                    <template v-if="page[index] != 6">
+                                        <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div>
+                                    </template>
+                                </template>              
+                                <template v-else-if="item.media.url5">
+                                    <!-- <p>url5まである</p> -->
+                                    <template v-if="page[index] != 5">
+                                        <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div>
+                                    </template>
+                                </template>       
+                                <template v-else-if="item.media.url4">
+                                    <!-- <p>url4まである</p> -->
+                                    <template v-if="page[index] != 4">
+                                        <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div>
+                                    </template>
+                                </template>                                                                                                                                
+                                <template v-else-if="item.media.url3">
+                                    <!-- <p>url3まである</p> -->
+                                    <template v-if="page[index] != 3">
+                                        <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div>
+                                    </template>
+                                </template>
+                                <template v-else-if="item.media.url3">
+                                    <!-- <p>url2まである</p> -->
+                                    <template v-if="page[index] != 2">
+                                        <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div>
+                                    </template>
+                                </template>
+                                <template v-else-if="item.media.url1">
+                                    <!-- <p>url1まである</p> -->
+                                    <template v-if="page[index] != 1">
+                                        <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div>
+                                    </template>
+                                </template>
+                                <template v-else-if="item.media.url0">
+                                    <!-- <p>url0しかない</p> -->
+                                    <template v-if="page[index] != 0">
+                                        <div class="right-btn" @click="nextPage(index)"><p>次へ</p></div>
+                                    </template>
                                 </template>
                             </template>
 
@@ -93,7 +172,10 @@
     </div>
 
     <div>
-        <p  v-on:click="displayMore">more</p>
+        <template v-if="max < fire_data.length">
+            <p>{{max}}</p>
+            <p  v-on:click="displayMore">more</p>
+        </template>
     </div>
 </template>
 
