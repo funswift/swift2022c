@@ -8,16 +8,25 @@
                     <template v-if="item.SNS_type == 'Twitter'">
                         <div class="card_All">
                             <img class="card_Head" src="../assets/SNScolor_Twitter.png" />
-                            <template v-if="item.media != null">  <!-- メディア情報がある場合 -->
-                                <template v-for="(url) in item.media">  <!-- メディアキーの中にあるurlを取り出す -->
-                                    <template v-if="url.media_type == 'video'">
-                                        <iframe class="card_Movie" v-bind:src=url.media_url></iframe> <!-- 動画のurl -->
-                                    </template>
-                                    <template v-else>
-                                        <img class="card_Image" v-bind:src=url.media_url> <!-- 画像のurl -->
+
+                            <template v-if="item.media != null">  
+                                <template v-for="(url, index) in item.media">  
+                                    <template v-if="index == 'url' + page">
+                                        <template v-if="url.media_type == 'video'">
+                                            <iframe class="card_Movie" v-bind:src=url.media_url></iframe>
+                                        </template>
+                                        <template v-else>
+                                            <img class="card_Image" v-bind:src=url.media_url> 
+                                        </template>
                                     </template>
                                 </template>
                             </template>
+                            <div class="left-btn" @click="prevPage"><p>前へ</p></div>
+                            <div class="right-btn" @click="nextPage"><p>次へ</p></div>
+                            <!-- <template v-if="item.media != null">
+                                <div class="right-btn" @click="nextPage"><p>次へ</p></div>
+                            </template> -->
+
                             <div class="ac-box">
                                 <p>{{ item.date2 }}</p>
                                 <input :id="[index]" name="accordion-1" type="checkbox" />
@@ -44,15 +53,21 @@
                                 </template>
                             </template>
                             <template v-else>
-                                <template v-for="(url) in item.media">
-                                    <template v-if="url.media_type == 'VIDEO'">
-                                        <iframe class="card_Movie" v-bind:src=url.media_url></iframe> <!-- 動画のurl -->
-                                    </template>
-                                    <template v-else>
-                                        <img class="card_Image" v-bind:src=url.media_url> <!-- 画像のurl -->
+
+                                <template v-for="(url, index) in item.media">
+                                    <template v-if="index == 'url' + page">
+                                        <template v-if="url.media_type == 'VIDEO'">
+                                            <iframe class="card_Movie" v-bind:src=url.media_url></iframe> <!-- 動画のurl -->
+                                        </template>
+                                        <template v-else>
+                                            <img class="card_Image" v-bind:src=url.media_url> <!-- 画像のurl -->
+                                        </template>
                                     </template>
                                 </template>
+                                <div class="left-btn" @click="prevPage"><p>前へ</p></div>
+                                <div class="right-btn" @click="nextPage"><p>次へ</p></div>
                             </template>
+
                             <div class="ac-box">
                                 <p>{{ item.date2 }}</p>
                                 <input :id="[index]" name="accordion-1" type="checkbox" />
@@ -76,24 +91,42 @@
 
 
 
-
 <script>
 export default {
     name: "topPage",
     data() {
         return {
-            max: 100
+            max: 30,
+            page: 0,
+            // b: 'item.media.url0.media_url'
         }
     },
     methods: {
+        nextPage(){
+            // if(this.page + 1 >= this.fire_data.SNS_type){
+            //     this.page = 0
+            //     return;
+            // }
+            this.page ++;
+        },
+        prevPage(){
+            if(this.page <= 0){
+                return;
+            }
+            this.page --;
+        },        
         displayMore() {
-            this.max += 100
+            this.max += 30
         }
     },    
     computed: {
         fire_data: function () {
             return this.$store.state.top_fire_data   //store.jsのstateを参照
         },
+        // a: function () {
+        //     // return 'item.media.url' + String(this.page) + '.media_url'
+        //     return 'item.media.url0.media_url'
+        // }
     },
 };
 </script>
@@ -101,6 +134,23 @@ export default {
 
 
 <style scoped>
+.VueCarousel{
+    height: 300px;
+}
+.VueCarousel-wrapper, .VueCarousel-inner, .VueCarousel-slide{
+    height: 100% !important;
+}
+.VueCarousel-slide .slider-inner {
+    height: 100%;
+    background-color: #62caaa; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    color: #fff; 
+    border: 2px solid #fff;
+    font-size: 30px; 
+    border-radius: 10px;
+}
 .hello {
     padding-top: 80px;
 }

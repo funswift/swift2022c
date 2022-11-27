@@ -66,13 +66,18 @@ export const store = createStore({
             return new Promise(function(resolve, reject) {
                 try {
                     const que = query(ref(database, 'SNS_data/'), orderByChild('date'));  //SNS_dataを投稿日を秒数にしてマイナスをつけ、昇順でソートしたものをqueに格納する
+                    let roop_count = 0       //ループ回数
 
                     get(que).then((snapshot) => {   //snapshot->データ全体  childSnapshot->データ一つ
         
                         const data = [];   //あとでデータの挿入(下のcontext.commit)に使う用
-                        snapshot.forEach(childSnapshot => {
-                            // ↓変数dataにデータベースのデータ一つを格納する処理
-                            data.push(childSnapshot.val());
+                        snapshot.forEach((childSnapshot) => {
+                            if (roop_count < 100) {   //roopcountでループ回数を指定（現在100回ループ=データを全体で100個格納）
+                                // ↓変数dataにデータベースのデータ一つを格納する処理
+                                // console.log(roop_count)  //確認用
+                                data.push(childSnapshot.val());
+                                roop_count ++
+                            }
                         });
         
                         console.log(data);  //確認用
