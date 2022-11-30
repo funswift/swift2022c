@@ -26,13 +26,14 @@ export const store = createStore({
     state() {  
         return {
             //ここにコンポーネント間で共有するデータを書く
-            fire_data: null,                //全部のカテゴリ＋「函館」で一致するデータを格納する変数
-            search_fire_data: null,     //検索結果ページに表示するデータ
-            top_fire_data: null,          //トップページに表示するデータ
-            food_fire_data: null,        //ごはんカテゴリページに表示するデータ
-            news_fire_data: null,       //ニュースカテゴリページに表示するデータ
-            spa_fire_data: null,         //温泉カテゴリページに表示するデータ
-            tour_fire_data: null,        //観光カテゴリページに表示するデータ
+            fire_data: null,                    //全部のカテゴリ＋「函館」で一致するデータを格納する変数
+            search_fire_data: null,         //検索結果ページに表示するデータ
+            top_fire_data: null,              //トップページに表示するデータ
+            food_fire_data: null,            //食べるカテゴリページに表示するデータ
+            // news_fire_data: null,       
+            // spa_fire_data: null,         
+            tour_fire_data: null,           //見るカテゴリページに表示するデータ
+            knowledge_fire_data: null   //知るカテゴリページに表示するデータ
         }
     },
     mutations: {
@@ -46,17 +47,20 @@ export const store = createStore({
         setTopData: (state, data) => {          //トップページに表示するデータに新しいデータを格納する処理
             state.top_fire_data = data
         },
-        setFoodData: (state, data) => {        //ごはんカテゴリページに表示するデータに新しいデータを格納する処理
+        setFoodData: (state, data) => {        //食べるカテゴリページに表示するデータに新しいデータを格納する処理
             state.food_fire_data = data
         },
-        setNewsData: (state, data) => {       //ニュースカテゴリページに表示するデータに新しいデータを格納する処理
-            state.news_fire_data = data
-        },
-        setSpaData: (state, data) => {         //温泉カテゴリページに表示するデータに新しいデータを格納する処理
-            state.spa_fire_data = data
-        },
-        setTourData: (state, data) => {        //観光カテゴリページに表示するデータに新しいデータを格納する処理
+        // setNewsData: (state, data) => {   
+        //     state.news_fire_data = data
+        // },
+        // setSpaData: (state, data) => {     
+        //     state.spa_fire_data = data
+        // },
+        setTourData: (state, data) => {        //見るカテゴリページに表示するデータに新しいデータを格納する処理
             state.tour_fire_data = data
+        },
+        setKnowledgeData: (state, data) => {    //知るカテゴリページに表示するデータに新しいデータを格納する処理
+            state.knowledge_fire_data = data
         }
     },
     actions: {
@@ -102,7 +106,7 @@ export const store = createStore({
                 //includes関数によって、resultには大文字と小文字は区別し、値が見つからない場合はfalseを返します。
                 let result = text.includes(search);   //投稿テキストにsearch変数の値が含まれているかどうかをチェック
                 // console.log(result)  //確認用
-                if(result != false) {
+                if(result == true) {
                     data.push(fdata[i]);
                 }
             }
@@ -124,7 +128,7 @@ export const store = createStore({
             console.log(data) //確認用
             context.commit('setTopData', data)     //emutationsのsetSearchDataを実行する
         },
-        getFoodData: (context) => {                         //ごはんカテゴリページに表示するデータをRealtime databaseから取得してくる処理
+        getFoodData: (context) => {                         //食べるカテゴリページに表示するデータをRealtime databaseから取得してくる処理
             
             const category_word_list = /ラーメン|ごはん|飯|グルメ|カフェ|居酒屋/;       //カテゴリページに表示する際に、変数の内容が含まれているかどうかで判断する
             const data = [];
@@ -134,12 +138,14 @@ export const store = createStore({
                 if (fdata[i].data_label == 'FoodTimeLine'){
                     data.push(fdata[i]);
                 } else {
-                    let text = fdata[i].text;
-                    //testもincludesと役割はほぼ同じ（正規表現が使えるかどうかの違い）
-                    let result = category_word_list.test(text);   //投稿テキストにcategory_word_listの値が一つでも含まれているかどうかをチェック
-                    // console.log(result)  //確認用
-                    if(result != false) {
-                        data.push(fdata[i]);
+                    if (fdata[i].data_label == 'TopTimeLine' || fdata[i].data_label == 'Search'){
+                        let text = fdata[i].text;
+                        //testもincludesと役割はほぼ同じ（正規表現が使えるかどうかの違い）
+                        let result = category_word_list.test(text);   //投稿テキストにcategory_word_listの値が一つでも含まれているかどうかをチェック
+                        // console.log(result)  //確認用
+                        if(result == true) {
+                            data.push(fdata[i]);
+                        }
                     }
                 }
             }       
@@ -147,49 +153,49 @@ export const store = createStore({
             console.log(data) //確認用
             context.commit('setFoodData', data)
         },
-        getNewsData: (context) => {                        //ニュースカテゴリページに表示するデータをRealtime databaseから取得してくる処理
+        // getNewsData: (context) => {                        
             
-            const category_word_list = /ニュース|事件/;
-            const data = [];
-            const fdata = context.state.fire_data
-            for (let i = 0; fdata[i] != null; i++) {
-                if (fdata[i].data_label == 'NewsTimeLine'){
-                    data.push(fdata[i]);
-                } else {
-                    let text = fdata[i].text;
-                    let result = category_word_list.test(text);
-                    // console.log(result)  //確認用
-                    if(result != false) {
-                        data.push(fdata[i]);
-                    }
-                }
-            }      
+        //     const category_word_list = /ニュース|事件/;
+        //     const data = [];
+        //     const fdata = context.state.fire_data
+        //     for (let i = 0; fdata[i] != null; i++) {
+        //         if (fdata[i].data_label == 'NewsTimeLine'){
+        //             data.push(fdata[i]);
+        //         } else {
+        //             let text = fdata[i].text;
+        //             let result = category_word_list.test(text);
+        //             // console.log(result)  //確認用
+        //             if(result == true) {
+        //                 data.push(fdata[i]);
+        //             }
+        //         }
+        //     }      
             
-            console.log(data) //確認用
-            context.commit('setNewsData', data)
-        },
-        getSpaData: (context) => {                          //温泉カテゴリページに表示するデータをRealtime databaseから取得してくる処理
+        //     console.log(data) //確認用
+        //     context.commit('setNewsData', data)
+        // },
+        // getSpaData: (context) => {                         
             
-            const category_word_list = /温泉|風呂/;
-            const data = [];
-            const fdata = context.state.fire_data
-            for (let i = 0; fdata[i] != null; i++) {
-                if (fdata[i].data_label == 'SpaTimeLine'){
-                    data.push(fdata[i]);
-                } else {
-                    let text = fdata[i].text;
-                    let result = category_word_list.test(text);
-                    // console.log(result)  //確認用
-                    if(result != false) {
-                        data.push(fdata[i]);
-                    }
-                }
-            }          
+        //     const category_word_list = /温泉|風呂/;
+        //     const data = [];
+        //     const fdata = context.state.fire_data
+        //     for (let i = 0; fdata[i] != null; i++) {
+        //         if (fdata[i].data_label == 'SpaTimeLine'){
+        //             data.push(fdata[i]);
+        //         } else {
+        //             let text = fdata[i].text;
+        //             let result = category_word_list.test(text);
+        //             // console.log(result)  //確認用
+        //             if(result == true) {
+        //                 data.push(fdata[i]);
+        //             }
+        //         }
+        //     }          
             
-            console.log(data) //確認用
-            context.commit('setSpaData', data)
-        },
-        getTourData: (context) => {                          //観光カテゴリページに表示するデータをRealtime databaseから取得してくる処理
+        //     console.log(data) //確認用
+        //     context.commit('setSpaData', data)
+        // },
+        getTourData: (context) => {                          //見るカテゴリページに表示するデータをRealtime databaseから取得してくる処理
             
             const category_word_list = /スポット|観光|祭/;
             const data = [];
@@ -198,11 +204,13 @@ export const store = createStore({
                 if (fdata[i].data_label == 'TourTimeLine'){
                     data.push(fdata[i]);
                 } else {
-                    let text = fdata[i].text;
-                    let result = category_word_list.test(text);
-                    // console.log(result)  //確認用
-                    if(result != false) {
-                        data.push(fdata[i]);
+                    if (fdata[i].data_label == 'TopTimeLine' || fdata[i].data_label == 'Search'){
+                        let text = fdata[i].text;
+                        let result = category_word_list.test(text);
+                        // console.log(result)  //確認用
+                        if(result == true) {
+                            data.push(fdata[i]);
+                        }
                     }
                 }
             }   
@@ -210,109 +218,24 @@ export const store = createStore({
             console.log(data) //確認用
             context.commit('setTourData', data)
         },
-    },
-    // getCategoryData: (context) => {     
-        
-    //     //トップページに表示するデータをRealtime databaseから取得してくる処理
-    //     const top_data = [];
-    //     const food_data = [];
-    //     const news_data = [];
-    //     const spa_data = [];
-    //     const tour_data = [];
-    //     const fdata = context.state.fire_data
-        
-    //     for (let i = 0; fdata[i] != null; i++) {
-    //         if (fdata[i].data_label == 'TopTimeLine' || fdata[i].data_label == 'Search'){
-    //             top_data.push(fdata[i]);
-    //         }
-    //     }       
-
-    //     console.log(top_data) //確認用
-    //     context.commit('setTopData', top_data)     //emutationsのsetSearchDataを実行する
-        
-        
-
-    //     //ごはんカテゴリページに表示するデータをRealtime databaseから取得してくる処理
-    //     const category_food_list = /ラーメン|ごはん|飯|グルメ|カフェ|居酒屋/;       //カテゴリページに表示する際に、変数の内容が含まれているかどうかで判断する
-        
-    //     for (let i = 0; fdata[i] != null; i++) {
-    //         if (fdata[i].data_label == 'FoodTimeLine'){
-    //             food_data.push(fdata[i]);
-    //         } else {
-    //             let text = fdata[i].text;
-    //             //testもincludesと役割はほぼ同じ（正規表現が使えるかどうかの違い）
-    //             let result = category_food_list.test(text);   //投稿テキストにcategory_word_listの値が一つでも含まれているかどうかをチェック
-    //             // console.log(result)  //確認用
-    //             if(result != false) {
-    //                 food_data.push(fdata[i]);
-    //             }
-    //         }
-    //     }       
-        
-    //     console.log(food_data) //確認用
-    //     context.commit('setFoodData', food_data)        
-        
-
-    //     //ニュースカテゴリページに表示するデータをRealtime databaseから取得してくる処理
-    //     const category_news_list = /ニュース|事件/;
-
-    //     for (let i = 0; fdata[i] != null; i++) {
-    //         if (fdata[i].data_label == 'NewsTimeLine'){
-    //             news_data.push(fdata[i]);
-    //         } else {
-    //             let text = fdata[i].text;
-    //             let result = category_news_list.test(text);
-    //             // console.log(result)  //確認用
-    //             if(result != false) {
-    //                 news_data.push(fdata[i]);
-    //             }
-    //         }
-    //     }      
-        
-    //     console.log(news_data) //確認用
-    //     context.commit('setNewsData', news_data)            
-        
-
-    //     //温泉カテゴリページに表示するデータをRealtime databaseから取得してくる処理                        
-    //     const category_spa_list = /温泉|風呂/;
-
-    //     for (let i = 0; fdata[i] != null; i++) {
-    //         if (fdata[i].data_label == 'SpaTimeLine'){
-    //             spa_data.push(fdata[i]);
-    //         } else {
-    //             let text = fdata[i].text;
-    //             let result = category_spa_list.test(text);
-    //             // console.log(result)  //確認用
-    //             if(result != false) {
-    //                 spa_data.push(fdata[i]);
-    //             }
-    //         }
-    //     }          
-
-    //     console.log(spa_data) //確認用
-    //     context.commit('setSpaData', spa_data)            
-
-
-
-    //     //観光カテゴリページに表示するデータをRealtime databaseから取得してくる処理                        
-    //     const category_tour_list = /スポット|観光|祭/;
-
-    //     for (let i = 0; fdata[i] != null; i++) {
-    //         if (fdata[i].data_label == 'TourTimeLine'){
-    //             tour_data.push(fdata[i]);
-    //         } else {
-    //             let text = fdata[i].text;
-    //             let result = category_tour_list.test(text);
-    //             // console.log(result)  //確認用
-    //             if(result != false) {
-    //                 tour_data.push(fdata[i]);
-    //             }
-    //         }
-    //     }   
-
-    //     console.log(tour_data) //確認用
-    //     context.commit('setTourData', tour_data)            
-    // },            
+        getKnowledgeData: (context) => {                          //知るカテゴリページに表示するデータをRealtime databaseから取得してくる処理
+            
+            const category_word_list = /スポット|観光|祭|ラーメン|ごはん|飯|グルメ|カフェ|居酒屋/;
+            const data = [];
+            const fdata = context.state.top_fire_data
+            for (let i = 0; fdata[i] != null; i++) {
+                    let text = fdata[i].text;
+                    let result = category_word_list.test(text);
+                    // console.log(result)  //確認用
+                    if(result == false) {
+                        data.push(fdata[i]);
+                    }
+                }
+            
+            console.log(data) //確認用
+            context.commit('setKnowledgeData', data)
+        },        
+    },     
     plugins: [
         createPersistedState()
     ]

@@ -117,8 +117,12 @@ def SaveToDatabase(tweets, tweets_data, data_label):
                                     'profile_image_url': tweets.includes['users'][i]['profile_image_url'],   #プロフィール画像
                                     'SNS_type': 'Twitter'
                                 })
+                                break
                         media_ref = db.reference('/' + Key + '/' + str(tweet.id)).child('media')
+                        roop_count = 0 #その投稿のメディアの数に合わせたループ回数を保存する変数？
                         for i in range(len(tweets.includes['media'])):  #取得してきたツイート10件に格納されたメディアのurlの数
+                            if roop_count == len(tweet.attachments['media_keys']) :  #その投稿に格納する画像や動画がなくなったら次の投稿へ
+                                break                            
                             for j in range(len(tweet.attachments['media_keys'])): #ツイートに格納されてあるメディアのurlの数
                                 if tweets.includes['media'][i]['media_key'] == tweet.attachments['media_keys'][j]: #メディアのキーが同じだったら...
                                     if tweets.includes['media'][i]['type'] == 'photo' :
@@ -126,11 +130,16 @@ def SaveToDatabase(tweets, tweets_data, data_label):
                                             'media_type': tweets.includes['media'][i]['type'], #メディアの種類
                                             'media_url': tweets.includes['media'][i]['url']  #urlをDBに格納！全てのurlを格納できる！
                                         })
+                                        roop_count += 1   #画像情報を格納出来たら、roopcountに+1して、その投稿の次のメディアを探す
                                     else :
-                                        media_ref.child('url' + str(j)).set({
-                                            'media_type': tweets.includes['media'][i]['type'], #メディアの種類
-                                            'media_url': tweets.includes['media'][i]['variants'][0]['url']  #urlをDBに格納！全てのurlを格納できる！
-                                        })
+                                        for k in range(4) :                                            
+                                            if (tweets.includes['media'][i]['variants'][k]['content_type'] == 'video/mp4') :                                                        
+                                                media_ref.child('url' + str(j)).set({
+                                                    'media_type': tweets.includes['media'][i]['type'], #メディアの種類
+                                                    'media_url': tweets.includes['media'][i]['variants'][k]['url']  #urlをDBに格納！全てのurlを格納できる！
+                                                })
+                                                roop_count += 1
+                                                break  #video/mp4タイプの動画を一つでも格納出来たら、roop_countに+1して、その投稿の次のメディアを探す
                                         
             except:
                 pass
@@ -142,10 +151,9 @@ def SaveToDatabase(tweets, tweets_data, data_label):
 
 
 # 「函館」のテキストが含まれる投稿を最新順で取得してくる関数
-def SearchTweets(search, tweet_max):
-    client = ClientInfo()
+def SearchTweets(search, tweet_max, client):
     # 直近のツイート取得
-    tweets = client[0].search_recent_tweets(
+    tweets = client.search_recent_tweets(
         query=search,
         max_results=tweet_max,
         tweet_fields=['created_at', 'public_metrics', 'source'],
@@ -163,10 +171,9 @@ def SearchTweets(search, tweet_max):
 
 
 # トップページ用アカウントのタイムラインの投稿をデータベースに保存する
-def GetTopTimeLine(tweet_max):
-    client = ClientInfo()
+def GetTopTimeLine(tweet_max, client):
     # 直近のツイート取得
-    tweets = client[1].get_home_timeline(
+    tweets = client.get_home_timeline(
         max_results=tweet_max,
         tweet_fields=['created_at', 'public_metrics', 'source'],
         user_fields=['profile_image_url', 'username', 'entities'],
@@ -183,10 +190,9 @@ def GetTopTimeLine(tweet_max):
 
 
 # ごはんカテゴリ用アカウントのタイムラインの投稿をデータベースに保存する
-def GetFoodTimeLine(tweet_max):
-    client = ClientInfo()
+def GetFoodTimeLine(tweet_max, client):
     # 直近のツイート取得
-    tweets = client[2].get_home_timeline(
+    tweets = client.get_home_timeline(
         max_results=tweet_max,
         tweet_fields=['created_at', 'public_metrics', 'source'],
         user_fields=['profile_image_url', 'username', 'entities'],
@@ -201,53 +207,50 @@ def GetFoodTimeLine(tweet_max):
     return SaveToDatabase(tweets, tweets_data, 'FoodTimeLine')
 
 
+# 使わない
+# # ニュースカテゴリ用アカウントのタイムラインの投稿をデータベースに保存する
+# def GetNewsTimeLine(tweet_max, client):
+#     # 直近のツイート取得
+#     tweets = client.get_home_timeline(
+#         max_results=tweet_max,
+#         tweet_fields=['created_at', 'public_metrics', 'source'],
+#         user_fields=['profile_image_url', 'username', 'entities'],
+#         expansions=['author_id', 'attachments.media_keys'],
+#         media_fields=['url', 'variants'],
+#         exclude = ['retweets', 'replies'] #リツイート リプライを省く
+#     )
 
-# ニュースカテゴリ用アカウントのタイムラインの投稿をデータベースに保存する
-def GetNewsTimeLine(tweet_max):
-    client = ClientInfo()
-    # 直近のツイート取得
-    tweets = client[3].get_home_timeline(
-        max_results=tweet_max,
-        tweet_fields=['created_at', 'public_metrics', 'source'],
-        user_fields=['profile_image_url', 'username', 'entities'],
-        expansions=['author_id', 'attachments.media_keys'],
-        media_fields=['url', 'variants'],
-        exclude = ['retweets', 'replies'] #リツイート リプライを省く
-    )
+#     # 取得したデータ加工
+#     tweets_data = tweets.data
 
-    # 取得したデータ加工
-    tweets_data = tweets.data
-
-    return SaveToDatabase(tweets, tweets_data, 'NewsTimeLine')
-
+#     return SaveToDatabase(tweets, tweets_data, 'NewsTimeLine')
 
 
 
-# 温泉カテゴリ用アカウントのタイムラインの投稿をデータベースに保存する
-def GetSpaTimeLine(tweet_max):
-    client = ClientInfo()
-    # 直近のツイート取得
-    tweets = client[4].get_home_timeline(
-        max_results=tweet_max,
-        tweet_fields=['created_at', 'public_metrics', 'source'],
-        user_fields=['profile_image_url', 'username', 'entities'],
-        expansions=['author_id', 'attachments.media_keys'],
-        media_fields=['url', 'variants'],
-        exclude = ['retweets', 'replies'] #リツイート リプライを省く
-    )
+# 使わない
+# # 温泉カテゴリ用アカウントのタイムラインの投稿をデータベースに保存する
+# def GetSpaTimeLine(tweet_max, client):
+#     # 直近のツイート取得
+#     tweets = client.get_home_timeline(
+#         max_results=tweet_max,
+#         tweet_fields=['created_at', 'public_metrics', 'source'],
+#         user_fields=['profile_image_url', 'username', 'entities'],
+#         expansions=['author_id', 'attachments.media_keys'],
+#         media_fields=['url', 'variants'],
+#         exclude = ['retweets', 'replies'] #リツイート リプライを省く
+#     )
 
-    # 取得したデータ加工
-    tweets_data = tweets.data
+#     # 取得したデータ加工
+#     tweets_data = tweets.data
 
-    return SaveToDatabase(tweets, tweets_data, 'SpaTimeLine')
+#     return SaveToDatabase(tweets, tweets_data, 'SpaTimeLine')
 
 
 
 # 観光カテゴリ用アカウントのタイムラインの投稿をデータベースに保存する
-def GetTourTimeLine(tweet_max):
-    client = ClientInfo()
+def GetTourTimeLine(tweet_max, client):
     # 直近のツイート取得
-    tweets = client[5].get_home_timeline(
+    tweets = client.get_home_timeline(
         max_results=tweet_max,
         tweet_fields=['created_at', 'public_metrics', 'source'],
         user_fields=['profile_image_url', 'username', 'entities'],
@@ -274,28 +277,32 @@ def GetTourTimeLine(tweet_max):
 Key = 'SNS_data'              #Keyに格納したいキー名を指定する。　ここだけ必要に応じて書き換える必要がある。
 ref = db.reference(Key)     #キー名のパスにアクセス
 tweet_max = 10               # 取得したいツイート数(10〜100で設定可能)
+client = ClientInfo()           #clientという配列にクライアント情報（トークン等）を格納
 
 
 # 検索対象（リツイート除外, 返信除外, 画像付きまたはリンク付きの投稿に絞る）
-# search = "函館 -is:retweet -is:reply -is:quote has:media -東京 -八王子 -札幌 -小樽 -苫小牧 OR 函館 -is:retweet -is:reply -is:quote has:links -東京 -八王子 -札幌 -小樽 -苫小牧 OR #函館 -is:retweet -is:reply -is:quote has:media -東京 -八王子 -札幌 -小樽 -苫小牧 OR #函館 -is:retweet -is:reply -is:quote has:links -東京 -八王子 -札幌 -小樽 -苫小牧"  
+# search = "函館 -is:retweet -is:reply -is:quote has:media -東京 -八王子 -札幌 -小樽 -苫小牧 OR 函館 -is:retweet -is:reply -is:quote has:links -東京 -八王子 -札幌 -小樽 -苫小牧 "  
 
 add_func = " -is:retweet -is:reply -is:quote has:media"
 place = " -東京 -歌舞伎町 -八王子 -札幌 -沖縄 -留萌 -小樽 -釧路 -すすきの -青森 -仙台 -山形 -福島 -秋田 -盛岡 -神田 -羽田 -旭川 -土呂 -大宮 -長万部 -新潟 -金沢 -苫小牧 -北見 -帯広 -室蘭 -夕張 -網走 -ニセコ"
 r_18 = " -裏垢 -裏垢 -裏アカ -キャバ嬢 -パパ活 -風俗 -デブ専"
 other = " -政権 -競馬"
 # 検索対象（リツイート除外, 返信除外, 画像付きの投稿に絞る）
+
 search = "函館" + add_func + place + r_18 + other
-# search = "動画"
+
+
+
 
 #「函館」のテキストが含まれる投稿を最新順で取得してくる関数を実行
-pprint(SearchTweets(search, tweet_max))
+pprint(SearchTweets(search, tweet_max, client[0]))
 
 #カテゴリごとに、アカウントのタイムラインの投稿をデータベースに保存する関数を実行
-pprint(GetTopTimeLine(tweet_max))
-pprint(GetFoodTimeLine(tweet_max))
-pprint(GetNewsTimeLine(tweet_max))
-pprint(GetSpaTimeLine(tweet_max))
-pprint(GetTourTimeLine(tweet_max))
+pprint(GetTopTimeLine(tweet_max, client[1]))
+pprint(GetFoodTimeLine(tweet_max, client[2]))
+# pprint(GetNewsTimeLine(tweet_max, client[3]))    #使わない
+# pprint(GetSpaTimeLine(tweet_max, client[4]))       #使わない
+pprint(GetTourTimeLine(tweet_max, client[5]))
 
 
 

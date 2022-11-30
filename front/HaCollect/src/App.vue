@@ -15,7 +15,7 @@
                 </label>
                 <input type="radio" id="change2" name="header-navlist">
                 <label for="change2" id="button21">
-                    <router-link class="pageChange" id="button22" to="/eat">ごはん</router-link>
+                    <router-link class="pageChange" id="button22" to="/eat">食べる</router-link>
                 </label>
                 <input type="radio" id="change3" name="header-navlist">
                 <label for="change3" id="button31">
@@ -23,11 +23,15 @@
                 </label>
                 <input type="radio" id="change4" name="header-navlist">
                 <label for="change4" id="button41">
-                    <router-link class="pageChange" id="button42" to="/tour">観光</router-link>
+                    <router-link class="pageChange" id="button42" to="/see">見る</router-link>
                 </label>
                 <input type="radio" id="change5" name="header-navlist">
                 <label for="change5" id="button51">
                     <router-link class="pageChange" id="button52" to="/news">ニュース</router-link>
+                </label>
+                <input type="radio"  name="header-navlist">
+                <label>
+                    <router-link class="pageChange" to="/know">知る</router-link>
                 </label>
             </div>
         </div>
@@ -59,12 +63,10 @@ export default {
     methods: {
         InitializeData() {
             this.$store.dispatch('InitializeFireData').then( () => {
-                // this.$store.dispatch('getCategoryData')  
                 this.$store.dispatch('getTopData')
                 this.$store.dispatch('getFoodData')
-                this.$store.dispatch('getNewsData')
-                this.$store.dispatch('getSpaData')
                 this.$store.dispatch('getTourData')
+                this.$store.dispatch('getKnowledgeData')
             }) 
         },
         doSearch() {

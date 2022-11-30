@@ -136,7 +136,7 @@ const posts_num = 30  //表示する投稿数
 const get_posts_num = 100  //取得してくる投稿数
 
 export default {
-    name: "tourPage",
+    name: "knowPage",
     data() {
         return {
             max: posts_num,  //表示する投稿数
@@ -173,7 +173,7 @@ export default {
     },    
     computed: {
         fire_data: function () {
-            return this.$store.state.tour_fire_data
+            return this.$store.state.knowledge_fire_data
         },
     },
 };
@@ -185,7 +185,6 @@ export default {
 .hello {
     padding-top: 80px;
 }
-
 .infomation {
     display: inline-block;
     /* width: 30%; */
@@ -309,9 +308,10 @@ export default {
 }
 
 @media(min-width: 750px) {
-    .card_All {
+    .card_All{
         border-left: 1px solid #aaaaaa;
         border-right: 1px solid #aaaaaa;
     }
 }
 </style>
+    
