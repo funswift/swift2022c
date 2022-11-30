@@ -15,19 +15,15 @@
                 </label>
                 <input type="radio" id="change2" name="header-navlist">
                 <label for="change2" id="button21">
-                    <router-link class="pageChange" id="button22" to="/eat">ごはん</router-link>
+                    <router-link class="pageChange" id="button22" to="/eat">食べる</router-link>
                 </label>
                 <input type="radio" id="change3" name="header-navlist">
                 <label for="change3" id="button31">
-                    <router-link class="pageChange" id="button32" to="/spa">温泉</router-link>
+                    <router-link class="pageChange" id="button32" to="/see">見る</router-link>
                 </label>
                 <input type="radio" id="change4" name="header-navlist">
                 <label for="change4" id="button41">
-                    <router-link class="pageChange" id="button42" to="/tour">観光</router-link>
-                </label>
-                <input type="radio" id="change5" name="header-navlist">
-                <label for="change5" id="button51">
-                    <router-link class="pageChange" id="button52" to="/news">ニュース</router-link>
+                    <router-link class="pageChange" id="button42" to="/know">知る</router-link>
                 </label>
             </div>
         </div>
@@ -59,12 +55,10 @@ export default {
     methods: {
         InitializeData() {
             this.$store.dispatch('InitializeFireData').then( () => {
-                // this.$store.dispatch('getCategoryData')  
                 this.$store.dispatch('getTopData')
                 this.$store.dispatch('getFoodData')
-                this.$store.dispatch('getNewsData')
-                this.$store.dispatch('getSpaData')
                 this.$store.dispatch('getTourData')
+                this.$store.dispatch('getKnowledgeData')
             }) 
         },
         doSearch() {
@@ -126,12 +120,12 @@ export default {
         document.getElementById('button42').addEventListener("click", function (event) {
             document.getElementById('button41').click();
         });
-        document.getElementById('button51').addEventListener("click", function (event) {
-            document.getElementById('button52').click();
-        });
-        document.getElementById('button52').addEventListener("click", function (event) {
-            document.getElementById('button51').click();
-        });
+        // document.getElementById('button51').addEventListener("click", function (event) {
+        //     document.getElementById('button52').click();
+        // });
+        // document.getElementById('button52').addEventListener("click", function (event) {
+        //     document.getElementById('button51').click();
+        // });
     },
 }
 </script>
@@ -207,7 +201,7 @@ header {
     /* フォーカス時背景色  */
 }
 .header-inner2 {
-    background-color: #ffffee;
+    background-color: #ffffff;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -219,18 +213,16 @@ header {
 }
 .header-nav {
     display: flex;
-    padding: 0 36px;
     overflow-x: auto;
     white-space: nowrap;
+    height: 60px;
 }
 .header-nav label {
     background: #FFFFFF;
-    border: 1px solid #CCCCCC;
-    border-radius: 5px;
+    border-left: 1px solid #CCCCCC;
+    border-right: 1px solid #CCCCCC;
     font-style: normal;
-    width: 114px;
-    margin: 0 3px;
-    /* ナビゲーションに左右のスペースを付ける */
+    width: 125px;
 }
 .pageChange {
     display: block;
@@ -242,13 +234,14 @@ header {
     color: #000;
     text-decoration-line: none;
     padding: 5px 15px;
+    margin-top: 10px;
 }
 .header-nav input:checked+ label {
-    background: rgba(76, 197, 235, 0.25);
-    border: 1px solid rgba(76, 197, 235, 0.25);
+    background: #61d6d2;
+    border: 1px solid #61d6d2;
 }
 .header-nav input:checked+ label .pageChange {
-    color: #4C79EB;
+    color: #ffffff;
 }
 .header-nav input {
     display: none;
@@ -320,51 +313,5 @@ header {
     .searchArea {
         display: none;
     } */
-    .header-inner-smart {
-        display: flex;
-        height: 35px;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 20px;
-        margin: 0 auto;
-    }
-    .cancel {
-        font-size: 250%;
-        font-weight: bold;
-    }
-    .searchAreaSmart {
-        width: 350px;
-        /* inputの幅           */
-        height: 25px;
-        background-repeat: no-repeat;
-        /* 背景は繰り返さない  */
-        background-position: 8px center;
-        /* 背景の位置          */
-        background-size: auto 60%;
-        /* 背景のサイズ        */
-        background-color: #fff;
-        /* 背景色              */
-        margin: 0 auto;
-        /* サンプルは中央寄せ  */
-        padding-left: 30px;
-        /* 虫眼鏡分の左余白    */
-        border-radius: 9999px;
-        /* 角丸                */
-        color: #555;
-        /* 文字色              */
-        font-size: 16px;
-        /* フォントサイズ      */
-        letter-spacing: 0.1em;
-        /* 文字間隔            */
-        font-weight: bold;
-        /* 太字                */
-        outline: 0;
-        /* 入力薄枠を非表示    */
-    }
-    /*テキスト入力欄にフォーカスか来たとき*/
-    .searchAreaSmart:focus {
-        background-color: #e6f2ff;
-        /* フォーカス時背景色  */
-    }
 }
 </style>
