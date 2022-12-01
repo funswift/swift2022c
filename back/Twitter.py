@@ -1,7 +1,7 @@
 
 import tweepy
 from pprint import pprint
-from datetime import datetime,timezone
+from datetime import datetime, timezone, timedelta
 import pytz
 
 # setting.pyからインポート
@@ -67,6 +67,19 @@ BEARER_TOKEN = [settings.BEARER_TOKEN0,
                             settings.BEARER_TOKEN5,
                             ]
 
+#秒数を年月日で返す関数
+def getTime(seconds):
+    JST = timezone(timedelta(hours=+9), 'JST')
+    time = datetime.fromtimestamp(seconds, JST)
+    year_month_day_hour_minutes = str(time).split(' ')
+    year_month_day = str(year_month_day_hour_minutes[0]).split('-')
+    hour_minutes = str(year_month_day_hour_minutes[1]).split(':')
+    # print(year_month_day[0])
+    # print(year_month_day[1])
+    # print(year_month_day[2])
+    # print(hour_minutes[0])
+    result = year_month_day[0] + '年' + str(int(year_month_day[1])) + '月' + str(int(year_month_day[2])) + '日' + ' ' + str(int(hour_minutes[0]))  + '時' +str(int(hour_minutes[1])) + '分'
+    return result
 
 #関数:　UTCをJSTに変換する
 def change_time_JST(u_time):
@@ -100,13 +113,14 @@ def SaveToDatabase(tweets, tweets_data, data_label):
             # databaseにデータを追加する
             try:
                 if tweet.attachments is not None:  #そのツイートに画像があるか（リンクのみだった時も除外しちゃうので一旦保留）
-                    if tweet.source != "twittbot.net" and tweet.source != "TravelRaku":  #ここでBOTを除外する
+                    if tweet.source != "twittbot.net" and tweet.source != "TravelRaku" and tweet.source != "rt_10" :  #ここでBOTを除外する
                         for i in range(len(tweets.includes['users'])):
                             if tweet.author_id == tweets.includes['users'][i]['id']:
                                 ref.child(str(tweet.id)).set({  # キーはツイートID
-                                    'data_label' : data_label,
-                                    'date2': change_time_JST(tweet.created_at),
+                                    'data_label' : data_label,                                    
                                     'date': -(tweet.created_at.timestamp()),  #float型（確認済み）
+                                    'date2': change_time_JST(tweet.created_at),
+                                    'date3': getTime(tweet.created_at.timestamp()),
                                     # 投稿日  ISO 8601形式の投稿日時をUNIX時間に変換した。（投稿日時を秒数に変換）
                                     'text': tweet.text.split('https://t.co/')[0],  # 投稿文
                                     'link': 'https://twitter.com/twitter/status/' + str(tweet.id),  #投稿リンク
@@ -284,9 +298,9 @@ client = ClientInfo()           #clientという配列にクライアント情�
 # search = "函館 -is:retweet -is:reply -is:quote has:media -東京 -八王子 -札幌 -小樽 -苫小牧 OR 函館 -is:retweet -is:reply -is:quote has:links -東京 -八王子 -札幌 -小樽 -苫小牧 "  
 
 add_func = " -is:retweet -is:reply -is:quote has:media"
-place = " -東京 -歌舞伎町 -八王子 -札幌 -沖縄 -留萌 -小樽 -釧路 -すすきの -青森 -仙台 -山形 -福島 -秋田 -盛岡 -神田 -羽田 -旭川 -土呂 -大宮 -長万部 -新潟 -金沢 -苫小牧 -北見 -帯広 -室蘭 -夕張 -網走 -ニセコ"
-r_18 = " -裏垢 -裏垢 -裏アカ -キャバ嬢 -パパ活 -風俗 -デブ専"
-other = " -政権 -競馬"
+place = " -東京 -羽田 -歌舞伎町 -八王子 -札幌 -すすきの -沖縄 -青森 -仙台 -山形 -鹿児島 -福島 -秋田 -盛岡 -神田 -土呂 -丘珠 -大宮 -新潟 -金沢 -苫小牧 -北見 -帯広 -室蘭 -夕張 -網走 -ニセコ -稚内 -留萌 -小樽 -釧路 -長万部 -旭川"
+r_18 = " -裏垢 -裏アカ -キャバ嬢 -パパ活 -風俗 -デブ専 -グラビアモデル"
+other = " -政権 -スープラ -runkeeper -戦争 -世界平和 -求人 -末広写真館 -函館に行ってきた -言霊アロマ"
 # 検索対象（リツイート除外, 返信除外, 画像付きの投稿に絞る）
 
 search = "函館" + add_func + place + r_18 + other

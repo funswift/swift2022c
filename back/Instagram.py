@@ -1,6 +1,6 @@
 import requests
 import json
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from pprint import pprint
 
 # setting.pyからインポート
@@ -24,11 +24,19 @@ firebase_admin.initialize_app(cred, {
 
 
 
-# 関数たち
-# basic_info           Instagram Graph APIの認証用関数
-# InstaApiCall        APIリクエスト用の関数
-# get_hashtag_id   ハッシュタグ検索結果を取得するID関数
-# get_hashtag_media_recent
+#秒数を年月日で返す関数
+def getTime(seconds):
+    JST = timezone(timedelta(hours=+9), 'JST')
+    time = datetime.fromtimestamp(seconds, JST)
+    year_month_day_hour_minutes = str(time).split(' ')
+    year_month_day = str(year_month_day_hour_minutes[0]).split('-')
+    hour_minutes = str(year_month_day_hour_minutes[1]).split(':')
+    # print(year_month_day[0])
+    # print(year_month_day[1])
+    # print(year_month_day[2])
+    # print(hour_minutes[0])
+    result = year_month_day[0] + '年' + str(int(year_month_day[1])) + '月' + str(int(year_month_day[2])) + '日' + ' ' + str(int(hour_minutes[0]))  + '時' +str(int(hour_minutes[1])) + '分'
+    return result
 
 
 # Instagram Graph APIの認証用関数
@@ -168,10 +176,12 @@ for post in hashtag_response['json_data']['data']:
     # databaseにデータを追加する
     try:  # いいね数とメディアurlは存在しないときがあるので、存在しなかったらtryは実行せず、passする。なので25件全て執れない可能性高い15件とかかな...
         if post['media_type'] != 'CAROUSEL_ALBUM' :
+            time = datetime.fromisoformat(post['timestamp'].split('+')[0]).timestamp() + 32400  #float型(確認済み)
             ref.child(str(post["id"])).set({  # キーはツイートID、データは投稿文
-                'data_label': 'Search',
+                'data_label': 'Search',                
+                'date': -(time),  
                 'date2': post['timestamp'],
-                'date': -(datetime.fromisoformat(post['timestamp'].split('+')[0]).timestamp() + 32400),  #float型(確認済み)
+                'date3': getTime(time),
                 # 投稿日  ISO 8601形式の投稿日時をUNIX時間に変換した。（投稿日時を秒数に変換）
                 'text': post['caption'],  # 投稿文
                 'link': post['permalink'],  # 投稿リンク
@@ -181,10 +191,12 @@ for post in hashtag_response['json_data']['data']:
                 'SNS_type': 'Instagram'
             })
         else :
+            time = datetime.fromisoformat(post['timestamp'].split('+')[0]).timestamp() + 32400  #float型(確認済み)
             ref.child(str(post["id"])).set({  # キーはツイートID、データは投稿文
-                'data_label': 'Search',
+                'data_label': 'Search',                
+                'date': -(time),
                 'date2': post['timestamp'],
-                'date': -(datetime.fromisoformat(post['timestamp'].split('+')[0]).timestamp() + 32400),  #float型(確認済み)
+                'date3': getTime(time),
                 # 投稿日  ISO 8601形式の投稿日時をUNIX時間に変換した。（投稿日時を秒数に変換）
                 'text': post['caption'],  # 投稿文
                 'link': post['permalink'],  # 投稿リンク

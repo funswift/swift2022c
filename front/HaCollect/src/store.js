@@ -21,6 +21,25 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app)
 
+// 最初にDBからデータを取得してくる際のインスタの除外ワード
+const exclusion_list = /東京|羽田|歌舞伎町|八王子|札幌|すすきの|沖縄|青森|仙台|山形|鹿児島|福島|秋田|盛岡|神田|土呂|丘珠|大宮|新潟|金沢|苫小牧|北見|帯広|室蘭|夕張|網走|ニセコ|稚内|留萌|小樽|釧路|長万部|旭川|裏垢|裏アカ|キャバ嬢|パパ活|風俗|デブ専|グラビアモデル|政権|スープラ|runkeeper|戦争|世界平和|求人|末広写真館|函館に行ってきた|言霊アロマ/
+
+//カテゴリに表示する時の一致ワード
+//食べるカテゴリ
+const eat_category_word_list = /ラーメン|ごはん|飯|グルメ|カフェ|居酒屋/;
+//見るカテゴリ
+const see_category_word_list = /スポット|観光|祭/;
+//知るカテゴリ
+const know_category_word_list = /スポット|観光|祭|ラーメン|ごはん|飯|グルメ|カフェ|居酒屋/;
+
+// const place = '東京 |羽田 |歌舞伎町 |八王子 |札幌 |すすきの |沖縄 |青森 |仙台 |山形 |鹿児島 |福島 |秋田 |盛岡 |神田 |土呂 |丘珠 |大宮 |新潟 |金沢 |苫小牧 |北見 |帯広 |室蘭 |夕張 |網走 |ニセコ |稚内 |留萌 |小樽 |釧路 |長万部 |旭川'
+// const r_18 = '|裏垢 |裏アカ |キャバ嬢 |パパ活 |風俗 |デブ専 |グラビアモデル |'
+// const other = '|政権 |スープラ |runkeeper |戦争 |世界平和 |求人 |末広写真館 |函館に行ってきた |言霊アロマ'
+// const exclusion_list = /place + r_18 + other/
+
+
+
+
 
 export const store = createStore({
     state() {  
@@ -29,9 +48,7 @@ export const store = createStore({
             fire_data: null,                    //全部のカテゴリ＋「函館」で一致するデータを格納する変数
             search_fire_data: null,         //検索結果ページに表示するデータ
             top_fire_data: null,              //トップページに表示するデータ
-            food_fire_data: null,            //食べるカテゴリページに表示するデータ
-            // news_fire_data: null,       
-            // spa_fire_data: null,         
+            food_fire_data: null,            //食べるカテゴリページに表示するデータ    
             tour_fire_data: null,           //見るカテゴリページに表示するデータ
             knowledge_fire_data: null   //知るカテゴリページに表示するデータ
         }
@@ -50,12 +67,6 @@ export const store = createStore({
         setFoodData: (state, data) => {        //食べるカテゴリページに表示するデータに新しいデータを格納する処理
             state.food_fire_data = data
         },
-        // setNewsData: (state, data) => {   
-        //     state.news_fire_data = data
-        // },
-        // setSpaData: (state, data) => {     
-        //     state.spa_fire_data = data
-        // },
         setTourData: (state, data) => {        //見るカテゴリページに表示するデータに新しいデータを格納する処理
             state.tour_fire_data = data
         },
@@ -77,9 +88,17 @@ export const store = createStore({
                         const data = [];   //あとでデータの挿入(下のcontext.commit)に使う用
                         snapshot.forEach((childSnapshot) => {
                             if (roop_count < 100) {   //roopcountでループ回数を指定（現在100回ループ=データを全体で100個格納）
-                                // ↓変数dataにデータベースのデータ一つを格納する処理
+                                if (childSnapshot.val().SNS_type == 'Instagram') {
+                                    let result = exclusion_list.test(childSnapshot.val().text)   //投稿テキストに除外ワードが入っているかチェック
+                                    if (result == false) {
+                                        // ↓変数dataに、除外ワードが含まれていない、データベースのデータ一つを格納する処理                                    
+                                        data.push(childSnapshot.val());
+                                    }                                    
+                                } else {
+                                    // ↓変数dataにデータベースのデータ一つを格納する処理                                    
+                                    data.push(childSnapshot.val());
+                                }
                                 // console.log(roop_count)  //確認用
-                                data.push(childSnapshot.val());
                                 roop_count ++
                             }
                         });
@@ -102,9 +121,8 @@ export const store = createStore({
             // console.log(fdata);  //確認用
         
             for (let i = 0; fdata[i] != null; i++) {
-                let text = fdata[i].text;
                 //includes関数によって、resultには大文字と小文字は区別し、値が見つからない場合はfalseを返します。
-                let result = text.includes(search);   //投稿テキストにsearch変数の値が含まれているかどうかをチェック
+                let result = fdata[i].text.includes(search);   //投稿テキストにsearch変数の値が含まれているかどうかをチェック
                 // console.log(result)  //確認用
                 if(result == true) {
                     data.push(fdata[i]);
@@ -129,8 +147,7 @@ export const store = createStore({
             context.commit('setTopData', data)     //emutationsのsetSearchDataを実行する
         },
         getFoodData: (context) => {                         //食べるカテゴリページに表示するデータをRealtime databaseから取得してくる処理
-            
-            const category_word_list = /ラーメン|ごはん|飯|グルメ|カフェ|居酒屋/;       //カテゴリページに表示する際に、変数の内容が含まれているかどうかで判断する
+                        
             const data = [];
             const fdata = context.state.fire_data
             
@@ -139,9 +156,8 @@ export const store = createStore({
                     data.push(fdata[i]);
                 } else {
                     if (fdata[i].data_label == 'TopTimeLine' || fdata[i].data_label == 'Search'){
-                        let text = fdata[i].text;
                         //testもincludesと役割はほぼ同じ（正規表現が使えるかどうかの違い）
-                        let result = category_word_list.test(text);   //投稿テキストにcategory_word_listの値が一つでも含まれているかどうかをチェック
+                        let result = eat_category_word_list.test(fdata[i].text);   //投稿テキストにeat_category_word_listの値が一つでも含まれているかどうかをチェック
                         // console.log(result)  //確認用
                         if(result == true) {
                             data.push(fdata[i]);
@@ -153,51 +169,8 @@ export const store = createStore({
             console.log(data) //確認用
             context.commit('setFoodData', data)
         },
-        // getNewsData: (context) => {                        
-            
-        //     const category_word_list = /ニュース|事件/;
-        //     const data = [];
-        //     const fdata = context.state.fire_data
-        //     for (let i = 0; fdata[i] != null; i++) {
-        //         if (fdata[i].data_label == 'NewsTimeLine'){
-        //             data.push(fdata[i]);
-        //         } else {
-        //             let text = fdata[i].text;
-        //             let result = category_word_list.test(text);
-        //             // console.log(result)  //確認用
-        //             if(result == true) {
-        //                 data.push(fdata[i]);
-        //             }
-        //         }
-        //     }      
-            
-        //     console.log(data) //確認用
-        //     context.commit('setNewsData', data)
-        // },
-        // getSpaData: (context) => {                         
-            
-        //     const category_word_list = /温泉|風呂/;
-        //     const data = [];
-        //     const fdata = context.state.fire_data
-        //     for (let i = 0; fdata[i] != null; i++) {
-        //         if (fdata[i].data_label == 'SpaTimeLine'){
-        //             data.push(fdata[i]);
-        //         } else {
-        //             let text = fdata[i].text;
-        //             let result = category_word_list.test(text);
-        //             // console.log(result)  //確認用
-        //             if(result == true) {
-        //                 data.push(fdata[i]);
-        //             }
-        //         }
-        //     }          
-            
-        //     console.log(data) //確認用
-        //     context.commit('setSpaData', data)
-        // },
         getTourData: (context) => {                          //見るカテゴリページに表示するデータをRealtime databaseから取得してくる処理
-            
-            const category_word_list = /スポット|観光|祭/;
+                        
             const data = [];
             const fdata = context.state.fire_data
             for (let i = 0; fdata[i] != null; i++) {
@@ -205,8 +178,7 @@ export const store = createStore({
                     data.push(fdata[i]);
                 } else {
                     if (fdata[i].data_label == 'TopTimeLine' || fdata[i].data_label == 'Search'){
-                        let text = fdata[i].text;
-                        let result = category_word_list.test(text);
+                        let result = see_category_word_list.test(fdata[i].text);
                         // console.log(result)  //確認用
                         if(result == true) {
                             data.push(fdata[i]);
@@ -219,13 +191,11 @@ export const store = createStore({
             context.commit('setTourData', data)
         },
         getKnowledgeData: (context) => {                          //知るカテゴリページに表示するデータをRealtime databaseから取得してくる処理
-            
-            const category_word_list = /スポット|観光|祭|ラーメン|ごはん|飯|グルメ|カフェ|居酒屋/;
+                        
             const data = [];
             const fdata = context.state.top_fire_data
             for (let i = 0; fdata[i] != null; i++) {
-                    let text = fdata[i].text;
-                    let result = category_word_list.test(text);
+                    let result = know_category_word_list.test(fdata[i].text);
                     // console.log(result)  //確認用
                     if(result == false) {
                         data.push(fdata[i]);

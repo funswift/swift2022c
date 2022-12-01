@@ -20,7 +20,7 @@
                                     <template v-if="url_name == 'url' + page[post_index]">
                                         <!-- 動画かどうかチェック -->
                                         <template v-if="url.media_type == 'video'">    
-                                            <iframe class="card_Movie" v-bind:src=url.media_url></iframe>
+                                            <video class="card_Movie" v-bind:src="url.media_url" controls></video>
                                         </template>
                                         <!-- 画像だったら以下実行 -->
                                         <template v-else>
@@ -42,7 +42,7 @@
 
                             <!-- テキスト情報 -->
                             <div class="ac-box">
-                                <p>{{ item.date2 }}</p>
+                                <p>{{ item.date3 }}</p>
                                 <input :id="[post_index]" name="accordion-1" type="checkbox" />
                                 <p class="card_Text">{{ item.text }}</p> <!-- テキスト(最初の文のみプレビュー) -->
                                 <a v-bind:href=item.link target="_blank" class="card_Link" rel="noopener noreferrer"><img
@@ -64,7 +64,7 @@
                                 <template v-if="item.media_type != 'CAROUSEL_ALBUM'">
                                     <!-- そのメディアが動画だったら -->
                                     <template v-if="item.media_type == 'VIDEO'">
-                                        <iframe class="card_Movie" v-bind:src=item.media_url></iframe> <!-- 動画のurl -->
+                                        <video  class="card_Movie"  v-bind:src="item.media_url" controls></video>
                                     </template>
                                     <!-- そのメディアが画像だったら -->
                                     <template v-else>
@@ -80,7 +80,7 @@
                                         <template v-if="url_name == 'url' + page[post_index]">
                                             <!-- 動画かどうかチェック -->
                                             <template v-if="url.media_type == 'VIDEO'">
-                                                <iframe class="card_Movie" v-bind:src=url.media_url></iframe> <!-- 動画のurl -->
+                                                <video class="card_Movie" v-bind:src="url.media_url" controls></video>
                                             </template>
                                             <!-- 画像だったら以下実行 -->
                                             <template v-else>
@@ -103,7 +103,7 @@
 
                             <!-- テキスト情報 -->
                             <div class="ac-box">
-                                <p>{{ item.date2 }}</p>
+                                <p>{{ item.date3 }}</p>
                                 <input :id="[post_index]" name="accordion-1" type="checkbox" />
                                 <p class="card_Text">{{ item.text }}</p> <!-- テキスト(最初の文のみプレビュー) -->
                                 <a v-bind:href=item.link target="_blank" class="card_Link" rel="noopener noreferrer"><img
@@ -127,6 +127,7 @@
         </template>
     </div>
 </template>
+
 
 
 
