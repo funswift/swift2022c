@@ -135,9 +135,6 @@
 
 
 <script>
-const posts_num = 30  //表示する投稿数
-const get_posts_num = 100  //取得してくる投稿数
-
 export default {
     name: "searchResult",
     props: {
@@ -145,8 +142,8 @@ export default {
     },    
     data() {
         return {
-            max: posts_num,  //表示する投稿数
-            page: this.InitializeArray(get_posts_num)   //urlの番号を格納する配列？
+            max: this.$store.state.posts_num,  //表示する投稿数
+            page: this.InitializeArray(this.$store.state.get_posts_num)   //urlの番号を格納する配列？
         }
     },
     methods: {
@@ -162,7 +159,7 @@ export default {
         },
         // 投稿の表示数を増やす関数        
         displayMore() {
-            this.max += posts_num
+            this.max += this.$store.state.posts_num
         },
         // オブジェクトに含まれるキーの数を返す関数
         getObjLength (obj) {

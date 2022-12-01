@@ -45,6 +45,8 @@ export const store = createStore({
     state() {  
         return {
             //ここにコンポーネント間で共有するデータを書く
+            posts_num: 30,                //vueで表示する投稿数
+            get_posts_num: 100,        //vue側がDBから取得してくる投稿数
             fire_data: null,                    //全部のカテゴリ＋「函館」で一致するデータを格納する変数
             search_fire_data: null,         //検索結果ページに表示するデータ
             top_fire_data: null,              //トップページに表示するデータ

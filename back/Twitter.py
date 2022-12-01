@@ -22,13 +22,23 @@ firebase_admin.initialize_app(cred, {
     }
 })
 
+# 除外ユーザ
+# @ri_Zu_n_                競馬のうるさいユーザ
+# @KY1225kataware     なんでやねん函館関係ないやろの人
+# @Miyabi207Vzs72      インスタでもうるさいr_18アカウント
+# @flan_staff                r_18アカウント
+
+# 除外ボット
+# twittbot.net               ツイッターのボット
+# TravelRaku                楽天トラベル
+# rt_10                        楽天トラベル
 
 #APIキーの配列  格納の順番=> [キーワード検索用API,         (あつしのAPIキー)
                                             # トップページ用API,          (じょざのAPIキー)
-                                            # ごはんカテゴリ用API,       (じょざのAPIキー)
+                                            # 食べるカテゴリ用API,       (じょざのAPIキー)
                                             # ニュースカテゴリ用API,    (じょざのAPIキー)
                                             # 温泉カテゴリ用API,          (じょざのAPIキー)
-                                            # 観光カテゴリ用API]          (じょざのAPIキー)
+                                            # 見るカテゴリ用API]          (じょざのAPIキー)
 
 
 API_KEY = [settings.API_KEY0,
@@ -116,22 +126,23 @@ def SaveToDatabase(tweets, tweets_data, data_label):
                     if tweet.source != "twittbot.net" and tweet.source != "TravelRaku" and tweet.source != "rt_10" :  #ここでBOTを除外する
                         for i in range(len(tweets.includes['users'])):
                             if tweet.author_id == tweets.includes['users'][i]['id']:
-                                ref.child(str(tweet.id)).set({  # キーはツイートID
-                                    'data_label' : data_label,                                    
-                                    'date': -(tweet.created_at.timestamp()),  #float型（確認済み）
-                                    'date2': change_time_JST(tweet.created_at),
-                                    'date3': getTime(tweet.created_at.timestamp()),
-                                    # 投稿日  ISO 8601形式の投稿日時をUNIX時間に変換した。（投稿日時を秒数に変換）
-                                    'text': tweet.text.split('https://t.co/')[0],  # 投稿文
-                                    'link': 'https://twitter.com/twitter/status/' + str(tweet.id),  #投稿リンク
-                                    'good': tweet.public_metrics['like_count'],  #いいね数
-                                    'source': tweet.source,
-                                    'user': tweets.includes['users'][i]['name'],  #ユーザ名
-                                    'username': tweets.includes['users'][i]['username'],   #ユーザ名(@のやつ)
-                                    'profile_image_url': tweets.includes['users'][i]['profile_image_url'],   #プロフィール画像
-                                    'SNS_type': 'Twitter'
-                                })
-                                break
+                                if tweets.includes['users'][i]['username'] != "ri_Zu_n_" and tweets.includes['users'][i]['username'] != "KY1225kataware" and tweets.includes['users'][i]['username'] != "Miyabi207Vzs72" and tweets.includes['users'][i]['username'] != "flan_staff" :
+                                    ref.child(str(tweet.id)).set({  # キーはツイートID
+                                        'data_label' : data_label,                                    
+                                        'date': -(tweet.created_at.timestamp()),  #float型（確認済み）
+                                        'date2': change_time_JST(tweet.created_at),
+                                        'date3': getTime(tweet.created_at.timestamp()),
+                                        # 投稿日  ISO 8601形式の投稿日時をUNIX時間に変換した。（投稿日時を秒数に変換）
+                                        'text': tweet.text.split('https://t.co/')[0],  # 投稿文
+                                        'link': 'https://twitter.com/twitter/status/' + str(tweet.id),  #投稿リンク
+                                        'good': tweet.public_metrics['like_count'],  #いいね数
+                                        'source': tweet.source,
+                                        'user': tweets.includes['users'][i]['name'],  #ユーザ名
+                                        'username': tweets.includes['users'][i]['username'],   #ユーザ名(@のやつ)
+                                        'profile_image_url': tweets.includes['users'][i]['profile_image_url'],   #プロフィール画像
+                                        'SNS_type': 'Twitter'
+                                    })
+                                    break
                         media_ref = db.reference('/' + Key + '/' + str(tweet.id)).child('media')
                         roop_count = 0 #その投稿のメディアの数に合わせたループ回数を保存する変数？
                         for i in range(len(tweets.includes['media'])):  #取得してきたツイート10件に格納されたメディアのurlの数
