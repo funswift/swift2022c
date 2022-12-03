@@ -34,10 +34,10 @@ firebase_admin.initialize_app(cred, {
 # rt_10                        楽天トラベル
 
 #APIキーの配列  格納の順番=> [キーワード検索用API,         (あつしのAPIキー)
-                                            # トップページ用API,          (じょざのAPIキー)
+                                            # 知る用API,                      (じょざのAPIキー)
                                             # 食べるカテゴリ用API,       (じょざのAPIキー)
-                                            # ニュースカテゴリ用API,    (じょざのAPIキー)
-                                            # 温泉カテゴリ用API,          (じょざのAPIキー)
+                                            # ニュースカテゴリ用API,    (じょざのAPIキー)（使ってない）
+                                            # 温泉カテゴリ用API,          (じょざのAPIキー)（使ってない）
                                             # 見るカテゴリ用API]          (じょざのAPIキー)
 
 
@@ -195,8 +195,8 @@ def SearchTweets(search, tweet_max, client):
 
 
 
-# トップページ用アカウントのタイムラインの投稿をデータベースに保存する
-def GetTopTimeLine(tweet_max, client):
+# 知るカテゴリ用アカウントのタイムラインの投稿をデータベースに保存する
+def GetKnowTimeLine(tweet_max, client):
     # 直近のツイート取得
     tweets = client.get_home_timeline(
         max_results=tweet_max,
@@ -210,12 +210,12 @@ def GetTopTimeLine(tweet_max, client):
     # 取得したデータ加工
     tweets_data = tweets.data
 
-    return SaveToDatabase(tweets, tweets_data, 'TopTimeLine')
+    return SaveToDatabase(tweets, tweets_data, 'KnowTimeLine')
 
 
 
-# ごはんカテゴリ用アカウントのタイムラインの投稿をデータベースに保存する
-def GetFoodTimeLine(tweet_max, client):
+# 食べるカテゴリ用アカウントのタイムラインの投稿をデータベースに保存する
+def GetEatTimeLine(tweet_max, client):
     # 直近のツイート取得
     tweets = client.get_home_timeline(
         max_results=tweet_max,
@@ -229,7 +229,7 @@ def GetFoodTimeLine(tweet_max, client):
     # 取得したデータ加工
     tweets_data = tweets.data
 
-    return SaveToDatabase(tweets, tweets_data, 'FoodTimeLine')
+    return SaveToDatabase(tweets, tweets_data, 'EatTimeLine')
 
 
 # 使わない
@@ -272,8 +272,8 @@ def GetFoodTimeLine(tweet_max, client):
 
 
 
-# 観光カテゴリ用アカウントのタイムラインの投稿をデータベースに保存する
-def GetTourTimeLine(tweet_max, client):
+# 見るカテゴリ用アカウントのタイムラインの投稿をデータベースに保存する
+def GetSeeTimeLine(tweet_max, client):
     # 直近のツイート取得
     tweets = client.get_home_timeline(
         max_results=tweet_max,
@@ -287,7 +287,7 @@ def GetTourTimeLine(tweet_max, client):
     # 取得したデータ加工
     tweets_data = tweets.data
 
-    return SaveToDatabase(tweets, tweets_data, 'TourTimeLine')
+    return SaveToDatabase(tweets, tweets_data, 'SeeTimeLine')
 
 
 
@@ -323,54 +323,8 @@ search = "函館" + add_func + place + r_18 + other
 pprint(SearchTweets(search, tweet_max, client[0]))
 
 #カテゴリごとに、アカウントのタイムラインの投稿をデータベースに保存する関数を実行
-pprint(GetTopTimeLine(tweet_max, client[1]))
-pprint(GetFoodTimeLine(tweet_max, client[2]))
+pprint(GetKnowTimeLine(tweet_max, client[1]))
+pprint(GetEatTimeLine(tweet_max, client[2]))
 # pprint(GetNewsTimeLine(tweet_max, client[3]))    #使わない
 # pprint(GetSpaTimeLine(tweet_max, client[4]))       #使わない
-pprint(GetTourTimeLine(tweet_max, client[5]))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# テストコード
-# トップページ用アカウントのタイムラインの投稿をSNS_dataのキーではなく別のキーに保存する場合
-# Key = '格納したいキー名を書く' 今回の場合TimeLine_dataとした。何でもいいよ。
-
-# Key = 'Search'
-# ref = db.reference(Key)
-# pprint(SearchTweets(search, tweet_max))
-
-# Key = 'Top_data'
-# ref = db.reference(Key)
-# pprint(GetTopTimeLine(tweet_max))
-
-# Key = 'Food_data'
-# ref = db.reference(Key)     #キー名のパスにアクセス
-# pprint(GetFoodTimeLine(tweet_max))
-
-# Key = 'News_data'
-# ref = db.reference(Key)     #キー名のパスにアクセス
-# pprint(GetNewsTimeLine(tweet_max))
-
-# Key = 'Spa_data'
-# ref = db.reference(Key)     #キー名のパスにアクセス
-# pprint(GetSpaTimeLine(tweet_max))
-
-# Key = 'Tour_data'
-# ref = db.reference(Key)     #キー名のパスにアクセス
-# pprint(GetTourTimeLine(tweet_max))
+pprint(GetSeeTimeLine(tweet_max, client[5]))

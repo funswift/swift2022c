@@ -26,7 +26,7 @@ const exclusion_list = /東京|羽田|歌舞伎町|八王子|札幌|すすきの
 
 //カテゴリに表示する時の一致ワード
 //食べるカテゴリ
-const eat_category_word_list = /ラーメン|ごはん|飯|グルメ|カフェ|居酒屋/;
+const eat_category_word_list = /ラーメン|ごはん|ご飯|グルメ|カフェ|居酒屋/;
 //見るカテゴリ
 const see_category_word_list = /スポット|観光|祭/;
 //知るカテゴリ
@@ -50,9 +50,9 @@ export const store = createStore({
             fire_data: null,                    //全部のカテゴリ＋「函館」で一致するデータを格納する変数
             search_fire_data: null,         //検索結果ページに表示するデータ
             top_fire_data: null,              //トップページに表示するデータ
-            food_fire_data: null,            //食べるカテゴリページに表示するデータ    
-            tour_fire_data: null,           //見るカテゴリページに表示するデータ
-            knowledge_fire_data: null   //知るカテゴリページに表示するデータ
+            eat_fire_data: null,            //食べるカテゴリページに表示するデータ    
+            see_fire_data: null,           //見るカテゴリページに表示するデータ
+            know_fire_data: null   //知るカテゴリページに表示するデータ
         }
     },
     mutations: {
@@ -66,14 +66,14 @@ export const store = createStore({
         setTopData: (state, data) => {          //トップページに表示するデータに新しいデータを格納する処理
             state.top_fire_data = data
         },
-        setFoodData: (state, data) => {        //食べるカテゴリページに表示するデータに新しいデータを格納する処理
-            state.food_fire_data = data
+        setEatData: (state, data) => {        //食べるカテゴリページに表示するデータに新しいデータを格納する処理
+            state.eat_fire_data = data
         },
-        setTourData: (state, data) => {        //見るカテゴリページに表示するデータに新しいデータを格納する処理
-            state.tour_fire_data = data
+        setSeeData: (state, data) => {        //見るカテゴリページに表示するデータに新しいデータを格納する処理
+            state.see_fire_data = data
         },
-        setKnowledgeData: (state, data) => {    //知るカテゴリページに表示するデータに新しいデータを格納する処理
-            state.knowledge_fire_data = data
+        setKnowData: (state, data) => {    //知るカテゴリページに表示するデータに新しいデータを格納する処理
+            state.know_fire_data = data
         }
     },
     actions: {
@@ -120,7 +120,6 @@ export const store = createStore({
             // fdataにstateに書かれてあるtop_fire_dataを参照する
             //(参照する時点でtop_fire_dataにrealtime databaseのデータが入ってないといけない →getTopDataが前に実行されるべき -> topPage.vueで実行してます）
             const fdata = context.state.fire_data       
-            // console.log(fdata);  //確認用
         
             for (let i = 0; fdata[i] != null; i++) {
                 //includes関数によって、resultには大文字と小文字は区別し、値が見つからない場合はfalseを返します。
@@ -136,76 +135,67 @@ export const store = createStore({
         },
         getTopData: (context) => {                           //トップページに表示するデータをRealtime databaseから取得してくる処理
             
-            const data = [];
-            const fdata = context.state.fire_data
-            
-            for (let i = 0; fdata[i] != null; i++) {
-                if (fdata[i].data_label == 'TopTimeLine' || fdata[i].data_label == 'Search'){
-                    data.push(fdata[i]);
-                }
-            }       
-
-            console.log(data) //確認用
-            context.commit('setTopData', data)     //emutationsのsetSearchDataを実行する
+            console.log(context.state.fire_data) //確認用
+            context.commit('setTopData', context.state.fire_data)     //emutationsのsetSearchDataを実行する
         },
-        getFoodData: (context) => {                         //食べるカテゴリページに表示するデータをRealtime databaseから取得してくる処理
+        getEatData: (context) => {                         //食べるカテゴリページに表示するデータをRealtime databaseから取得してくる処理
                         
             const data = [];
             const fdata = context.state.fire_data
             
             for (let i = 0; fdata[i] != null; i++) {
-                if (fdata[i].data_label == 'FoodTimeLine'){
+                if (fdata[i].data_label == 'EatTimeLine'){
                     data.push(fdata[i]);
-                } else {
-                    if (fdata[i].data_label == 'TopTimeLine' || fdata[i].data_label == 'Search'){
-                        //testもincludesと役割はほぼ同じ（正規表現が使えるかどうかの違い）
-                        let result = eat_category_word_list.test(fdata[i].text);   //投稿テキストにeat_category_word_listの値が一つでも含まれているかどうかをチェック
-                        // console.log(result)  //確認用
-                        if(result == true) {
-                            data.push(fdata[i]);
-                        }
-                    }
+                } else if(fdata[i].data_label == 'Search') {
+                    //testもincludesと役割はほぼ同じ（正規表現が使えるかどうかの違い）
+                    let result = eat_category_word_list.test(fdata[i].text);   //投稿テキストにeat_category_word_listの値が一つでも含まれているかどうかをチェック
+                    // console.log(result)  //確認用
+                    if(result == true) {
+                        data.push(fdata[i]);
+                    }                    
                 }
             }       
             
             console.log(data) //確認用
-            context.commit('setFoodData', data)
+            context.commit('setEatData', data)
         },
-        getTourData: (context) => {                          //見るカテゴリページに表示するデータをRealtime databaseから取得してくる処理
+        getSeeData: (context) => {                          //見るカテゴリページに表示するデータをRealtime databaseから取得してくる処理
                         
             const data = [];
             const fdata = context.state.fire_data
             for (let i = 0; fdata[i] != null; i++) {
-                if (fdata[i].data_label == 'TourTimeLine'){
+                if (fdata[i].data_label == 'SeeTimeLine'){
                     data.push(fdata[i]);
-                } else {
-                    if (fdata[i].data_label == 'TopTimeLine' || fdata[i].data_label == 'Search'){
-                        let result = see_category_word_list.test(fdata[i].text);
-                        // console.log(result)  //確認用
-                        if(result == true) {
-                            data.push(fdata[i]);
-                        }
-                    }
+                } else if(fdata[i].data_label == 'Search') {
+                    let result = see_category_word_list.test(fdata[i].text);
+                    //console.log(result)  //確認用
+                    if(result == true) {
+                        data.push(fdata[i]);
+                    }                    
                 }
             }   
             
             console.log(data) //確認用
-            context.commit('setTourData', data)
+            context.commit('setSeeData', data)
         },
-        getKnowledgeData: (context) => {                          //知るカテゴリページに表示するデータをRealtime databaseから取得してくる処理
+        getKnowData: (context) => {                          //知るカテゴリページに表示するデータをRealtime databaseから取得してくる処理
                         
             const data = [];
-            const fdata = context.state.top_fire_data
+            const fdata = context.state.fire_data
             for (let i = 0; fdata[i] != null; i++) {
+                if (fdata[i].data_label == 'KnowTimeLine'){
+                    data.push(fdata[i]);
+                } else if(fdata[i].data_label == 'Search') {                    
                     let result = know_category_word_list.test(fdata[i].text);
-                    // console.log(result)  //確認用
+                    //console.log(result)  //確認用
                     if(result == false) {
                         data.push(fdata[i]);
-                    }
+                    }                    
                 }
+            }
             
             console.log(data) //確認用
-            context.commit('setKnowledgeData', data)
+            context.commit('setKnowData', data)
         },        
     },     
     plugins: [

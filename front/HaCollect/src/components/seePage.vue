@@ -186,7 +186,7 @@ export default {
     },     
     computed: {
         fire_data: function () {
-            return this.$store.state.tour_fire_data
+            return this.$store.state.see_fire_data
         },
     },
 };
