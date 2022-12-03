@@ -187,7 +187,7 @@ export default {
     },    
     computed: {
         fire_data: function () {
-            return this.$store.state.knowledge_fire_data
+            return this.$store.state.know_fire_data
         },
     },
 };

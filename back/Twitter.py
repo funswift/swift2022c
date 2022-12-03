@@ -25,7 +25,8 @@ firebase_admin.initialize_app(cred, {
 # 除外ユーザ
 # @ri_Zu_n_                競馬のうるさいユーザ
 # @KY1225kataware     なんでやねん函館関係ないやろの人
-# @Miyabi207Vzs72      インスタでもうるさいr_18アカウント
+# @Miyabi207Vzs72      インスタでもうるさいr_18アカウント(雅とかいうアカウント)
+# @bonzu207               上の支援アカウント
 # @flan_staff                r_18アカウント
 
 # 除外ボット
@@ -126,7 +127,7 @@ def SaveToDatabase(tweets, tweets_data, data_label):
                     if tweet.source != "twittbot.net" and tweet.source != "TravelRaku" and tweet.source != "rt_10" :  #ここでBOTを除外する
                         for i in range(len(tweets.includes['users'])):
                             if tweet.author_id == tweets.includes['users'][i]['id']:
-                                if tweets.includes['users'][i]['username'] != "ri_Zu_n_" and tweets.includes['users'][i]['username'] != "KY1225kataware" and tweets.includes['users'][i]['username'] != "Miyabi207Vzs72" and tweets.includes['users'][i]['username'] != "flan_staff" :
+                                if tweets.includes['users'][i]['username'] != "ri_Zu_n_" and tweets.includes['users'][i]['username'] != "KY1225kataware" and tweets.includes['users'][i]['username'] != "Miyabi207Vzs72" and  tweets.includes['users'][i]['username'] != "bonzu207" and tweets.includes['users'][i]['username'] != "flan_staff":
                                     ref.child(str(tweet.id)).set({  # キーはツイートID
                                         'data_label' : data_label,                                    
                                         'date': -(tweet.created_at.timestamp()),  #float型（確認済み）
@@ -309,9 +310,9 @@ client = ClientInfo()           #clientという配列にクライアント情�
 # search = "函館 -is:retweet -is:reply -is:quote has:media -東京 -八王子 -札幌 -小樽 -苫小牧 OR 函館 -is:retweet -is:reply -is:quote has:links -東京 -八王子 -札幌 -小樽 -苫小牧 "  
 
 add_func = " -is:retweet -is:reply -is:quote has:media"
-place = " -東京 -羽田 -歌舞伎町 -八王子 -札幌 -すすきの -沖縄 -青森 -仙台 -山形 -鹿児島 -福島 -秋田 -盛岡 -神田 -土呂 -丘珠 -大宮 -新潟 -金沢 -苫小牧 -北見 -帯広 -室蘭 -夕張 -網走 -ニセコ -稚内 -留萌 -小樽 -釧路 -長万部 -旭川"
-r_18 = " -裏垢 -裏アカ -キャバ嬢 -パパ活 -風俗 -デブ専 -グラビアモデル"
-other = " -政権 -スープラ -runkeeper -戦争 -世界平和 -求人 -末広写真館 -函館に行ってきた -言霊アロマ"
+place = " -東京 -原宿 -羽田 -歌舞伎町 -八王子 -札幌 -サッポロ-すすきの -沖縄 -青森 -仙台 -山形 -沼津 -鹿児島 -福島 -秋田 -盛岡 -神田 -土呂 -丘珠 -大宮 -新潟 -金沢 -苫小牧 -北見 -帯広 -室蘭 -夕張 -網走 -ニセコ -稚内 -留萌 -小樽 -釧路 -長万部 -旭川"
+r_18 = " -裏垢 -裏アカ -キャバ嬢 -パパ活 -風俗 -デブ専 -グラビアモデル -病み -夜勤"
+other = " -政権 -スープラ -runkeeper -戦争 -世界平和 -求人 -末広写真館 -函館に行ってきた -言霊アロマ -地雷 -自撮り"
 # 検索対象（リツイート除外, 返信除外, 画像付きの投稿に絞る）
 
 search = "函館" + add_func + place + r_18 + other
