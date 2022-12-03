@@ -56,9 +56,9 @@ export default {
         InitializeData() {
             this.$store.dispatch('InitializeFireData').then( () => {
                 this.$store.dispatch('getTopData')
-                this.$store.dispatch('getFoodData')
-                this.$store.dispatch('getTourData')
-                this.$store.dispatch('getKnowledgeData')
+                this.$store.dispatch('getEatData')
+                this.$store.dispatch('getSeeData')
+                this.$store.dispatch('getKnowData')
             }) 
         },
         doSearch() {

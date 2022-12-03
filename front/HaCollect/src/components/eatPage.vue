@@ -186,7 +186,7 @@ export default {
     },     
     computed: {
         fire_data: function () {
-            return this.$store.state.food_fire_data
+            return this.$store.state.eat_fire_data
         },
     },
 };
