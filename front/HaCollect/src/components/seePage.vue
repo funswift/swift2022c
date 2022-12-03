@@ -246,7 +246,8 @@ export default {
 
 .card_Date {
     margin: auto;
-    font-size: 20px;
+    padding-right: 50px;
+    font-size: 18px;
 }
 
 .card_Image {
@@ -309,11 +310,11 @@ export default {
 }
 
 .ac-box label {
-    width: 50px;
-    height: 35px;
+    width: 75px;
+    height: 52px;
     font-size: 16px;
     text-align: center;
-    margin: 0 auto;
+    margin: 15px auto 0;
     line-height: 50px;
     position: relative;
     display: block;
@@ -355,12 +356,12 @@ export default {
     font-style: normal;
     width: 50px;
     height: 25px;
-    margin: 0 3px;
     display: block;
     font-size: 16px;
     color: #fff;
     text-decoration-line: none;
     padding: 5px 15px;
+    margin-top: 25px;
     margin-left: auto;
     margin-right: auto;
 }
