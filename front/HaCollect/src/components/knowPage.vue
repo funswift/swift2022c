@@ -10,44 +10,52 @@
                     <!-- ツイッターの投稿の表示 -->
                     <template v-if="item.SNS_type == 'Twitter'">
                         <div class="card_All">
-                            <img class="card_Head" src="../assets/SNScolor_Twitter.png" />
+                            <div class="card_Info">
+                                <a v-bind:href=item.link target="_blank" class="card_Link"
+                                    rel="noopener noreferrer"><img src="../assets/TwitterIcon.png" /></a>
+                                <!-- リンク -->
+                                <p class="card_Date">{{ item.date3 }}</p>
+                            </div>
                             <!-- 画像情報 -->
                             <!-- 画像や動画があるかチェック -->
-                            <template v-if="item.media != null">  
+                            <template v-if="item.media != null">
                                 <!-- urlの情報(item.media)をurlの変数に格納     url: { url0 {media_type: メディアの種類,   media_url:メディアのURL},    url1 {media_type: メディアの種類,   media_url:メディアのURL} .....}となっている -->
-                                <template v-for="(url, url_name) in item.media">  
+                                <template v-for="(url, url_name) in item.media">
                                     <!-- urlのキー名(url0,url1)のうち一つを表示する。（最初はurl0を表示） -->
                                     <template v-if="url_name == 'url' + page[post_index]">
                                         <!-- 動画かどうかチェック -->
-                                        <template v-if="url.media_type == 'video'">    
+                                        <template v-if="url.media_type == 'video'">
                                             <video class="card_Movie" v-bind:src="url.media_url" controls></video>
                                         </template>
                                         <!-- 画像だったら以下実行 -->
                                         <template v-else>
-                                            <img class="card_Image" v-bind:src=url.media_url> 
+                                            <img class="card_Image" v-bind:src=url.media_url>
                                         </template>
                                     </template>
-                                </template>                            
+                                </template>
 
                                 <!-- 画像スライダーのボタン(Twitter) -->
-                                <!-- 表示されている画像が1枚目以降の時、前へボタンを表示 -->
-                                <template v-if="page[post_index] > 0">
-                                    <div class="left-btn" @click="prevPage(post_index)"><p>前へ</p></div>
-                                </template>                
-                                <!-- 各投稿の最大画像枚数に達するまで、次へボタンを表示 -->            
-                                <template v-if="page[post_index] < getObjLength(item.media) - 1">
-                                    <div class="right-btn" @click="nextPage(post_index)"><p>次へ</p></div>
-                                </template>
+                                <div class="btn-box">
+                                    <!-- 表示されている画像が1枚目以降の時、前へボタンを表示 -->
+                                    <template v-if="page[post_index] > 0">
+                                        <img class="left-btn" @click="prevPage(post_index)"
+                                            src="../assets/imageButton_before.png" />
+                                    </template>
+                                    <!-- 各投稿の最大画像枚数に達するまで、次へボタンを表示 -->
+                                    <template v-if="page[post_index] < getObjLength(item.media) - 1">
+                                        <img class="right-btn" @click="nextPage(post_index)"
+                                            src="../assets/imageButton_after.png" />
+                                    </template>
+                                </div>
                             </template>
 
                             <!-- テキスト情報 -->
                             <div class="ac-box">
-                                <p>{{ item.date3 }}</p>
                                 <input :id="[post_index]" name="accordion-1" type="checkbox" />
                                 <p class="card_Text">{{ item.text }}</p> <!-- テキスト(最初の文のみプレビュー) -->
-                                <a v-bind:href=item.link target="_blank" class="card_Link" rel="noopener noreferrer"><img
-                                        src="../assets/TwitterIcon.png" /></a>
-                                <!-- リンク -->
+                                <a v-bind:href=item.link target="_blank" class="card_LinkText"
+                                    rel="noopener noreferrer">投稿元のサイトでこの投稿を見る</a>
+                                <!-- テキストでのリンク -->
                                 <label :for="[post_index]"></label>
                             </div>
                         </div>
@@ -56,7 +64,12 @@
                     <!-- インスタグラムの投稿の表示 -->
                     <template v-if="item.SNS_type == 'Instagram'">
                         <div class="card_All">
-                            <img class="card_Head" src="../assets/SNScolor_Instagram.png" />
+                            <div class="card_Info">
+                                <a v-bind:href=item.link target="_blank" class="card_Link"
+                                    rel="noopener noreferrer"><img src="../assets/InstagramIcon.png" /></a>
+                                <!-- リンク -->
+                                <p class="card_Date">{{ item.date3 }}</p>
+                            </div>
                             <!-- 画像情報 -->
                             <!-- 画像や動画があるかチェック -->
                             <template v-if="item.media_type != null">
@@ -64,7 +77,7 @@
                                 <template v-if="item.media_type != 'CAROUSEL_ALBUM'">
                                     <!-- そのメディアが動画だったら -->
                                     <template v-if="item.media_type == 'VIDEO'">
-                                        <video  class="card_Movie"  v-bind:src="item.media_url" controls></video>
+                                        <video class="card_Movie" v-bind:src="item.media_url" controls></video>
                                     </template>
                                     <!-- そのメディアが画像だったら -->
                                     <template v-else>
@@ -90,25 +103,28 @@
                                     </template>
 
                                     <!-- 画像スライダーのボタン(Instagram) -->
-                                    <!-- 表示されている画像が1枚目以降の時、前へボタンを表示 -->                                
-                                    <template v-if="page[post_index] > 0">
-                                        <div class="left-btn" @click="prevPage(post_index)"><p>前へ</p></div>
-                                    </template>
-                                    <!-- 各投稿の最大画像枚数に達するまで、次へボタンを表示 -->   
-                                    <template v-if="page[post_index] < getObjLength(item.media) - 1">
-                                        <div class="right-btn" @click="nextPage(post_index)"><p>次へ</p></div>
-                                    </template>
-                                </template>                                
+                                    <div class="btn-box">
+                                        <!-- 表示されている画像が1枚目以降の時、前へボタンを表示 -->
+                                        <template v-if="page[post_index] > 0">
+                                            <img class="left-btn" @click="prevPage(post_index)"
+                                                src="../assets/imageButton_before.png" />
+                                        </template>
+                                        <!-- 各投稿の最大画像枚数に達するまで、次へボタンを表示 -->
+                                        <template v-if="page[post_index] < getObjLength(item.media) - 1">
+                                            <img class="right-btn" @click="nextPage(post_index)"
+                                                src="../assets/imageButton_after.png" />
+                                        </template>
+                                    </div>
+                                </template>
                             </template>
 
                             <!-- テキスト情報 -->
                             <div class="ac-box">
-                                <p>{{ item.date3 }}</p>
                                 <input :id="[post_index]" name="accordion-1" type="checkbox" />
                                 <p class="card_Text">{{ item.text }}</p> <!-- テキスト(最初の文のみプレビュー) -->
-                                <a v-bind:href=item.link target="_blank" class="card_Link" rel="noopener noreferrer"><img
-                                        src="../assets/InstagramIcon.png" /></a>
-                                <!-- リンク -->
+                                <a v-bind:href=item.link target="_blank" class="card_LinkText"
+                                    rel="noopener noreferrer">投稿元のサイトでこの投稿を見る</a>
+                                <!-- テキストでのリンク -->
                                 <label :for="[post_index]"></label>
                             </div>
                         </div>
@@ -119,11 +135,11 @@
         </div>
     </div>
 
-    <div>
+    <div class="Hello2">
         <!-- 投稿表示限界数(fire_data.length)に達するまでmoreボタンを表示 -->
         <template v-if="max < fire_data.length">
             <!-- <p>{{max}}</p> -->
-            <p  v-on:click="displayMore">more</p>
+            <p class="button_More" v-on:click="displayMore">more</p>
         </template>
     </div>
 </template>
@@ -171,7 +187,7 @@ export default {
     },    
     computed: {
         fire_data: function () {
-            return this.$store.state.knowledge_fire_data
+            return this.$store.state.know_fire_data
         },
     },
 };
@@ -183,6 +199,7 @@ export default {
 .hello {
     padding-top: 80px;
 }
+
 .infomation {
     display: inline-block;
     /* width: 30%; */
@@ -197,40 +214,81 @@ export default {
     position: relative;
     overflow: hidden;
     float: left;
-    width: 375px;
-    margin-bottom: 2px;
+    width: 100%;
     height: auto;
     background: #ffffff;
-    border-bottom: 1px solid #aaaaaa;
-    /* border-radius: 10px; */
+    border-bottom: 2px solid #aaaaaa;
     text-align: center;
     z-index: 0;
 }
 
-.card_Head {
+/* .card_Head {
     width: 375px;
     height: 30px;
     margin-bottom: -4px;
-    /* border-bottom: 2px solid #000000; */
+    border-bottom: 2px solid #000000;
+} */
+
+.card_Info {
+    display: flex;
 }
 
+.card_Link {
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 20px;
+}
+
+.card_Link img {
+    width: 40px;
+    height: 40px;
+}
+
+.card_Date {
+    margin: auto;
+    padding-right: 50px;
+    font-size: 18px;
+}
 .card_Image {
-    width: 375px;
+    max-width: 100%;
     height: auto;
     /* border-bottom: 1px solid #000; */
     /* margin-top: 20px; */
 }
 
 .card_Movie {
-    width: 375px;
+    max-width: 100%;
     height: auto;
     /* border: 1px solid #000; */
     /* margin-top: 20px; */
 }
 
+.btn-box {
+    display: flex;
+}
+
+.left-btn {
+    width: 75px;
+    height: 52px;
+    display: block;
+    text-decoration-line: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.right-btn {
+    width: 75px;
+    height: 52px;
+    display: block;
+    text-decoration-line: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .ac-box {
     width: auto;
-    margin: 20px auto;
+    margin: 10px auto;
 }
 
 .ac-box input {
@@ -238,26 +296,25 @@ export default {
 }
 
 .card_Text {
-    width: 350px;
-    /* 省略せずに表示するサイズを指定 */
+    width: 80%; /* 省略せずに表示するサイズを指定 */
     height: auto;
     display: -webkit-box;
     overflow: hidden;
-    -webkit-line-clamp: 1;
-    /* 省略せずに表示する行数を指定 */
+    -webkit-line-clamp: 1; /* 省略せずに表示する行数を指定 */
     -webkit-box-orient: vertical;
     margin: auto;
-    /* border: 1px solid #000000; */
-    /* background-color: #ffeeee; */
-    /* border-radius: 10px; */
+}
+
+.card_LinkText {
+    display: none;
 }
 
 .ac-box label {
-    width: 50px;
-    height: 35px;
+    width: 75px;
+    height: 52px;
     font-size: 16px;
     text-align: center;
-    margin: 0 auto;
+    margin: 15px auto 0;
     line-height: 50px;
     position: relative;
     display: block;
@@ -273,42 +330,58 @@ export default {
 }
 
 .ac-box input:checked~label {
-    transform: rotateZ(180deg);
-    margin-top: 25px;
-}
-
-.card_Link {
-    height: 0px;
-    padding: 0px;
-    float: right;
-    overflow: hidden;
-    opacity: 0;
-    transition: 0.5s;
-}
-
-.card_Link img {
-    width: 50px;
-    height: 50px;
+    background-image: url("../assets/button_Cancel.png");
 }
 
 .ac-box input:checked~.card_Text {
     display: block;
     /* displayをblockに変更することで表示制限を解除 */
     text-align: left;
+    margin-bottom: 10px;
 }
 
-.ac-box input:checked~.card_Link {
+.ac-box input:checked~.card_LinkText {
     display: block;
+}
+
+.Hello2 {
+    display: inline-block;
+    max-width: 100%;
+}
+
+.button_More {
+    background: #aaaaaa;
+    border: 1px solid #aaaaaa;
+    border-radius: 5px;
+    font-style: normal;
     width: 50px;
-    height: 50px;
-    margin-right: 25px;
-    opacity: 1;
+    height: 25px;
+    display: block;
+    font-size: 16px;
+    color: #fff;
+    text-decoration-line: none;
+    padding: 5px 15px;
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @media(min-width: 750px) {
-    .card_All{
-        border-left: 1px solid #aaaaaa;
-        border-right: 1px solid #aaaaaa;
+    .card_All {
+        width: 373px;
+        border: 1px solid #aaaaaa;
+    }
+
+    .card_Date {
+        font-size: 16px;
+    }
+
+    .card_Image {
+        width: 373px;
+    }
+
+    .card_Movie {
+        width: 373px;
     }
 }
 </style>

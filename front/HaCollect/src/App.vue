@@ -56,9 +56,9 @@ export default {
         InitializeData() {
             this.$store.dispatch('InitializeFireData').then( () => {
                 this.$store.dispatch('getTopData')
-                this.$store.dispatch('getFoodData')
-                this.$store.dispatch('getTourData')
-                this.$store.dispatch('getKnowledgeData')
+                this.$store.dispatch('getEatData')
+                this.$store.dispatch('getSeeData')
+                this.$store.dispatch('getKnowData')
             }) 
         },
         doSearch() {
@@ -150,10 +150,11 @@ header {
 }
 .header-inner {
     display: flex;
+    background: #fff;
     height: 70px;
     justify-content: space-between;
     align-items: center;
-    padding: 0 36px;
+    padding: 0 5px;
     margin: 0 auto;
 }
 .header-logoImg {
@@ -164,8 +165,8 @@ header {
     margin-top: 10px;
 }
 .searchArea {
-    width: 350px;
-    /* inputの幅           */
+    width: 500px;
+    /* inputの幅 */
     height: 35px;
     background-repeat: no-repeat;
     /* 背景は繰り返さない  */
@@ -173,13 +174,13 @@ header {
     /* 背景の位置          */
     background-size: auto 60%;
     /* 背景のサイズ        */
-    background-color: #eeeeee;
+    background-color: #fff;
     /* 背景色              */
     margin-top: 10px;
     /* サンプルは中央寄せ  */
     margin-left: 10px;
     /* アイコン間の左余白    */
-    border-radius: 9999px;
+    border-radius: 10px;
     /* 角丸                */
     color: #687684;
     /* 文字色              */
@@ -201,47 +202,51 @@ header {
     /* フォーカス時背景色  */
 }
 .header-inner2 {
-    background-color: #ffffff;
+    background-color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     margin: 0 auto;
     position: fixed;
-    height: 60px;
+    height: 45px;
     z-index: 1;
 }
 .header-nav {
     display: flex;
-    overflow-x: auto;
+    overflow-x: scroll;
     white-space: nowrap;
-    height: 60px;
+    height: 45px;
+    width: 100%;
 }
 .header-nav label {
-    background: #FFFFFF;
+    background: #FFF;
     border-left: 1px solid #CCCCCC;
     border-right: 1px solid #CCCCCC;
+    border-bottom: 1px solid #bbbbbb;
     font-style: normal;
-    width: 125px;
+    width: 25%;
 }
 .pageChange {
     display: block;
     /* 扱いやすいようにblock要素にする */
-    font-size: 20px;
+    font-size: 16px;
     /* 任意のフォントサイズにする */
     font-weight: bold;
     /* 太字にする */
-    color: #000;
+    color: #808080;
     text-decoration-line: none;
-    padding: 5px 15px;
-    margin-top: 10px;
+    padding: 10px 15px;
 }
 .header-nav input:checked+ label {
-    background: #61d6d2;
-    border: 1px solid #61d6d2;
+    background: #FFFFFF;
+    border-top: 1px solid #bbbbbb;
+    border-left: 1px solid #bbbbbb;
+    border-right: 1px solid #bbbbbb;
+    border-bottom: none;
 }
 .header-nav input:checked+ label .pageChange {
-    color: #ffffff;
+    color: #000;
 }
 .header-nav input {
     display: none;
@@ -284,25 +289,25 @@ header {
     opacity: 0;
 }
 /* タブレット・スマートフォン用スタイル */
-@media(max-width: 971px) {
-    /* .header-logoImg {
+/* @media(max-width: 971px) {
+    .header-logoImg {
         width: 150px;
         margin-top: 10px;
-    } */
-    /* .searchArea {
-    width: 225px;
-    height: 30px;
-    } */
-}
-/* スマートフォン用スタイル */
-@media(max-width: 647px) {
-    .header-inner {
-        padding: 0 5px;
     }
     .searchArea {
+    width: 225px;
+    height: 30px;
+    }
+} */
+/* スマートフォン用スタイル */
+@media(min-width: 750px) {
+    .header-inner {
+        padding: 0 36px;
+    }
+    /* .searchArea {
         width: 225px;
         height: 30px;
-    }
+    } */
     /* .header-inner {
         display: block;
         height: 35px;
