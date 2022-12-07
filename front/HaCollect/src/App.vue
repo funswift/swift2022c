@@ -63,8 +63,8 @@ export default {
         },
         doSearch() {
             try{
-                // this.$router.push('/searchResult') <-これはただ、リンク変えるだけ
-                this.$router.push({ name: 'searchResult', params: { search: this.search_text } }) //<- これはリンク先に検索したのを渡すことができる
+                this.$router.push('/searchResult')
+                // this.$router.push({ name: 'searchResult', params: { search: this.search_text } }) //<- これはリンク先に検索したのを渡すことができる
                 this.$store.dispatch('getSearchData', this.search_text)    //検索結果ページで使うデータ(search_fire_data)をstoreから参照 -> searchResult.vueのcomputedのfire_dataに反映
                 this.search_text = '' //検索バーに検索した文字を残さないための処理
             } catch(e) {
@@ -94,7 +94,7 @@ export default {
         }
     },
     mounted() {
-        this.$router.push('/top')
+        this.$router.push('/')
         window.addEventListener('scroll', this.scrollWindow)   //スクロールすると関数が察知してくれる
         this.InitializeData();
         document.getElementById('button11').addEventListener("click", function (event) {

@@ -34,10 +34,9 @@ export const router = createRouter({
             component: knowPage,
         },              
         {
-            path: '/searchResult/:search',
+            path: '/searchResult/',
             name: 'searchResult',
             component: searchResult,
-            props: true
         },  
     ],
 })

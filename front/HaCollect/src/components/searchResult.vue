@@ -154,13 +154,11 @@
 <script>
 export default {
     name: "searchResult",
-    props: {
-        search: String
-    },
     data() {
         return {
+            search: this.$store.state.search_text,
             max: this.$store.state.posts_num,  //表示する投稿数
-            page: this.InitializeArray(this.$store.state.get_posts_num)   //urlの番号を格納する配列？
+            page: this.InitializeArray(this.$store.state.get_posts_num)   //urlの番号を格納する配列？            
         }
     },
     methods: {

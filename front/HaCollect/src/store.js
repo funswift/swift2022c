@@ -47,6 +47,7 @@ export const store = createStore({
             //ここにコンポーネント間で共有するデータを書く
             posts_num: 30,                //vueで表示する投稿数
             get_posts_num: 100,        //vue側がDBから取得してくる投稿数
+            search_text : null,
             fire_data: null,                    //全部のカテゴリ＋「函館」で一致するデータを格納する変数
             search_fire_data: null,         //検索結果ページに表示するデータ
             top_fire_data: null,              //トップページに表示するデータ
@@ -74,6 +75,9 @@ export const store = createStore({
         },
         setKnowData: (state, data) => {    //知るカテゴリページに表示するデータに新しいデータを格納する処理
             state.know_fire_data = data
+        },
+        setSearchText: (state, text) => {
+            state.search_text = text
         }
     },
     actions: {
@@ -130,8 +134,9 @@ export const store = createStore({
                 }
             }
 
-            // console.log(data) //確認用
-            context.commit('setSearchData', data)     //emutationsのsetSearchDataを実行する
+            // console.log(data) //確認用            
+            context.commit('setSearchData', data)     //emutationsのsetSearchDataを実行する        
+            context.commit('setSearchText', search)    
         },
         getTopData: (context) => {                           //トップページに表示するデータをRealtime databaseから取得してくる処理
             
