@@ -155,8 +155,7 @@
 export default {
     name: "searchResult",
     data() {
-        return {
-            search: this.$store.state.search_text,
+        return {            
             max: this.$store.state.posts_num,  //表示する投稿数
             page: this.InitializeArray(this.$store.state.get_posts_num)   //urlの番号を格納する配列？            
         }
@@ -193,6 +192,9 @@ export default {
         fire_data: function () {
             return this.$store.state.search_fire_data
         },
+        search: function () {
+            return this.$store.state.search_text
+        }
     },
 };
 
