@@ -94,7 +94,6 @@ export default {
         }
     },
     mounted() {
-        this.$router.push('/')
         window.addEventListener('scroll', this.scrollWindow)   //スクロールすると関数が察知してくれる
         this.InitializeData();
         document.getElementById('button11').addEventListener("click", function (event) {
