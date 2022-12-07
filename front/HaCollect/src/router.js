@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router"
+import { createRouter, createWebHistory, createWebHashHistory } from "vue-router"
 import topPage from "./components/topPage.vue"
 import eatPage from "./components/eatPage.vue"
 import seePage from "./components/seePage.vue"
@@ -6,7 +6,7 @@ import searchResult from "./components/searchResult.vue"
 import knowPage from "./components/knowPage.vue"
 
 export const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes: [
         {
             path: '/',
