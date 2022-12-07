@@ -1,7 +1,7 @@
 module.exports = {
     base:'./',
     assetsDir:'assets/',
-    outDir: 'docs',
+    outDir: './docs',
     // server: {
     //     port: 3000  // 任意のポート番号を書く
     // }
