@@ -143,30 +143,29 @@ def SaveToDatabase(tweets, tweets_data, data_label):
                                         'profile_image_url': tweets.includes['users'][i]['profile_image_url'],   #プロフィール画像
                                         'SNS_type': 'Twitter'
                                     })
-                                    break
-                        media_ref = db.reference('/' + Key + '/' + str(tweet.id)).child('media')
-                        roop_count = 0 #その投稿のメディアの数に合わせたループ回数を保存する変数？
-                        for i in range(len(tweets.includes['media'])):  #取得してきたツイート10件に格納されたメディアのurlの数
-                            if roop_count == len(tweet.attachments['media_keys']) :  #その投稿に格納する画像や動画がなくなったら次の投稿へ
-                                break                            
-                            for j in range(len(tweet.attachments['media_keys'])): #ツイートに格納されてあるメディアのurlの数
-                                if tweets.includes['media'][i]['media_key'] == tweet.attachments['media_keys'][j]: #メディアのキーが同じだったら...
-                                    if tweets.includes['media'][i]['type'] == 'photo' :
-                                        media_ref.child('url' + str(j)).set({
-                                            'media_type': tweets.includes['media'][i]['type'], #メディアの種類
-                                            'media_url': tweets.includes['media'][i]['url']  #urlをDBに格納！全てのurlを格納できる！
-                                        })
-                                        roop_count += 1   #画像情報を格納出来たら、roopcountに+1して、その投稿の次のメディアを探す
-                                    else :
-                                        for k in range(4) :                                            
-                                            if (tweets.includes['media'][i]['variants'][k]['content_type'] == 'video/mp4') :                                                        
-                                                media_ref.child('url' + str(j)).set({
-                                                    'media_type': tweets.includes['media'][i]['type'], #メディアの種類
-                                                    'media_url': tweets.includes['media'][i]['variants'][k]['url']  #urlをDBに格納！全てのurlを格納できる！
-                                                })
-                                                roop_count += 1
-                                                break  #video/mp4タイプの動画を一つでも格納出来たら、roop_countに+1して、その投稿の次のメディアを探す
-                                        
+                                    media_ref = db.reference('/' + Key + '/' + str(tweet.id)).child('media')
+                                    roop_count = 0 #その投稿のメディアの数に合わせたループ回数を保存する変数？
+                                    for i in range(len(tweets.includes['media'])):  #取得してきたツイート10件に格納されたメディアのurlの数
+                                        if roop_count == len(tweet.attachments['media_keys']) :  #その投稿に格納する画像や動画がなくなったら次の投稿へ
+                                            break                            
+                                        for j in range(len(tweet.attachments['media_keys'])): #ツイートに格納されてあるメディアのurlの数
+                                            if tweets.includes['media'][i]['media_key'] == tweet.attachments['media_keys'][j]: #メディアのキーが同じだったら...
+                                                if tweets.includes['media'][i]['type'] == 'photo' :
+                                                    media_ref.child('url' + str(j)).set({
+                                                        'media_type': tweets.includes['media'][i]['type'], #メディアの種類
+                                                        'media_url': tweets.includes['media'][i]['url']  #urlをDBに格納！全てのurlを格納できる！
+                                                    })
+                                                    roop_count += 1   #画像情報を格納出来たら、roopcountに+1して、その投稿の次のメディアを探す
+                                                else :
+                                                    for k in range(4) :                                            
+                                                        if (tweets.includes['media'][i]['variants'][k]['content_type'] == 'video/mp4') :                                                        
+                                                            media_ref.child('url' + str(j)).set({
+                                                                'media_type': tweets.includes['media'][i]['type'], #メディアの種類
+                                                                'media_url': tweets.includes['media'][i]['variants'][k]['url']  #urlをDBに格納！全てのurlを格納できる！
+                                                            })
+                                                            roop_count += 1
+                                                            break  #video/mp4タイプの動画を一つでも格納出来たら、roop_countに+1して、その投稿の次のメディアを探す
+                                    break    
             except:
                 pass
         return 'done!'
